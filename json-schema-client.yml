@@ -1,0 +1,130 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://keycloak.org/schemas/client-representation
+title: Keycloak Client Representation
+description: >-
+  JSON Schema for a Keycloak client (application) representation, defining
+  the OAuth 2.0 / OpenID Connect client configuration within a realm.
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+    description: Internal unique identifier assigned by Keycloak
+    readOnly: true
+  clientId:
+    type: string
+    description: >-
+      The client identifier used in OAuth/OIDC protocol flows and token
+      requests
+    minLength: 1
+  name:
+    type: string
+    description: Human-readable name for the client
+  description:
+    type: string
+    description: Description of the client's purpose
+  enabled:
+    type: boolean
+    description: Whether the client is enabled
+    default: true
+  clientAuthenticatorType:
+    type: string
+    description: Authenticator type for confidential clients
+    enum:
+      - client-secret
+      - client-jwt
+      - client-x509
+      - client-secret-jwt
+    default: client-secret
+  secret:
+    type: string
+    description: Client secret for confidential clients (write-only)
+  rootUrl:
+    type: string
+    format: uri
+    description: Root URL appended to relative URLs
+  baseUrl:
+    type: string
+    description: Default URL for the client, used for redirects
+  adminUrl:
+    type: string
+    description: URL for admin callbacks (e.g., backchannel logout)
+  redirectUris:
+    type: array
+    description: Allowed redirect URIs after authentication
+    items:
+      type: string
+  webOrigins:
+    type: array
+    description: Allowed CORS origins
+    items:
+      type: string
+  bearerOnly:
+    type: boolean
+    description: Whether the client is bearer-only (API backend, no login flow)
+    default: false
+  consentRequired:
+    type: boolean
+    description: Whether user consent is required before granting access
+    default: false
+  standardFlowEnabled:
+    type: boolean
+    description: Enable the OAuth 2.0 Authorization Code flow
+    default: true
+  implicitFlowEnabled:
+    type: boolean
+    description: Enable the OAuth 2.0 Implicit flow
+    default: false
+  directAccessGrantsEnabled:
+    type: boolean
+    description: Enable the Resource Owner Password Credentials grant
+    default: false
+  serviceAccountsEnabled:
+    type: boolean
+    description: Enable the Client Credentials grant (service accounts)
+    default: false
+  publicClient:
+    type: boolean
+    description: >-
+      Whether the client is public (no secret required) or confidential
+    default: false
+  frontchannelLogout:
+    type: boolean
+    description: Whether front-channel logout is enabled
+    default: false
+  protocol:
+    type: string
+    description: The protocol used by the client
+    enum:
+      - openid-connect
+      - saml
+    default: openid-connect
+  attributes:
+    type: object
+    description: Additional client attributes
+    additionalProperties:
+      type: string
+  fullScopeAllowed:
+    type: boolean
+    description: Whether the client has full scope or uses scope mappings
+    default: true
+  defaultClientScopes:
+    type: array
+    description: List of default client scope names
+    items:
+      type: string
+  optionalClientScopes:
+    type: array
+    description: List of optional client scope names
+    items:
+      type: string
+  authorizationServicesEnabled:
+    type: boolean
+    description: Whether fine-grained authorization (UMA) is enabled
+    default: false
+  surrogateAuthRequired:
+    type: boolean
+    description: Whether surrogate authentication is required
+    default: false
+required:
+  - clientId

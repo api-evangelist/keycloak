@@ -1,6 +1,7 @@
 name: Keycloak
 description: Open source identity and access management solution for modern applications
-  and services
+  and services, providing single sign-on, identity brokering, user federation, and
+  fine-grained authorization.
 url: https://www.keycloak.org/
 tags:
 - Authentication
@@ -12,5 +13,30 @@ tags:
 - Security
 created: '2025'
 modified: '2025'
-apis: []
+apis:
+- name: Keycloak Admin REST API
+  description: >-
+    REST API for managing Keycloak realms, users, clients, roles, groups,
+    and identity providers. Provides full administrative control over all
+    aspects of a Keycloak deployment.
+  url: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Identity
+  - Access Management
+  - Admin
+  - REST API
+  properties:
+  - type: openapi
+    url: openapi.yml
+  - type: json-schema
+    url: json-schema-realm.yml
+    name: Realm Representation
+  - type: json-schema
+    url: json-schema-user.yml
+    name: User Representation
+  - type: json-schema
+    url: json-schema-client.yml
+    name: Client Representation
+  - type: json-ld-context
+    url: json-ld-context.yml
 common: []

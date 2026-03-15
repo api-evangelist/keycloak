@@ -1,0 +1,229 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://keycloak.org/schemas/realm-representation
+title: Keycloak Realm Representation
+description: >-
+  JSON Schema for a Keycloak realm representation, defining the configuration
+  and resources within an identity and access management realm.
+type: object
+properties:
+  id:
+    type: string
+    description: Internal unique identifier for the realm
+  realm:
+    type: string
+    description: The unique name of the realm, used in URLs and identifiers
+    pattern: ^[a-zA-Z0-9_-]+$
+  displayName:
+    type: string
+    description: Human-readable display name for the realm
+  displayNameHtml:
+    type: string
+    description: HTML-formatted display name for the realm login page
+  enabled:
+    type: boolean
+    description: Whether the realm is enabled and accepting requests
+    default: true
+  sslRequired:
+    type: string
+    description: SSL/TLS requirement level for connections to the realm
+    enum:
+      - all
+      - external
+      - none
+    default: external
+  registrationAllowed:
+    type: boolean
+    description: Whether user self-registration is allowed
+    default: false
+  registrationEmailAsUsername:
+    type: boolean
+    description: Whether to use email address as username during registration
+    default: false
+  rememberMe:
+    type: boolean
+    description: Whether the remember-me option is available on the login page
+    default: false
+  verifyEmail:
+    type: boolean
+    description: Whether users must verify their email address
+    default: false
+  loginWithEmailAllowed:
+    type: boolean
+    description: Whether users can log in with their email address
+    default: true
+  duplicateEmailsAllowed:
+    type: boolean
+    description: Whether multiple users can have the same email address
+    default: false
+  resetPasswordAllowed:
+    type: boolean
+    description: Whether users can reset their password via email
+    default: false
+  editUsernameAllowed:
+    type: boolean
+    description: Whether users can edit their own username
+    default: false
+  bruteForceProtected:
+    type: boolean
+    description: Whether brute force detection is enabled
+    default: false
+  permanentLockout:
+    type: boolean
+    description: Whether accounts are permanently locked after too many failures
+    default: false
+  maxFailureWaitSeconds:
+    type: integer
+    description: Maximum time a user will be locked out in seconds
+    minimum: 0
+  waitIncrementSeconds:
+    type: integer
+    description: Time added to the wait after each failed login
+    minimum: 0
+  failureFactor:
+    type: integer
+    description: Number of failed login attempts before lockout
+    minimum: 1
+  passwordPolicy:
+    type: string
+    description: >-
+      Password policy string (e.g., length(8) and digits(1) and
+      upperCase(1))
+  requiredCredentials:
+    type: array
+    description: List of required credential types for authentication
+    items:
+      type: string
+  defaultRoles:
+    type: array
+    description: Roles assigned to new users by default
+    items:
+      type: string
+  otpPolicyType:
+    type: string
+    description: Type of OTP policy
+    enum:
+      - totp
+      - hotp
+  otpPolicyAlgorithm:
+    type: string
+    description: Algorithm used for OTP generation
+    enum:
+      - HmacSHA1
+      - HmacSHA256
+      - HmacSHA512
+  otpPolicyDigits:
+    type: integer
+    description: Number of digits in the OTP
+    enum:
+      - 6
+      - 8
+  otpPolicyPeriod:
+    type: integer
+    description: Time period in seconds for TOTP codes
+    minimum: 1
+  browserSecurityHeaders:
+    type: object
+    description: Security headers sent with browser responses
+    properties:
+      contentSecurityPolicy:
+        type: string
+      xContentTypeOptions:
+        type: string
+      xFrameOptions:
+        type: string
+      xRobotsTag:
+        type: string
+      xXSSProtection:
+        type: string
+      strictTransportSecurity:
+        type: string
+    additionalProperties:
+      type: string
+  smtpServer:
+    type: object
+    description: SMTP server configuration for sending emails
+    properties:
+      host:
+        type: string
+      port:
+        type: string
+      from:
+        type: string
+        format: email
+      fromDisplayName:
+        type: string
+      ssl:
+        type: string
+      starttls:
+        type: string
+      auth:
+        type: string
+      user:
+        type: string
+      password:
+        type: string
+    additionalProperties:
+      type: string
+  eventsEnabled:
+    type: boolean
+    description: Whether login events are recorded
+  eventsExpiration:
+    type: integer
+    description: Expiration time for stored events in seconds
+    minimum: 0
+  eventsListeners:
+    type: array
+    description: List of event listener provider IDs
+    items:
+      type: string
+  adminEventsEnabled:
+    type: boolean
+    description: Whether admin events are recorded
+  adminEventsDetailsEnabled:
+    type: boolean
+    description: Whether admin event details are included
+  internationalizationEnabled:
+    type: boolean
+    description: Whether internationalization is enabled
+  supportedLocales:
+    type: array
+    description: List of supported locale codes
+    items:
+      type: string
+  defaultLocale:
+    type: string
+    description: Default locale for the realm
+  accessTokenLifespan:
+    type: integer
+    description: Access token lifetime in seconds
+    minimum: 1
+  accessTokenLifespanForImplicitFlow:
+    type: integer
+    description: Access token lifetime for implicit flow in seconds
+    minimum: 1
+  ssoSessionIdleTimeout:
+    type: integer
+    description: SSO session idle timeout in seconds
+    minimum: 1
+  ssoSessionMaxLifespan:
+    type: integer
+    description: SSO session maximum lifespan in seconds
+    minimum: 1
+  offlineSessionIdleTimeout:
+    type: integer
+    description: Offline session idle timeout in seconds
+    minimum: 1
+  accessCodeLifespan:
+    type: integer
+    description: Authorization code lifetime in seconds
+    minimum: 1
+  accessCodeLifespanUserAction:
+    type: integer
+    description: User action lifetime in seconds
+    minimum: 1
+  accessCodeLifespanLogin:
+    type: integer
+    description: Login action lifetime in seconds
+    minimum: 1
+required:
+  - realm

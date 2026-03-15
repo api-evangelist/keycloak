@@ -1,0 +1,1274 @@
+openapi: 3.0.3
+info:
+  title: Keycloak Admin REST API
+  description: >-
+    The Keycloak Admin REST API provides endpoints for managing all aspects of a
+    Keycloak deployment, including realms, users, clients, roles, groups, and
+    identity providers. All endpoints require authentication via a bearer token
+    obtained from the Keycloak token endpoint.
+  version: 26.0.0
+  contact:
+    name: Keycloak
+    url: https://www.keycloak.org/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+  - url: https://{host}/admin/realms
+    description: Keycloak Admin REST API
+    variables:
+      host:
+        default: localhost:8080
+        description: Keycloak server host and port
+security:
+  - bearerAuth: []
+tags:
+  - name: Realms
+    description: Manage Keycloak realms
+  - name: Users
+    description: Manage users within a realm
+  - name: Clients
+    description: Manage OAuth/OIDC clients within a realm
+  - name: Roles
+    description: Manage realm-level and client-level roles
+  - name: Groups
+    description: Manage user groups within a realm
+  - name: Identity Providers
+    description: Manage identity providers for federated authentication
+paths:
+  /:
+    get:
+      operationId: getRealms
+      summary: List all realms
+      description: Returns a list of all realms accessible to the authenticated user.
+      tags:
+        - Realms
+      parameters:
+        - name: briefRepresentation
+          in: query
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: A list of realm representations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RealmRepresentation'
+  /{realm}:
+    parameters:
+      - $ref: '#/components/parameters/realm'
+    get:
+      operationId: getRealm
+      summary: Get a realm
+      description: Returns the representation of a specific realm.
+      tags:
+        - Realms
+      responses:
+        '200':
+          description: A realm representation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RealmRepresentation'
+        '404':
+          description: Realm not found
+    put:
+      operationId: updateRealm
+      summary: Update a realm
+      description: Updates the configuration of an existing realm.
+      tags:
+        - Realms
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RealmRepresentation'
+      responses:
+        '204':
+          description: Realm updated successfully
+        '404':
+          description: Realm not found
+    delete:
+      operationId: deleteRealm
+      summary: Delete a realm
+      description: Permanently deletes a realm and all its data.
+      tags:
+        - Realms
+      responses:
+        '204':
+          description: Realm deleted successfully
+        '404':
+          description: Realm not found
+  /{realm}/users:
+    parameters:
+      - $ref: '#/components/parameters/realm'
+    get:
+      operationId: getUsers
+      summary: List users
+      description: Returns a list of users in the realm, filtered by query parameters.
+      tags:
+        - Users
+      parameters:
+        - name: search
+          in: query
+          description: Search string for username, first name, last name, or email
+          schema:
+            type: string
+        - name: username
+          in: query
+          schema:
+            type: string
+        - name: email
+          in: query
+          schema:
+            type: string
+        - name: firstName
+          in: query
+          schema:
+            type: string
+        - name: lastName
+          in: query
+          schema:
+            type: string
+        - name: enabled
+          in: query
+          schema:
+            type: boolean
+        - name: first
+          in: query
+          description: Pagination offset
+          schema:
+            type: integer
+        - name: max
+          in: query
+          description: Maximum results size
+          schema:
+            type: integer
+            default: 100
+        - name: briefRepresentation
+          in: query
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: A list of user representations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserRepresentation'
+    post:
+      operationId: createUser
+      summary: Create a new user
+      description: Creates a new user in the realm.
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRepresentation'
+      responses:
+        '201':
+          description: User created successfully
+          headers:
+            Location:
+              description: URI of the created user
+              schema:
+                type: string
+        '409':
+          description: User already exists
+  /{realm}/users/{userId}:
+    parameters:
+      - $ref: '#/components/parameters/realm'
+      - $ref: '#/components/parameters/userId'
+    get:
+      operationId: getUser
+      summary: Get a user
+      description: Returns the representation of a specific user.
+      tags:
+        - Users
+      responses:
+        '200':
+          description: A user representation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRepresentation'
+        '404':
+          description: User not found
+    put:
+      operationId: updateUser
+      summary: Update a user
+      description: Updates the properties of an existing user.
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRepresentation'
+      responses:
+        '204':
+          description: User updated successfully
+        '404':
+          description: User not found
+    delete:
+      operationId: deleteUser
+      summary: Delete a user
+      description: Permanently deletes a user from the realm.
+      tags:
+        - Users
+      responses:
+        '204':
+          description: User deleted successfully
+        '404':
+          description: User not found
+  /{realm}/users/{userId}/role-mappings/realm:
+    parameters:
+      - $ref: '#/components/parameters/realm'
+      - $ref: '#/components/parameters/userId'
+    get:
+      operationId: getUserRealmRoleMappings
+      summary: Get realm-level role mappings for a user
+      tags:
+        - Users
+        - Roles
+      responses:
+        '200':
+          description: A list of role representations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+    post:
+      operationId: addUserRealmRoleMappings
+      summary: Add realm-level role mappings to a user
+      tags:
+        - Users
+        - Roles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: Role mappings added
+    delete:
+      operationId: deleteUserRealmRoleMappings
+      summary: Remove realm-level role mappings from a user
+      tags:
+        - Users
+        - Roles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: Role mappings removed
+  /{realm}/users/{userId}/groups:
+    parameters:
+      - $ref: '#/components/parameters/realm'
+      - $ref: '#/components/parameters/userId'
+    get:
+      operationId: getUserGroups
+      summary: Get groups for a user
+      tags:
+        - Users
+        - Groups
+      responses:
+        '200':
+          description: A list of group representations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupRepresentation'
+  /{realm}/users/{userId}/groups/{groupId}:
+    parameters:
+      - $ref: '#/components/parameters/realm'
+      - $ref: '#/components/parameters/userId'
+      - $ref: '#/components/parameters/groupId'
+    put:
+      operationId: addUserToGroup
+      summary: Add a user to a group
+      tags:
+        - Users
+        - Groups
+      responses:
+        '204':
+          description: User added to group
+    delete:
+      operationId: removeUserFromGroup
+      summary: Remove a user from a group
+      tags:
+        - Users
+        - Groups
+      responses:
+        '204':
+          description: User removed from group
+  /{realm}/users/{userId}/reset-password:
+    parameters:
+      - $ref: '#/components/parameters/realm'
+      - $ref: '#/components/parameters/userId'
+    put:
+      operationId: resetUserPassword
+      summary: Reset a user's password
+      description: Sets a new password for the user. Set temporary to true to require a password change on next login.
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CredentialRepresentation'
+      responses:
+        '204':
+          description: Password reset successfully
+  /{realm}/clients:
+    parameters:
+      - $ref: '#/components/parameters/realm'
+    get:
+      operationId: getClients
+      summary: List clients
+      description: Returns a list of clients registered in the realm.
+      tags:
+        - Clients
+      parameters:
+        - name: clientId
+          in: query
+          description: Filter by clientId
+          schema:
+            type: string
+        - name: search
+          in: query
+          schema:
+            type: boolean
+            default: false
+        - name: first
+          in: query
+          schema:
+            type: integer
+        - name: max
+          in: query
+          schema:
+            type: integer
+            default: 100
+        - name: viewableOnly
+          in: query
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: A list of client representations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientRepresentation'
+    post:
+      operationId: createClient
+      summary: Create a new client
+      description: Registers a new client in the realm.
+      tags:
+        - Clients
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientRepresentation'
+      responses:
+        '201':
+          description: Client created successfully
+          headers:
+            Location:
+              description: URI of the created client
+              schema:
+                type: string
+  /{realm}/clients/{clientUuid}:
+    parameters:
+      - $ref: '#/components/parameters/realm'
+      - $ref: '#/components/parameters/clientUuid'
+    get:
+      operationId: getClient
+      summary: Get a client
+      description: Returns the representation of a specific client.
+      tags:
+        - Clients
+      responses:
+        '200':
+          description: A client representation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientRepresentation'
+        '404':
+          description: Client not found
+    put:
+      operationId: updateClient
+      summary: Update a client
+      description: Updates the configuration of an existing client.
+      tags:
+        - Clients
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientRepresentation'
+      responses:
+        '204':
+          description: Client updated successfully
+    delete:
+      operationId: deleteClient
+      summary: Delete a client
+      description: Removes a client registration from the realm.
+      tags:
+        - Clients
+      responses:
+        '204':
+          description: Client deleted successfully
+  /{realm}/clients/{clientUuid}/client-secret:
+    parameters:
+      - $ref: '#/components/parameters/realm'
+      - $ref: '#/components/parameters/clientUuid'
+    get:
+      operationId: getClientSecret
+      summary: Get the client secret
+      tags:
+        - Clients
+      responses:
+        '200':
+          description: The client secret
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  value:
+                    type: string
+    post:
+      operationId: regenerateClientSecret
+      summary: Regenerate the client secret
+      tags:
+        - Clients
+      responses:
+        '200':
+          description: The new client secret
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  value:
+                    type: string
+  /{realm}/roles:
+    parameters:
+      - $ref: '#/components/parameters/realm'
+    get:
+      operationId: getRoles
+      summary: List realm-level roles
+      description: Returns a list of all roles defined at the realm level.
+      tags:
+        - Roles
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: first
+          in: query
+          schema:
+            type: integer
+        - name: max
+          in: query
+          schema:
+            type: integer
+        - name: briefRepresentation
+          in: query
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: A list of role representations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+    post:
+      operationId: createRole
+      summary: Create a realm-level role
+      tags:
+        - Roles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '201':
+          description: Role created successfully
+  /{realm}/roles/{roleName}:
+    parameters:
+      - $ref: '#/components/parameters/realm'
+      - name: roleName
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getRole
+      summary: Get a realm-level role by name
+      tags:
+        - Roles
+      responses:
+        '200':
+          description: A role representation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleRepresentation'
+        '404':
+          description: Role not found
+    put:
+      operationId: updateRole
+      summary: Update a realm-level role
+      tags:
+        - Roles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: Role updated successfully
+    delete:
+      operationId: deleteRole
+      summary: Delete a realm-level role
+      tags:
+        - Roles
+      responses:
+        '204':
+          description: Role deleted successfully
+  /{realm}/groups:
+    parameters:
+      - $ref: '#/components/parameters/realm'
+    get:
+      operationId: getGroups
+      summary: List groups
+      description: Returns a list of top-level groups in the realm.
+      tags:
+        - Groups
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: first
+          in: query
+          schema:
+            type: integer
+        - name: max
+          in: query
+          schema:
+            type: integer
+        - name: briefRepresentation
+          in: query
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: A list of group representations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupRepresentation'
+    post:
+      operationId: createGroup
+      summary: Create a top-level group
+      tags:
+        - Groups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupRepresentation'
+      responses:
+        '201':
+          description: Group created successfully
+  /{realm}/groups/{groupId}:
+    parameters:
+      - $ref: '#/components/parameters/realm'
+      - $ref: '#/components/parameters/groupId'
+    get:
+      operationId: getGroup
+      summary: Get a group
+      tags:
+        - Groups
+      responses:
+        '200':
+          description: A group representation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupRepresentation'
+        '404':
+          description: Group not found
+    put:
+      operationId: updateGroup
+      summary: Update a group
+      tags:
+        - Groups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupRepresentation'
+      responses:
+        '204':
+          description: Group updated successfully
+    delete:
+      operationId: deleteGroup
+      summary: Delete a group
+      tags:
+        - Groups
+      responses:
+        '204':
+          description: Group deleted successfully
+  /{realm}/groups/{groupId}/children:
+    parameters:
+      - $ref: '#/components/parameters/realm'
+      - $ref: '#/components/parameters/groupId'
+    post:
+      operationId: createChildGroup
+      summary: Create a child group
+      description: Creates a new subgroup under the specified parent group.
+      tags:
+        - Groups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupRepresentation'
+      responses:
+        '201':
+          description: Child group created
+  /{realm}/groups/{groupId}/members:
+    parameters:
+      - $ref: '#/components/parameters/realm'
+      - $ref: '#/components/parameters/groupId'
+    get:
+      operationId: getGroupMembers
+      summary: Get members of a group
+      tags:
+        - Groups
+        - Users
+      parameters:
+        - name: first
+          in: query
+          schema:
+            type: integer
+        - name: max
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of user representations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserRepresentation'
+  /{realm}/identity-provider/instances:
+    parameters:
+      - $ref: '#/components/parameters/realm'
+    get:
+      operationId: getIdentityProviders
+      summary: List identity providers
+      description: Returns a list of identity providers configured in the realm.
+      tags:
+        - Identity Providers
+      responses:
+        '200':
+          description: A list of identity provider representations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IdentityProviderRepresentation'
+    post:
+      operationId: createIdentityProvider
+      summary: Create an identity provider
+      tags:
+        - Identity Providers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdentityProviderRepresentation'
+      responses:
+        '201':
+          description: Identity provider created successfully
+  /{realm}/identity-provider/instances/{alias}:
+    parameters:
+      - $ref: '#/components/parameters/realm'
+      - name: alias
+        in: path
+        required: true
+        description: The alias of the identity provider
+        schema:
+          type: string
+    get:
+      operationId: getIdentityProvider
+      summary: Get an identity provider
+      tags:
+        - Identity Providers
+      responses:
+        '200':
+          description: An identity provider representation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityProviderRepresentation'
+        '404':
+          description: Identity provider not found
+    put:
+      operationId: updateIdentityProvider
+      summary: Update an identity provider
+      tags:
+        - Identity Providers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdentityProviderRepresentation'
+      responses:
+        '204':
+          description: Identity provider updated
+    delete:
+      operationId: deleteIdentityProvider
+      summary: Delete an identity provider
+      tags:
+        - Identity Providers
+      responses:
+        '204':
+          description: Identity provider deleted
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >-
+        Access token obtained from the Keycloak token endpoint. Use the
+        master realm admin credentials or a service account with appropriate
+        realm-management roles.
+  parameters:
+    realm:
+      name: realm
+      in: path
+      required: true
+      description: The name of the realm
+      schema:
+        type: string
+    userId:
+      name: userId
+      in: path
+      required: true
+      description: The UUID of the user
+      schema:
+        type: string
+        format: uuid
+    clientUuid:
+      name: clientUuid
+      in: path
+      required: true
+      description: The internal UUID of the client (not the clientId)
+      schema:
+        type: string
+        format: uuid
+    groupId:
+      name: groupId
+      in: path
+      required: true
+      description: The UUID of the group
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    RealmRepresentation:
+      type: object
+      description: Representation of a Keycloak realm
+      properties:
+        id:
+          type: string
+        realm:
+          type: string
+          description: The unique name of the realm
+        displayName:
+          type: string
+        displayNameHtml:
+          type: string
+        enabled:
+          type: boolean
+        sslRequired:
+          type: string
+          enum:
+            - all
+            - external
+            - none
+        registrationAllowed:
+          type: boolean
+        registrationEmailAsUsername:
+          type: boolean
+        rememberMe:
+          type: boolean
+        verifyEmail:
+          type: boolean
+        loginWithEmailAllowed:
+          type: boolean
+        duplicateEmailsAllowed:
+          type: boolean
+        resetPasswordAllowed:
+          type: boolean
+        editUsernameAllowed:
+          type: boolean
+        bruteForceProtected:
+          type: boolean
+        permanentLockout:
+          type: boolean
+        maxFailureWaitSeconds:
+          type: integer
+        minimumQuickLoginWaitSeconds:
+          type: integer
+        waitIncrementSeconds:
+          type: integer
+        quickLoginCheckMilliSeconds:
+          type: integer
+        maxDeltaTimeSeconds:
+          type: integer
+        failureFactor:
+          type: integer
+        defaultRoles:
+          type: array
+          items:
+            type: string
+        requiredCredentials:
+          type: array
+          items:
+            type: string
+        passwordPolicy:
+          type: string
+        otpPolicyType:
+          type: string
+        otpPolicyAlgorithm:
+          type: string
+        otpPolicyDigits:
+          type: integer
+        otpPolicyPeriod:
+          type: integer
+        otpPolicyInitialCounter:
+          type: integer
+        browserSecurityHeaders:
+          type: object
+          additionalProperties:
+            type: string
+        smtpServer:
+          type: object
+          additionalProperties:
+            type: string
+        eventsEnabled:
+          type: boolean
+        eventsExpiration:
+          type: integer
+        eventsListeners:
+          type: array
+          items:
+            type: string
+        adminEventsEnabled:
+          type: boolean
+        adminEventsDetailsEnabled:
+          type: boolean
+        internationalizationEnabled:
+          type: boolean
+        supportedLocales:
+          type: array
+          items:
+            type: string
+        defaultLocale:
+          type: string
+        accessTokenLifespan:
+          type: integer
+        accessTokenLifespanForImplicitFlow:
+          type: integer
+        ssoSessionIdleTimeout:
+          type: integer
+        ssoSessionMaxLifespan:
+          type: integer
+        offlineSessionIdleTimeout:
+          type: integer
+        accessCodeLifespan:
+          type: integer
+        accessCodeLifespanUserAction:
+          type: integer
+        accessCodeLifespanLogin:
+          type: integer
+        actionTokenGeneratedByAdminLifespan:
+          type: integer
+        actionTokenGeneratedByUserLifespan:
+          type: integer
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserRepresentation'
+        clients:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientRepresentation'
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupRepresentation'
+        roles:
+          type: object
+          properties:
+            realm:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+        identityProviders:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdentityProviderRepresentation'
+    UserRepresentation:
+      type: object
+      description: Representation of a Keycloak user
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        emailVerified:
+          type: boolean
+        enabled:
+          type: boolean
+        createdTimestamp:
+          type: integer
+          format: int64
+          readOnly: true
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        credentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialRepresentation'
+          writeOnly: true
+        requiredActions:
+          type: array
+          items:
+            type: string
+        federatedIdentities:
+          type: array
+          items:
+            type: object
+            properties:
+              identityProvider:
+                type: string
+              userId:
+                type: string
+              userName:
+                type: string
+        realmRoles:
+          type: array
+          items:
+            type: string
+        clientRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        groups:
+          type: array
+          items:
+            type: string
+        totp:
+          type: boolean
+        federationLink:
+          type: string
+        serviceAccountClientId:
+          type: string
+        notBefore:
+          type: integer
+    ClientRepresentation:
+      type: object
+      description: Representation of an OAuth/OIDC client registered in Keycloak
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        clientId:
+          type: string
+          description: The client identifier used in OAuth/OIDC flows
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        clientAuthenticatorType:
+          type: string
+          description: The authenticator type for confidential clients
+        secret:
+          type: string
+          writeOnly: true
+        rootUrl:
+          type: string
+          format: uri
+        baseUrl:
+          type: string
+        adminUrl:
+          type: string
+        surrogateAuthRequired:
+          type: boolean
+        redirectUris:
+          type: array
+          items:
+            type: string
+        webOrigins:
+          type: array
+          items:
+            type: string
+        bearerOnly:
+          type: boolean
+        consentRequired:
+          type: boolean
+        standardFlowEnabled:
+          type: boolean
+          description: Enable Authorization Code Flow
+        implicitFlowEnabled:
+          type: boolean
+          description: Enable Implicit Flow
+        directAccessGrantsEnabled:
+          type: boolean
+          description: Enable Resource Owner Password Credentials Grant
+        serviceAccountsEnabled:
+          type: boolean
+          description: Enable Client Credentials Grant
+        publicClient:
+          type: boolean
+          description: Whether the client is public (no client secret) or confidential
+        frontchannelLogout:
+          type: boolean
+        protocol:
+          type: string
+          enum:
+            - openid-connect
+            - saml
+        attributes:
+          type: object
+          additionalProperties:
+            type: string
+        fullScopeAllowed:
+          type: boolean
+        defaultClientScopes:
+          type: array
+          items:
+            type: string
+        optionalClientScopes:
+          type: array
+          items:
+            type: string
+        authorizationServicesEnabled:
+          type: boolean
+    RoleRepresentation:
+      type: object
+      description: Representation of a role in Keycloak
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+        description:
+          type: string
+        composite:
+          type: boolean
+          description: Whether this role is a composite of other roles
+        composites:
+          type: object
+          properties:
+            realm:
+              type: array
+              items:
+                type: string
+            client:
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  type: string
+        clientRole:
+          type: boolean
+        containerId:
+          type: string
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    GroupRepresentation:
+      type: object
+      description: Representation of a user group in Keycloak
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+        path:
+          type: string
+          description: Full path of the group including parent groups
+        subGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupRepresentation'
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        realmRoles:
+          type: array
+          items:
+            type: string
+        clientRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    IdentityProviderRepresentation:
+      type: object
+      description: Representation of a federated identity provider
+      properties:
+        alias:
+          type: string
+          description: Unique alias for the identity provider
+        displayName:
+          type: string
+        internalId:
+          type: string
+          readOnly: true
+        providerId:
+          type: string
+          description: >-
+            The identity provider type (e.g., oidc, saml, google, github,
+            facebook)
+        enabled:
+          type: boolean
+        trustEmail:
+          type: boolean
+        storeToken:
+          type: boolean
+        addReadTokenRoleOnCreate:
+          type: boolean
+        authenticateByDefault:
+          type: boolean
+        linkOnly:
+          type: boolean
+        firstBrokerLoginFlowAlias:
+          type: string
+        postBrokerLoginFlowAlias:
+          type: string
+        config:
+          type: object
+          additionalProperties:
+            type: string
+          description: >-
+            Provider-specific configuration (e.g., clientId, clientSecret,
+            authorizationUrl, tokenUrl for OIDC providers)
+    CredentialRepresentation:
+      type: object
+      description: Representation of a user credential
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          description: The credential type (e.g., password, otp)
+        value:
+          type: string
+          writeOnly: true
+        temporary:
+          type: boolean
+          description: If true, user must change the credential on next login
+        createdDate:
+          type: integer
+          format: int64
+        userLabel:
+          type: string

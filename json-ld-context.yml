@@ -1,0 +1,152 @@
+"@context":
+  "@vocab": https://keycloak.org/ns/
+  schema: https://schema.org/
+  foaf: http://xmlns.com/foaf/0.1/
+  vcard: http://www.w3.org/2006/vcard/ns#
+  dcterms: http://purl.org/dc/terms/
+  sioc: http://rdfs.org/sioc/ns#
+  org: http://www.w3.org/ns/org#
+  acl: http://www.w3.org/ns/auth/acl#
+  solid: http://www.w3.org/ns/solid/terms#
+  oidc: http://www.w3.org/ns/solid/oidc#
+
+  # Realm mappings
+  Realm:
+    "@id": schema:WebSite
+    "@context":
+      realm:
+        "@id": dcterms:identifier
+      displayName:
+        "@id": schema:name
+      enabled:
+        "@id": schema:activeStatus
+      registrationAllowed:
+        "@id": keycloak:registrationAllowed
+      sslRequired:
+        "@id": keycloak:sslRequired
+      defaultLocale:
+        "@id": schema:inLanguage
+      supportedLocales:
+        "@id": schema:availableLanguage
+
+  # User mappings
+  User:
+    "@id": foaf:Person
+    "@context":
+      id:
+        "@id": dcterms:identifier
+      username:
+        "@id": foaf:accountName
+      firstName:
+        "@id": foaf:firstName
+      lastName:
+        "@id": foaf:lastName
+      email:
+        "@id": foaf:mbox
+        "@type": "@id"
+      emailVerified:
+        "@id": keycloak:emailVerified
+        "@type": http://www.w3.org/2001/XMLSchema#boolean
+      enabled:
+        "@id": schema:activeStatus
+        "@type": http://www.w3.org/2001/XMLSchema#boolean
+      createdTimestamp:
+        "@id": dcterms:created
+        "@type": http://www.w3.org/2001/XMLSchema#long
+      groups:
+        "@id": org:memberOf
+        "@type": "@id"
+      realmRoles:
+        "@id": keycloak:hasRealmRole
+      federatedIdentities:
+        "@id": foaf:account
+
+  # Client (Application) mappings
+  Client:
+    "@id": schema:SoftwareApplication
+    "@context":
+      clientId:
+        "@id": dcterms:identifier
+      name:
+        "@id": schema:name
+      description:
+        "@id": schema:description
+      enabled:
+        "@id": schema:activeStatus
+      rootUrl:
+        "@id": schema:url
+        "@type": "@id"
+      redirectUris:
+        "@id": keycloak:redirectUri
+        "@type": "@id"
+      protocol:
+        "@id": keycloak:protocol
+      publicClient:
+        "@id": keycloak:isPublicClient
+        "@type": http://www.w3.org/2001/XMLSchema#boolean
+      serviceAccountsEnabled:
+        "@id": keycloak:serviceAccountsEnabled
+        "@type": http://www.w3.org/2001/XMLSchema#boolean
+
+  # Role mappings
+  Role:
+    "@id": org:Role
+    "@context":
+      name:
+        "@id": schema:roleName
+      description:
+        "@id": schema:description
+      composite:
+        "@id": keycloak:isComposite
+        "@type": http://www.w3.org/2001/XMLSchema#boolean
+      clientRole:
+        "@id": keycloak:isClientRole
+        "@type": http://www.w3.org/2001/XMLSchema#boolean
+      containerId:
+        "@id": keycloak:containerId
+
+  # Group mappings
+  Group:
+    "@id": org:OrganizationalUnit
+    "@context":
+      name:
+        "@id": schema:name
+      path:
+        "@id": keycloak:groupPath
+      subGroups:
+        "@id": org:hasSubOrganization
+        "@type": "@id"
+      realmRoles:
+        "@id": keycloak:hasRealmRole
+      clientRoles:
+        "@id": keycloak:hasClientRole
+
+  # Identity Provider mappings
+  IdentityProvider:
+    "@id": solid:oidcIssuer
+    "@context":
+      alias:
+        "@id": dcterms:identifier
+      displayName:
+        "@id": schema:name
+      providerId:
+        "@id": keycloak:providerType
+      enabled:
+        "@id": schema:activeStatus
+        "@type": http://www.w3.org/2001/XMLSchema#boolean
+      trustEmail:
+        "@id": keycloak:trustEmail
+        "@type": http://www.w3.org/2001/XMLSchema#boolean
+
+  # Credential mappings
+  Credential:
+    "@id": keycloak:Credential
+    "@context":
+      type:
+        "@id": dcterms:type
+      temporary:
+        "@id": keycloak:isTemporary
+        "@type": http://www.w3.org/2001/XMLSchema#boolean
+      createdDate:
+        "@id": dcterms:created
+        "@type": http://www.w3.org/2001/XMLSchema#long

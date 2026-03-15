@@ -1,0 +1,130 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://keycloak.org/schemas/user-representation
+title: Keycloak User Representation
+description: >-
+  JSON Schema for a Keycloak user representation, defining the identity,
+  credentials, and access control attributes of a user within a realm.
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+    description: Unique identifier for the user, assigned by Keycloak
+    readOnly: true
+  username:
+    type: string
+    description: The username used for authentication
+    minLength: 1
+  firstName:
+    type: string
+    description: The user's first name
+  lastName:
+    type: string
+    description: The user's last name
+  email:
+    type: string
+    format: email
+    description: The user's email address
+  emailVerified:
+    type: boolean
+    description: Whether the user's email has been verified
+    default: false
+  enabled:
+    type: boolean
+    description: Whether the user account is enabled
+    default: true
+  createdTimestamp:
+    type: integer
+    format: int64
+    description: Unix timestamp of when the user was created
+    readOnly: true
+  attributes:
+    type: object
+    description: Custom user attributes as key-value pairs (values are arrays)
+    additionalProperties:
+      type: array
+      items:
+        type: string
+  credentials:
+    type: array
+    description: User credentials (write-only, used during creation or update)
+    items:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Credential type (e.g., password)
+        value:
+          type: string
+          description: Credential value
+        temporary:
+          type: boolean
+          description: Whether the credential is temporary
+          default: false
+      required:
+        - type
+        - value
+  requiredActions:
+    type: array
+    description: Actions required from the user on next login
+    items:
+      type: string
+      enum:
+        - VERIFY_EMAIL
+        - UPDATE_PROFILE
+        - CONFIGURE_TOTP
+        - UPDATE_PASSWORD
+        - TERMS_AND_CONDITIONS
+  federatedIdentities:
+    type: array
+    description: Links to external identity providers
+    items:
+      type: object
+      properties:
+        identityProvider:
+          type: string
+          description: Alias of the identity provider
+        userId:
+          type: string
+          description: User ID at the identity provider
+        userName:
+          type: string
+          description: Username at the identity provider
+      required:
+        - identityProvider
+        - userId
+  realmRoles:
+    type: array
+    description: List of realm-level role names assigned to the user
+    items:
+      type: string
+  clientRoles:
+    type: object
+    description: >-
+      Client-level role assignments, keyed by client ID with arrays of role
+      names
+    additionalProperties:
+      type: array
+      items:
+        type: string
+  groups:
+    type: array
+    description: List of group paths the user belongs to
+    items:
+      type: string
+  totp:
+    type: boolean
+    description: Whether TOTP is configured for the user
+  federationLink:
+    type: string
+    description: ID of the user federation provider that created this user
+  serviceAccountClientId:
+    type: string
+    description: >-
+      If this user is a service account, the client ID it is associated with
+  notBefore:
+    type: integer
+    description: >-
+      Not-before policy timestamp; tokens issued before this are invalid
+required:
+  - username
