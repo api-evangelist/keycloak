@@ -1,0 +1,16 @@
+name: Keycloak
+description: Open source identity and access management solution for modern applications
+  and services
+url: https://www.keycloak.org/
+tags:
+- Authentication
+- Authorization
+- Identity Management
+- SSO
+- OAuth
+- OpenID Connect
+- Security
+created: '2025'
+modified: '2025'
+apis: []
+common: []
