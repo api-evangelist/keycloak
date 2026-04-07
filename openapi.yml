@@ -39,7 +39,7 @@ paths:
   /:
     get:
       operationId: getRealms
-      summary: List all realms
+      summary: Keycloak List all realms
       description: Returns a list of all realms accessible to the authenticated user.
       tags:
         - Realms
@@ -63,7 +63,7 @@ paths:
       - $ref: '#/components/parameters/realm'
     get:
       operationId: getRealm
-      summary: Get a realm
+      summary: Keycloak Get a realm
       description: Returns the representation of a specific realm.
       tags:
         - Realms
@@ -78,7 +78,7 @@ paths:
           description: Realm not found
     put:
       operationId: updateRealm
-      summary: Update a realm
+      summary: Keycloak Update a realm
       description: Updates the configuration of an existing realm.
       tags:
         - Realms
@@ -95,7 +95,7 @@ paths:
           description: Realm not found
     delete:
       operationId: deleteRealm
-      summary: Delete a realm
+      summary: Keycloak Delete a realm
       description: Permanently deletes a realm and all its data.
       tags:
         - Realms
@@ -109,7 +109,7 @@ paths:
       - $ref: '#/components/parameters/realm'
     get:
       operationId: getUsers
-      summary: List users
+      summary: Keycloak List users
       description: Returns a list of users in the realm, filtered by query parameters.
       tags:
         - Users
@@ -166,7 +166,7 @@ paths:
                   $ref: '#/components/schemas/UserRepresentation'
     post:
       operationId: createUser
-      summary: Create a new user
+      summary: Keycloak Create a new user
       description: Creates a new user in the realm.
       tags:
         - Users
@@ -192,7 +192,7 @@ paths:
       - $ref: '#/components/parameters/userId'
     get:
       operationId: getUser
-      summary: Get a user
+      summary: Keycloak Get a user
       description: Returns the representation of a specific user.
       tags:
         - Users
@@ -207,7 +207,7 @@ paths:
           description: User not found
     put:
       operationId: updateUser
-      summary: Update a user
+      summary: Keycloak Update a user
       description: Updates the properties of an existing user.
       tags:
         - Users
@@ -224,7 +224,7 @@ paths:
           description: User not found
     delete:
       operationId: deleteUser
-      summary: Delete a user
+      summary: Keycloak Delete a user
       description: Permanently deletes a user from the realm.
       tags:
         - Users
@@ -239,7 +239,7 @@ paths:
       - $ref: '#/components/parameters/userId'
     get:
       operationId: getUserRealmRoleMappings
-      summary: Get realm-level role mappings for a user
+      summary: Keycloak Get realm-level role mappings for a user
       tags:
         - Users
         - Roles
@@ -254,7 +254,7 @@ paths:
                   $ref: '#/components/schemas/RoleRepresentation'
     post:
       operationId: addUserRealmRoleMappings
-      summary: Add realm-level role mappings to a user
+      summary: Keycloak Add realm-level role mappings to a user
       tags:
         - Users
         - Roles
@@ -271,7 +271,7 @@ paths:
           description: Role mappings added
     delete:
       operationId: deleteUserRealmRoleMappings
-      summary: Remove realm-level role mappings from a user
+      summary: Keycloak Remove realm-level role mappings from a user
       tags:
         - Users
         - Roles
@@ -292,7 +292,7 @@ paths:
       - $ref: '#/components/parameters/userId'
     get:
       operationId: getUserGroups
-      summary: Get groups for a user
+      summary: Keycloak Get groups for a user
       tags:
         - Users
         - Groups
@@ -312,7 +312,7 @@ paths:
       - $ref: '#/components/parameters/groupId'
     put:
       operationId: addUserToGroup
-      summary: Add a user to a group
+      summary: Keycloak Add a user to a group
       tags:
         - Users
         - Groups
@@ -321,7 +321,7 @@ paths:
           description: User added to group
     delete:
       operationId: removeUserFromGroup
-      summary: Remove a user from a group
+      summary: Keycloak Remove a user from a group
       tags:
         - Users
         - Groups
@@ -334,7 +334,7 @@ paths:
       - $ref: '#/components/parameters/userId'
     put:
       operationId: resetUserPassword
-      summary: Reset a user's password
+      summary: Keycloak Reset a user's password
       description: Sets a new password for the user. Set temporary to true to require a password change on next login.
       tags:
         - Users
@@ -352,7 +352,7 @@ paths:
       - $ref: '#/components/parameters/realm'
     get:
       operationId: getClients
-      summary: List clients
+      summary: Keycloak List clients
       description: Returns a list of clients registered in the realm.
       tags:
         - Clients
@@ -392,7 +392,7 @@ paths:
                   $ref: '#/components/schemas/ClientRepresentation'
     post:
       operationId: createClient
-      summary: Create a new client
+      summary: Keycloak Create a new client
       description: Registers a new client in the realm.
       tags:
         - Clients
@@ -416,7 +416,7 @@ paths:
       - $ref: '#/components/parameters/clientUuid'
     get:
       operationId: getClient
-      summary: Get a client
+      summary: Keycloak Get a client
       description: Returns the representation of a specific client.
       tags:
         - Clients
@@ -431,7 +431,7 @@ paths:
           description: Client not found
     put:
       operationId: updateClient
-      summary: Update a client
+      summary: Keycloak Update a client
       description: Updates the configuration of an existing client.
       tags:
         - Clients
@@ -446,7 +446,7 @@ paths:
           description: Client updated successfully
     delete:
       operationId: deleteClient
-      summary: Delete a client
+      summary: Keycloak Delete a client
       description: Removes a client registration from the realm.
       tags:
         - Clients
@@ -459,7 +459,7 @@ paths:
       - $ref: '#/components/parameters/clientUuid'
     get:
       operationId: getClientSecret
-      summary: Get the client secret
+      summary: Keycloak Get the client secret
       tags:
         - Clients
       responses:
@@ -476,7 +476,7 @@ paths:
                     type: string
     post:
       operationId: regenerateClientSecret
-      summary: Regenerate the client secret
+      summary: Keycloak Regenerate the client secret
       tags:
         - Clients
       responses:
@@ -496,7 +496,7 @@ paths:
       - $ref: '#/components/parameters/realm'
     get:
       operationId: getRoles
-      summary: List realm-level roles
+      summary: Keycloak List realm-level roles
       description: Returns a list of all roles defined at the realm level.
       tags:
         - Roles
@@ -529,7 +529,7 @@ paths:
                   $ref: '#/components/schemas/RoleRepresentation'
     post:
       operationId: createRole
-      summary: Create a realm-level role
+      summary: Keycloak Create a realm-level role
       tags:
         - Roles
       requestBody:
@@ -551,7 +551,7 @@ paths:
           type: string
     get:
       operationId: getRole
-      summary: Get a realm-level role by name
+      summary: Keycloak Get a realm-level role by name
       tags:
         - Roles
       responses:
@@ -565,7 +565,7 @@ paths:
           description: Role not found
     put:
       operationId: updateRole
-      summary: Update a realm-level role
+      summary: Keycloak Update a realm-level role
       tags:
         - Roles
       requestBody:
@@ -579,7 +579,7 @@ paths:
           description: Role updated successfully
     delete:
       operationId: deleteRole
-      summary: Delete a realm-level role
+      summary: Keycloak Delete a realm-level role
       tags:
         - Roles
       responses:
@@ -590,7 +590,7 @@ paths:
       - $ref: '#/components/parameters/realm'
     get:
       operationId: getGroups
-      summary: List groups
+      summary: Keycloak List groups
       description: Returns a list of top-level groups in the realm.
       tags:
         - Groups
@@ -623,7 +623,7 @@ paths:
                   $ref: '#/components/schemas/GroupRepresentation'
     post:
       operationId: createGroup
-      summary: Create a top-level group
+      summary: Keycloak Create a top-level group
       tags:
         - Groups
       requestBody:
@@ -641,7 +641,7 @@ paths:
       - $ref: '#/components/parameters/groupId'
     get:
       operationId: getGroup
-      summary: Get a group
+      summary: Keycloak Get a group
       tags:
         - Groups
       responses:
@@ -655,7 +655,7 @@ paths:
           description: Group not found
     put:
       operationId: updateGroup
-      summary: Update a group
+      summary: Keycloak Update a group
       tags:
         - Groups
       requestBody:
@@ -669,7 +669,7 @@ paths:
           description: Group updated successfully
     delete:
       operationId: deleteGroup
-      summary: Delete a group
+      summary: Keycloak Delete a group
       tags:
         - Groups
       responses:
@@ -681,7 +681,7 @@ paths:
       - $ref: '#/components/parameters/groupId'
     post:
       operationId: createChildGroup
-      summary: Create a child group
+      summary: Keycloak Create a child group
       description: Creates a new subgroup under the specified parent group.
       tags:
         - Groups
@@ -700,7 +700,7 @@ paths:
       - $ref: '#/components/parameters/groupId'
     get:
       operationId: getGroupMembers
-      summary: Get members of a group
+      summary: Keycloak Get members of a group
       tags:
         - Groups
         - Users
@@ -727,7 +727,7 @@ paths:
       - $ref: '#/components/parameters/realm'
     get:
       operationId: getIdentityProviders
-      summary: List identity providers
+      summary: Keycloak List identity providers
       description: Returns a list of identity providers configured in the realm.
       tags:
         - Identity Providers
@@ -742,7 +742,7 @@ paths:
                   $ref: '#/components/schemas/IdentityProviderRepresentation'
     post:
       operationId: createIdentityProvider
-      summary: Create an identity provider
+      summary: Keycloak Create an identity provider
       tags:
         - Identity Providers
       requestBody:
@@ -765,7 +765,7 @@ paths:
           type: string
     get:
       operationId: getIdentityProvider
-      summary: Get an identity provider
+      summary: Keycloak Get an identity provider
       tags:
         - Identity Providers
       responses:
@@ -779,7 +779,7 @@ paths:
           description: Identity provider not found
     put:
       operationId: updateIdentityProvider
-      summary: Update an identity provider
+      summary: Keycloak Update an identity provider
       tags:
         - Identity Providers
       requestBody:
@@ -793,7 +793,7 @@ paths:
           description: Identity provider updated
     delete:
       operationId: deleteIdentityProvider
-      summary: Delete an identity provider
+      summary: Keycloak Delete an identity provider
       tags:
         - Identity Providers
       responses:
