@@ -5,18 +5,18 @@ Keycloak is an open source identity and access management solution for modern ap
 
 ## Scope
 
-- **Type:** Index 
-- **Position:** Consuming 
-- **Access:** 3rd-Party 
+- **Type:** Index
+- **Position:** Consuming
+- **Access:** 3rd-Party
 
 ## Tags:
 
- - Authentication, Authorization, Identity Management, SSO, OAuth, OpenID Connect, Security
+ - Authentication, Authorization, Identity Management, OAuth, OpenID Connect, Security, SSO
 
 ## Timestamps
 
-- **Created:** 2025-01-01 
-- **Modified:** 2026-03-16 
+- **Created:** 2025-01-01
+- **Modified:** 2026-04-28
 
 ## APIs
 
@@ -28,12 +28,17 @@ REST API for managing Keycloak realms, users, clients, roles, groups, and identi
 
 #### Tags:
 
- - Identity, Access Management, Admin
+ - Access Management, Admin, Identity
 
 #### Properties
 
 - [Documentation](https://www.keycloak.org/docs-api/latest/rest-api/)
 - [Reference](https://www.keycloak.org/docs/latest/server_admin/)
+- [OpenAPI](openapi/keycloak-admin-rest-api-openapi.yml)
+- [JSONSchema](json-schema/realm.yml)
+- [JSONSchema](json-schema/client.yml)
+- [JSONSchema](json-schema/user.yml)
+- [JSONLD](json-ld/keycloak-context.yml)
 
 ## Common Properties
 
