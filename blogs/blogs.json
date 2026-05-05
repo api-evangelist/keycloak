@@ -1,0 +1,13 @@
+{
+  "repo": "keycloak",
+  "feeds": [
+    {
+      "source": "https://www.keycloak.org/blog",
+      "feed_url": "https://www.keycloak.org/rss.xml",
+      "saved": 10,
+      "title": "Keycloak Blog"
+    }
+  ],
+  "post_count": 10,
+  "fetched": "2026-05-03T23:30:10Z"
+}
