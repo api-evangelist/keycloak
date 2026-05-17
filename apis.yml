@@ -51,9 +51,9 @@ common:
     url: https://www.keycloak.org/
   - type: Documentation
     url: https://www.keycloak.org/documentation
-  - type: Getting Started
+  - type: GettingStarted
     url: https://www.keycloak.org/getting-started
-  - type: GitHub Organization
+  - type: GitHubOrganization
     url: https://github.com/keycloak/keycloak
   - type: Blog
     url: https://www.keycloak.org/blog
