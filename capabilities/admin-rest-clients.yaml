@@ -1,0 +1,283 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Keycloak Admin REST API — Clients
+  description: 'Keycloak Admin REST API — Clients. 7 operations. Lead operation: Keycloak List clients. Self-contained Naftiko
+    capability covering one Keycloak business surface.'
+  tags:
+  - Keycloak
+  - Clients
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    KEYCLOAK_API_KEY: KEYCLOAK_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-rest-clients
+    baseUri: https://{host}/admin/realms
+    description: Keycloak Admin REST API — Clients business capability. Self-contained, no shared references.
+    resources:
+    - name: realm-clients
+      path: /{realm}/clients
+      operations:
+      - name: getclients
+        method: GET
+        description: Keycloak List clients
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: clientId
+          in: query
+          type: string
+          description: Filter by clientId
+        - name: search
+          in: query
+          type: boolean
+        - name: first
+          in: query
+          type: integer
+        - name: max
+          in: query
+          type: integer
+        - name: viewableOnly
+          in: query
+          type: boolean
+      - name: createclient
+        method: POST
+        description: Keycloak Create a new client
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: realm-clients-clientUuid
+      path: /{realm}/clients/{clientUuid}
+      operations:
+      - name: getclient
+        method: GET
+        description: Keycloak Get a client
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateclient
+        method: PUT
+        description: Keycloak Update a client
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteclient
+        method: DELETE
+        description: Keycloak Delete a client
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: realm-clients-clientUuid-client-secret
+      path: /{realm}/clients/{clientUuid}/client-secret
+      operations:
+      - name: getclientsecret
+        method: GET
+        description: Keycloak Get the client secret
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: regenerateclientsecret
+        method: POST
+        description: Keycloak Regenerate the client secret
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.KEYCLOAK_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-rest-clients-rest
+    port: 8080
+    description: REST adapter for Keycloak Admin REST API — Clients. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/{realm}/clients
+      name: realm-clients
+      description: REST surface for realm-clients.
+      operations:
+      - method: GET
+        name: getclients
+        description: Keycloak List clients
+        call: admin-rest-clients.getclients
+        with:
+          clientId: rest.clientId
+          search: rest.search
+          first: rest.first
+          max: rest.max
+          viewableOnly: rest.viewableOnly
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createclient
+        description: Keycloak Create a new client
+        call: admin-rest-clients.createclient
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/{realm}/clients/{clientuuid}
+      name: realm-clients-clientuuid
+      description: REST surface for realm-clients-clientUuid.
+      operations:
+      - method: GET
+        name: getclient
+        description: Keycloak Get a client
+        call: admin-rest-clients.getclient
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateclient
+        description: Keycloak Update a client
+        call: admin-rest-clients.updateclient
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteclient
+        description: Keycloak Delete a client
+        call: admin-rest-clients.deleteclient
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/{realm}/clients/{clientuuid}/client-secret
+      name: realm-clients-clientuuid-client-secret
+      description: REST surface for realm-clients-clientUuid-client-secret.
+      operations:
+      - method: GET
+        name: getclientsecret
+        description: Keycloak Get the client secret
+        call: admin-rest-clients.getclientsecret
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: regenerateclientsecret
+        description: Keycloak Regenerate the client secret
+        call: admin-rest-clients.regenerateclientsecret
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-rest-clients-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Keycloak Admin REST API — Clients. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: keycloak-list-clients
+      description: Keycloak List clients
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-rest-clients.getclients
+      with:
+        clientId: tools.clientId
+        search: tools.search
+        first: tools.first
+        max: tools.max
+        viewableOnly: tools.viewableOnly
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-create-new-client
+      description: Keycloak Create a new client
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-rest-clients.createclient
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-get-client
+      description: Keycloak Get a client
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-rest-clients.getclient
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-update-client
+      description: Keycloak Update a client
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-rest-clients.updateclient
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-delete-client
+      description: Keycloak Delete a client
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-rest-clients.deleteclient
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-get-client-secret
+      description: Keycloak Get the client secret
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-rest-clients.getclientsecret
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-regenerate-client-secret
+      description: Keycloak Regenerate the client secret
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-rest-clients.regenerateclientsecret
+      outputParameters:
+      - type: object
+        mapping: $.

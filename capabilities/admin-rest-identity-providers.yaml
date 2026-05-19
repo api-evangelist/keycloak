@@ -1,0 +1,197 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Keycloak Admin REST API — Identity Providers
+  description: 'Keycloak Admin REST API — Identity Providers. 5 operations. Lead operation: Keycloak List identity providers.
+    Self-contained Naftiko capability covering one Keycloak business surface.'
+  tags:
+  - Keycloak
+  - Identity Providers
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    KEYCLOAK_API_KEY: KEYCLOAK_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-rest-identity-providers
+    baseUri: https://{host}/admin/realms
+    description: Keycloak Admin REST API — Identity Providers business capability. Self-contained, no shared references.
+    resources:
+    - name: realm-identity-provider-instances
+      path: /{realm}/identity-provider/instances
+      operations:
+      - name: getidentityproviders
+        method: GET
+        description: Keycloak List identity providers
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createidentityprovider
+        method: POST
+        description: Keycloak Create an identity provider
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: realm-identity-provider-instances-alias
+      path: /{realm}/identity-provider/instances/{alias}
+      operations:
+      - name: getidentityprovider
+        method: GET
+        description: Keycloak Get an identity provider
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateidentityprovider
+        method: PUT
+        description: Keycloak Update an identity provider
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteidentityprovider
+        method: DELETE
+        description: Keycloak Delete an identity provider
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.KEYCLOAK_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-rest-identity-providers-rest
+    port: 8080
+    description: REST adapter for Keycloak Admin REST API — Identity Providers. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/{realm}/identity-provider/instances
+      name: realm-identity-provider-instances
+      description: REST surface for realm-identity-provider-instances.
+      operations:
+      - method: GET
+        name: getidentityproviders
+        description: Keycloak List identity providers
+        call: admin-rest-identity-providers.getidentityproviders
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createidentityprovider
+        description: Keycloak Create an identity provider
+        call: admin-rest-identity-providers.createidentityprovider
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/{realm}/identity-provider/instances/{alias}
+      name: realm-identity-provider-instances-alias
+      description: REST surface for realm-identity-provider-instances-alias.
+      operations:
+      - method: GET
+        name: getidentityprovider
+        description: Keycloak Get an identity provider
+        call: admin-rest-identity-providers.getidentityprovider
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateidentityprovider
+        description: Keycloak Update an identity provider
+        call: admin-rest-identity-providers.updateidentityprovider
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteidentityprovider
+        description: Keycloak Delete an identity provider
+        call: admin-rest-identity-providers.deleteidentityprovider
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-rest-identity-providers-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Keycloak Admin REST API — Identity Providers. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: keycloak-list-identity-providers
+      description: Keycloak List identity providers
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-rest-identity-providers.getidentityproviders
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-create-identity-provider
+      description: Keycloak Create an identity provider
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-rest-identity-providers.createidentityprovider
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-get-identity-provider
+      description: Keycloak Get an identity provider
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-rest-identity-providers.getidentityprovider
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-update-identity-provider
+      description: Keycloak Update an identity provider
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-rest-identity-providers.updateidentityprovider
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-delete-identity-provider
+      description: Keycloak Delete an identity provider
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-rest-identity-providers.deleteidentityprovider
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,526 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Keycloak Admin REST API — Users
+  description: 'Keycloak Admin REST API — Users. 13 operations. Lead operation: Keycloak Get members of a group. Self-contained
+    Naftiko capability covering one Keycloak business surface.'
+  tags:
+  - Keycloak
+  - Users
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    KEYCLOAK_API_KEY: KEYCLOAK_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-rest-users
+    baseUri: https://{host}/admin/realms
+    description: Keycloak Admin REST API — Users business capability. Self-contained, no shared references.
+    resources:
+    - name: realm-groups-groupId-members
+      path: /{realm}/groups/{groupId}/members
+      operations:
+      - name: getgroupmembers
+        method: GET
+        description: Keycloak Get members of a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: first
+          in: query
+          type: integer
+        - name: max
+          in: query
+          type: integer
+    - name: realm-users
+      path: /{realm}/users
+      operations:
+      - name: getusers
+        method: GET
+        description: Keycloak List users
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: search
+          in: query
+          type: string
+          description: Search string for username, first name, last name, or email
+        - name: username
+          in: query
+          type: string
+        - name: email
+          in: query
+          type: string
+        - name: firstName
+          in: query
+          type: string
+        - name: lastName
+          in: query
+          type: string
+        - name: enabled
+          in: query
+          type: boolean
+        - name: first
+          in: query
+          type: integer
+          description: Pagination offset
+        - name: max
+          in: query
+          type: integer
+          description: Maximum results size
+        - name: briefRepresentation
+          in: query
+          type: boolean
+      - name: createuser
+        method: POST
+        description: Keycloak Create a new user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: realm-users-userId
+      path: /{realm}/users/{userId}
+      operations:
+      - name: getuser
+        method: GET
+        description: Keycloak Get a user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateuser
+        method: PUT
+        description: Keycloak Update a user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteuser
+        method: DELETE
+        description: Keycloak Delete a user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: realm-users-userId-groups
+      path: /{realm}/users/{userId}/groups
+      operations:
+      - name: getusergroups
+        method: GET
+        description: Keycloak Get groups for a user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: realm-users-userId-groups-groupId
+      path: /{realm}/users/{userId}/groups/{groupId}
+      operations:
+      - name: addusertogroup
+        method: PUT
+        description: Keycloak Add a user to a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: removeuserfromgroup
+        method: DELETE
+        description: Keycloak Remove a user from a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: realm-users-userId-reset-password
+      path: /{realm}/users/{userId}/reset-password
+      operations:
+      - name: resetuserpassword
+        method: PUT
+        description: Keycloak Reset a user's password
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: realm-users-userId-role-mappings-realm
+      path: /{realm}/users/{userId}/role-mappings/realm
+      operations:
+      - name: getuserrealmrolemappings
+        method: GET
+        description: Keycloak Get realm-level role mappings for a user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: adduserrealmrolemappings
+        method: POST
+        description: Keycloak Add realm-level role mappings to a user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteuserrealmrolemappings
+        method: DELETE
+        description: Keycloak Remove realm-level role mappings from a user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.KEYCLOAK_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-rest-users-rest
+    port: 8080
+    description: REST adapter for Keycloak Admin REST API — Users. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/{realm}/groups/{groupid}/members
+      name: realm-groups-groupid-members
+      description: REST surface for realm-groups-groupId-members.
+      operations:
+      - method: GET
+        name: getgroupmembers
+        description: Keycloak Get members of a group
+        call: admin-rest-users.getgroupmembers
+        with:
+          first: rest.first
+          max: rest.max
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/{realm}/users
+      name: realm-users
+      description: REST surface for realm-users.
+      operations:
+      - method: GET
+        name: getusers
+        description: Keycloak List users
+        call: admin-rest-users.getusers
+        with:
+          search: rest.search
+          username: rest.username
+          email: rest.email
+          firstName: rest.firstName
+          lastName: rest.lastName
+          enabled: rest.enabled
+          first: rest.first
+          max: rest.max
+          briefRepresentation: rest.briefRepresentation
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createuser
+        description: Keycloak Create a new user
+        call: admin-rest-users.createuser
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/{realm}/users/{userid}
+      name: realm-users-userid
+      description: REST surface for realm-users-userId.
+      operations:
+      - method: GET
+        name: getuser
+        description: Keycloak Get a user
+        call: admin-rest-users.getuser
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateuser
+        description: Keycloak Update a user
+        call: admin-rest-users.updateuser
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteuser
+        description: Keycloak Delete a user
+        call: admin-rest-users.deleteuser
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/{realm}/users/{userid}/groups
+      name: realm-users-userid-groups
+      description: REST surface for realm-users-userId-groups.
+      operations:
+      - method: GET
+        name: getusergroups
+        description: Keycloak Get groups for a user
+        call: admin-rest-users.getusergroups
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/{realm}/users/{userid}/groups/{groupid}
+      name: realm-users-userid-groups-groupid
+      description: REST surface for realm-users-userId-groups-groupId.
+      operations:
+      - method: PUT
+        name: addusertogroup
+        description: Keycloak Add a user to a group
+        call: admin-rest-users.addusertogroup
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: removeuserfromgroup
+        description: Keycloak Remove a user from a group
+        call: admin-rest-users.removeuserfromgroup
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/{realm}/users/{userid}/reset-password
+      name: realm-users-userid-reset-password
+      description: REST surface for realm-users-userId-reset-password.
+      operations:
+      - method: PUT
+        name: resetuserpassword
+        description: Keycloak Reset a user's password
+        call: admin-rest-users.resetuserpassword
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/{realm}/users/{userid}/role-mappings/realm
+      name: realm-users-userid-role-mappings-realm
+      description: REST surface for realm-users-userId-role-mappings-realm.
+      operations:
+      - method: GET
+        name: getuserrealmrolemappings
+        description: Keycloak Get realm-level role mappings for a user
+        call: admin-rest-users.getuserrealmrolemappings
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: adduserrealmrolemappings
+        description: Keycloak Add realm-level role mappings to a user
+        call: admin-rest-users.adduserrealmrolemappings
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteuserrealmrolemappings
+        description: Keycloak Remove realm-level role mappings from a user
+        call: admin-rest-users.deleteuserrealmrolemappings
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-rest-users-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Keycloak Admin REST API — Users. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: keycloak-get-members-group
+      description: Keycloak Get members of a group
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-rest-users.getgroupmembers
+      with:
+        first: tools.first
+        max: tools.max
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-list-users
+      description: Keycloak List users
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-rest-users.getusers
+      with:
+        search: tools.search
+        username: tools.username
+        email: tools.email
+        firstName: tools.firstName
+        lastName: tools.lastName
+        enabled: tools.enabled
+        first: tools.first
+        max: tools.max
+        briefRepresentation: tools.briefRepresentation
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-create-new-user
+      description: Keycloak Create a new user
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-rest-users.createuser
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-get-user
+      description: Keycloak Get a user
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-rest-users.getuser
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-update-user
+      description: Keycloak Update a user
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-rest-users.updateuser
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-delete-user
+      description: Keycloak Delete a user
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-rest-users.deleteuser
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-get-groups-user
+      description: Keycloak Get groups for a user
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-rest-users.getusergroups
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-add-user-group
+      description: Keycloak Add a user to a group
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-rest-users.addusertogroup
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-remove-user-group
+      description: Keycloak Remove a user from a group
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-rest-users.removeuserfromgroup
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-reset-user-s-password
+      description: Keycloak Reset a user's password
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-rest-users.resetuserpassword
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-get-realm-level-role
+      description: Keycloak Get realm-level role mappings for a user
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-rest-users.getuserrealmrolemappings
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-add-realm-level-role
+      description: Keycloak Add realm-level role mappings to a user
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-rest-users.adduserrealmrolemappings
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: keycloak-remove-realm-level-role
+      description: Keycloak Remove realm-level role mappings from a user
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-rest-users.deleteuserrealmrolemappings
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
