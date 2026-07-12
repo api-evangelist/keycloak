@@ -1,0 +1,15 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/keycloak-admin-rest-api-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: Access token obtained from the Keycloak token endpoint. Use the master realm
+    admin credentials or a service account with appropriate realm-management roles.
+  sources:
+  - openapi/keycloak-admin-rest-api-openapi.yml

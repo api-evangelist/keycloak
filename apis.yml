@@ -45,6 +45,12 @@ apis:
       - type: JSONLD
         url: json-ld/keycloak-context.yml
 common:
+  - type: VulnerabilityDisclosure
+    url: security/keycloak-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/keycloak-domain-security.yml
+  - type: Authentication
+    url: authentication/keycloak-authentication.yml
   - type: Website
     url: https://www.keycloak.org/
   - type: Documentation
