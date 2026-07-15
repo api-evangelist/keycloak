@@ -45,6 +45,8 @@ apis:
       - type: JSONLD
         url: json-ld/keycloak-context.yml
 common:
+  - type: AgenticAccess
+    url: agentic-access/keycloak-agentic-access.yml
   - type: VulnerabilityDisclosure
     url: security/keycloak-vulnerability-disclosure.yml
   - type: DomainSecurity
