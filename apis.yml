@@ -16,7 +16,7 @@ tags:
   - SSO
 url: https://raw.githubusercontent.com/api-evangelist/keycloak/refs/heads/main/apis.yml
 created: '2025-01-01'
-modified: '2026-05-19'
+modified: '2026-06-20'
 specificationVersion: '0.19'
 apis:
   - aid: keycloak:admin-rest-api
@@ -44,9 +44,35 @@ apis:
         url: json-schema/user.yml
       - type: JSONLD
         url: json-ld/keycloak-context.yml
+      - type: Overlay
+        url: overlays/keycloak-admin-rest-api-overlay.yaml
+      - type: ErrorCatalog
+        url: errors/keycloak-problem-types.yml
+      - type: DataModel
+        url: data-model/keycloak-data-model.yml
+      - type: MCPServer
+        url: mcp/keycloak-mcp.yml
 common:
   - type: AgenticAccess
     url: agentic-access/keycloak-agentic-access.yml
+  - type: Packages
+    url: packages/keycloak-packages.yml
+  - type: WellKnown
+    url: well-known/keycloak-well-known.yml
+  - type: SecurityTxt
+    url: well-known/keycloak-security.txt
+  - type: LLMsTxt
+    url: llms/keycloak-llms.txt
+  - type: Conformance
+    url: conformance/keycloak-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/keycloak-lifecycle.yml
+  - type: Conventions
+    url: conventions/keycloak-conventions.yml
+  - type: ChangeLog
+    url: changelog/keycloak-changelog.yml
+  - type: CLI
+    url: cli/keycloak-cli.yml
   - type: VulnerabilityDisclosure
     url: security/keycloak-vulnerability-disclosure.yml
   - type: DomainSecurity

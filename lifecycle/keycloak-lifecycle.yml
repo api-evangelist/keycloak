@@ -1,0 +1,35 @@
+generated: '2026-06-20'
+method: searched
+source: https://www.keycloak.org/docs/latest/upgrading/
+notes: >-
+  Keycloak is open-source, self-hosted software; there is no vendor SLA or
+  hosted status page. Versioning and deprecation are governed by the project's
+  release and upgrading guides. Server version numbering is date-independent
+  semantic (major.minor.patch); client libraries are versioned separately.
+versioning:
+  scheme: semver
+  current: 26.7.0
+  server_current: 26.7.0
+  client_libraries_current: 26.0.10
+  docs: https://www.keycloak.org/docs/latest/upgrading/
+  api_versioning: >-
+    The Admin REST API is not URL-version pinned; it tracks the running server
+    version. The API reference is published per version at
+    https://www.keycloak.org/docs-api/latest/rest-api/.
+deprecation:
+  policy_url: https://www.keycloak.org/docs/latest/upgrading/
+  deprecated_features_tracked: true
+  notes: >-
+    Deprecations and removals are documented in the Upgrading Guide and Release
+    Notes per release (e.g. the Arquillian testsuite was deprecated in favour of
+    the Keycloak Test Framework in the 26.5 cycle).
+sla:
+  url: null
+  uptime_target: null
+  notes: Self-hosted; no vendor SLA. Availability is the operator's responsibility.
+status_page: null
+release_notes: https://www.keycloak.org/docs/latest/release_notes/
+support_policy: >-
+  The Keycloak community supports the most recent release. Long-term support is
+  available via downstream products (e.g. Red Hat build of Keycloak).
+deprecated_operations: []

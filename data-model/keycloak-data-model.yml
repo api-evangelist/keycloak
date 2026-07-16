@@ -1,0 +1,76 @@
+generated: '2026-06-20'
+method: derived
+source: openapi/keycloak-admin-rest-api-openapi.yml
+notes: >-
+  Entity-relationship graph derived from the Admin REST API OpenAPI paths and
+  schemas. Realm is the top-level tenant; users, clients, roles, groups, and
+  identity providers are all scoped within a realm.
+entities:
+  - name: Realm
+    schema: RealmRepresentation
+    id_field: id
+    detail: Top-level security domain / tenant. All other resources are scoped under a realm.
+  - name: User
+    schema: UserRepresentation
+    id_field: id
+    detail: An account within a realm; can hold role mappings and group memberships and reset credentials.
+  - name: Client
+    schema: ClientRepresentation
+    id_field: id
+    detail: An OAuth/OIDC or SAML client (application) registered in a realm; owns a client secret.
+  - name: Role
+    schema: RoleRepresentation
+    id_field: id
+    detail: Realm-level or client-level role that can be mapped to users and groups.
+  - name: Group
+    schema: GroupRepresentation
+    id_field: id
+    detail: A user group within a realm; groups can be nested (child groups).
+  - name: IdentityProvider
+    schema: IdentityProviderRepresentation
+    id_field: alias
+    detail: A federated identity provider (SAML/OIDC/social) configured in a realm.
+  - name: Credential
+    schema: CredentialRepresentation
+    detail: A user credential (e.g. password) used when resetting user passwords.
+relationships:
+  - from: Realm
+    to: User
+    type: has_many
+    via: realm (path)
+  - from: Realm
+    to: Client
+    type: has_many
+    via: realm (path)
+  - from: Realm
+    to: Role
+    type: has_many
+    via: realm (path)
+  - from: Realm
+    to: Group
+    type: has_many
+    via: realm (path)
+  - from: Realm
+    to: IdentityProvider
+    type: has_many
+    via: realm (path)
+  - from: User
+    to: Role
+    type: has_many
+    via: realm role mappings
+  - from: User
+    to: Group
+    type: has_many
+    via: group membership
+  - from: User
+    to: Credential
+    type: has_many
+    via: reset-password
+  - from: Group
+    to: Group
+    type: has_many
+    via: child groups
+  - from: Client
+    to: Role
+    type: has_many
+    via: client roles

@@ -1,0 +1,56 @@
+generated: '2026-06-20'
+method: derived
+format: json-error
+source: openapi/keycloak-admin-rest-api-openapi.yml
+notes: >-
+  Derived from the Admin REST API OpenAPI 4xx responses, enriched from Keycloak
+  documentation. Keycloak does NOT emit RFC 9457 application/problem+json; the
+  Admin REST API returns application/json error objects. Two shapes occur: an
+  OAuth-style {"error", "error_description"} on token/authorization failures and
+  a {"errorMessage"} (sometimes {"error"}) body on admin resource operations.
+envelope:
+  media_type: application/json
+  fields:
+    - errorMessage
+    - error
+    - error_description
+problems:
+  - status: 400
+    title: Bad Request
+    description: Malformed request body or invalid representation submitted to an admin endpoint.
+    remediation: Validate the JSON representation against the resource schema (realm/user/client/role/group).
+  - status: 401
+    title: Unauthorized
+    description: Missing, expired, or invalid bearer access token.
+    remediation: Obtain a fresh access token from the realm token endpoint and send it as Authorization Bearer.
+    applies_globally: true
+  - status: 403
+    title: Forbidden
+    description: The authenticated principal lacks the required realm-management role for the operation.
+    remediation: Grant the service account or admin user the appropriate realm-management role (e.g. manage-users, manage-clients).
+    applies_globally: true
+  - status: 404
+    title: Not Found
+    description: The referenced realm, user, client, role, group, or identity provider does not exist.
+    source_operations:
+      - openapi/keycloak-admin-rest-api-openapi.yml#getRealm
+      - openapi/keycloak-admin-rest-api-openapi.yml#updateRealm
+      - openapi/keycloak-admin-rest-api-openapi.yml#deleteRealm
+      - openapi/keycloak-admin-rest-api-openapi.yml#getUser
+      - openapi/keycloak-admin-rest-api-openapi.yml#updateUser
+      - openapi/keycloak-admin-rest-api-openapi.yml#deleteUser
+      - openapi/keycloak-admin-rest-api-openapi.yml#getClient
+      - openapi/keycloak-admin-rest-api-openapi.yml#getRole
+      - openapi/keycloak-admin-rest-api-openapi.yml#getGroup
+      - openapi/keycloak-admin-rest-api-openapi.yml#getIdentityProvider
+  - status: 409
+    title: Conflict
+    description: A resource with the same unique attribute already exists (e.g. username or email already taken when creating a user).
+    remediation: Use a unique username/email, or update the existing resource instead of creating a new one.
+    source_operations:
+      - openapi/keycloak-admin-rest-api-openapi.yml#createUser
+  - status: 500
+    title: Internal Server Error
+    description: Unexpected server-side error in the Keycloak deployment.
+    remediation: Check the Keycloak server logs; retry idempotent operations.
+    applies_globally: true

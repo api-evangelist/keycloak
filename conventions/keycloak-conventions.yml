@@ -1,0 +1,56 @@
+generated: '2026-06-20'
+method: derived
+source: openapi/keycloak-admin-rest-api-openapi.yml
+notes: >-
+  Cross-cutting request/response conventions for the Keycloak Admin REST API,
+  derived from the OpenAPI and enriched from the Server Administration Guide.
+authentication:
+  style: oauth2-bearer
+  scheme: http bearer (JWT)
+  detail: >-
+    Every Admin REST call requires an Authorization Bearer access token obtained
+    from the realm token endpoint (/realms/{realm}/protocol/openid-connect/token).
+    Authorization is enforced via realm-management client roles, not OAuth scopes.
+  ref: authentication/keycloak-authentication.yml
+pagination:
+  style: offset
+  params:
+    - first
+    - max
+  detail: >-
+    Collection endpoints (users, clients, groups, roles) accept `first` (offset)
+    and `max` (page size) query parameters. There is no cursor or Link header;
+    `search` narrows results on many collections.
+  response_fields: []
+field_selection:
+  brief_representation:
+    param: briefRepresentation
+    detail: >-
+      Many list endpoints accept `briefRepresentation` to return a reduced
+      representation (omitting attributes/heavy fields) for performance.
+metadata:
+  detail: >-
+    Realms, users, clients, groups and roles carry an open-ended `attributes`
+    map for arbitrary key/value metadata.
+request_tracing:
+  request_id_header: null
+  detail: No documented client-facing request-id/trace header on the Admin REST API.
+versioning:
+  detail: API tracks the running server version; not URL-version pinned.
+  ref: lifecycle/keycloak-lifecycle.yml
+error_envelope:
+  media_type: application/json
+  shape: '{ "errorMessage": "..." } or OAuth-style { "error", "error_description" }'
+  format: json-error (not RFC 9457)
+  ref: errors/keycloak-problem-types.yml
+rate_limiting:
+  signaling: none
+  detail: >-
+    Keycloak does not emit standardized rate-limit headers on the Admin REST
+    API; throttling is a deployment/reverse-proxy concern.
+  ref: rate-limits/keycloak-rate-limits.yml
+idempotency:
+  header: null
+  detail: >-
+    No idempotency-key header. PUT updates are naturally idempotent; POST create
+    operations return 409 Conflict on duplicate unique attributes.

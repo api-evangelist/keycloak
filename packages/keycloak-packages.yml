@@ -1,0 +1,52 @@
+generated: '2026-06-20'
+method: searched
+source: https://www.keycloak.org/securing-apps/admin-client
+notes: >-
+  Keycloak's first-party client libraries live in the keycloak/keycloak-client
+  GitHub repo. Java libraries are published to Maven Central under the
+  org.keycloak group; the JavaScript adapters are published to npm. There is no
+  official first-party Python client — python-keycloak is a widely used
+  community library and is marked official:false.
+packages:
+  - language: javascript
+    registry: npm
+    name: keycloak-js
+    url: https://www.npmjs.com/package/keycloak-js
+    install: npm install keycloak-js
+    description: Official client-side OpenID Connect JavaScript adapter for securing browser apps.
+    official: true
+  - language: javascript
+    registry: npm
+    name: "@keycloak/keycloak-admin-client"
+    url: https://www.npmjs.com/package/@keycloak/keycloak-admin-client
+    install: npm install @keycloak/keycloak-admin-client
+    description: Official Node.js/TypeScript client for the Keycloak Admin REST API.
+    official: true
+  - language: java
+    registry: maven
+    name: org.keycloak:keycloak-admin-client
+    url: https://mvnrepository.com/artifact/org.keycloak/keycloak-admin-client
+    install: "implementation 'org.keycloak:keycloak-admin-client'"
+    description: Official Java admin client for the Keycloak Admin REST API.
+    official: true
+  - language: java
+    registry: maven
+    name: org.keycloak:keycloak-authz-client
+    url: https://mvnrepository.com/artifact/org.keycloak/keycloak-authz-client
+    install: "implementation 'org.keycloak:keycloak-authz-client'"
+    description: Official Java authorization client for Keycloak Authorization Services (UMA 2.0).
+    official: true
+  - language: java
+    registry: maven
+    name: org.keycloak:keycloak-policy-enforcer
+    url: https://mvnrepository.com/artifact/org.keycloak/keycloak-policy-enforcer
+    install: "implementation 'org.keycloak:keycloak-policy-enforcer'"
+    description: Official Java policy enforcer for protecting resources with Keycloak Authorization Services.
+    official: true
+  - language: python
+    registry: pypi
+    name: python-keycloak
+    url: https://pypi.org/project/python-keycloak/
+    install: pip install python-keycloak
+    description: Popular community (not first-party) Python client for the Keycloak Admin and OIDC APIs.
+    official: false

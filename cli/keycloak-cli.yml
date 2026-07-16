@@ -1,0 +1,51 @@
+generated: '2026-06-20'
+method: searched
+source: https://www.keycloak.org/docs/latest/server_admin/#admin-cli
+notes: >-
+  Keycloak ships three first-party command-line tools inside the server
+  distribution's bin/ directory. kc.sh is the server control CLI; kcadm.sh is
+  the Admin REST API CLI; kcreg.sh is the Client Registration CLI. The binaries
+  are part of the server distribution (see packages/ for the server download).
+binaries:
+  - name: kc.sh
+    windows: kc.bat
+    role: Server control CLI (build, start, start-dev, export, import, bootstrap-admin, show-config).
+  - name: kcadm.sh
+    windows: kcadm.bat
+    role: Admin CLI — generic CRUD against Admin REST API endpoints plus task shortcuts.
+  - name: kcreg.sh
+    windows: kcreg.bat
+    role: Client Registration CLI — self-register/manage clients via the Client Registration endpoints.
+install:
+  - method: distribution
+    detail: Included in the Keycloak server distribution under $KEYCLOAK_HOME/bin.
+authentication:
+  - config_file: ~/.keycloak/kcadm.config
+    detail: >-
+      `kcadm.sh config credentials` starts an authenticated session persisted to
+      a config file; alternatively authenticate per-command. Use --config to
+      maintain parallel sessions.
+commands:
+  kcadm.sh:
+    - group: crud
+      verbs: [create, get, update, delete]
+      detail: Map to POST, GET, PUT, DELETE against arbitrary Admin REST endpoints.
+    - group: config
+      verbs: [credentials, truststore, initial-token, register-node]
+    - group: shortcuts
+      verbs: [set-password, add-roles, remove-roles]
+  kcreg.sh:
+    - group: crud
+      verbs: [create, get, update, delete]
+    - group: config
+      verbs: [credentials, initial-token]
+key_flows:
+  - name: List realms
+    example: kcadm.sh get realms
+  - name: Create a user
+    example: kcadm.sh create users -r <realm> -s username=<name> -s enabled=true
+  - name: Set a user password
+    example: kcadm.sh set-password -r <realm> --username <name> --new-password <pw>
+  - name: Create a client
+    example: kcadm.sh create clients -r <realm> -s clientId=<id> -s enabled=true
+docs: https://www.keycloak.org/docs/latest/server_admin/#admin-cli

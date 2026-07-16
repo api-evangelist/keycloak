@@ -1,0 +1,66 @@
+generated: '2026-06-20'
+method: searched
+source: https://www.keycloak.org/blog
+notes: >-
+  Recent release window structured from the Keycloak project blog release
+  announcements (mirrored in this repo's blogs/). Server releases and client
+  library releases are versioned separately; both are captured. This is a
+  recent-window snapshot — the live blog/release notes are the source of truth.
+scheme: semver
+current: 26.7.0
+client_libraries_current: 26.0.10
+docs: https://www.keycloak.org/docs/latest/release_notes/
+entries:
+  - version: 26.7.0
+    date: '2026-07-09'
+    type: minor
+    highlights:
+      - SCIM API user provisioning (preview)
+      - Simplified multi-cluster high availability without external caches (preview)
+      - Enhanced reverse proxy guides (HAProxy, Traefik blueprints)
+      - Step-up authentication for SAML clients
+      - Experimental Shared Signals Framework support
+  - version: 26.6.4
+    date: '2026-06-26'
+    type: patch
+    highlights:
+      - Bug and security fixes
+  - version: 26.6.3
+    date: '2026-06-04'
+    type: patch
+    highlights:
+      - Bug and security fixes
+  - version: 26.6.2
+    date: '2026-05-19'
+    type: patch
+    highlights:
+      - Bug and security fixes
+  - version: 26.6.1
+    date: '2026-04-15'
+    type: patch
+    highlights:
+      - Bug and security fixes
+  - version: 26.6.0
+    date: '2026-04-08'
+    type: minor
+    highlights:
+      - SCIM realm API as an experimental feature
+      - Fine-grained admin permissions for organizations
+      - Experimental AuthZEN authorization support
+  - version: 26.5.0
+    date: '2026-01-06'
+    type: minor
+    highlights:
+      - OpenID4VCI credential issuer support
+      - JWT authorization grant and identity chaining
+      - Federated client authentication (no more secrets)
+client_library_entries:
+  - version: 26.0.10
+    date: '2026-06-30'
+    component: keycloak client libraries
+  - version: 26.0.9
+    date: '2026-04-17'
+    component: keycloak client libraries
+  - version: 26.2.4
+    date: '2026-04-22'
+    component: keycloak-js

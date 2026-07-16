@@ -1,0 +1,47 @@
+generated: '2026-06-20'
+method: searched
+source: https://www.keycloak.org/docs/latest/server_admin/
+notes: >-
+  Conformance claims drawn from Keycloak documentation and project blog posts,
+  cross-referenced against the Admin REST API OpenAPI. Keycloak is a CNCF
+  project and a certified OpenID Connect provider. Several standards ship as
+  experimental/preview features (SCIM, AuthZEN, Shared Signals) — recorded with
+  evidence noting their status.
+standards:
+  - id: oauth2
+    conforms: true
+    evidence: Keycloak implements OAuth 2.0 authorization server (authorization code, client credentials, device, token exchange, DPoP).
+  - id: oidc
+    conforms: true
+    evidence: Keycloak is a certified OpenID Connect Provider; serves per-realm /.well-known/openid-configuration discovery.
+  - id: saml2
+    conforms: true
+    evidence: Keycloak supports SAML 2.0 identity brokering and as a SAML IdP/SP; step-up auth for SAML clients added in 26.7.
+  - id: scim2
+    conforms: true
+    evidence: SCIM 2.0 provisioning API shipped as preview/experimental (SCIM realm API experimental feature, 26.6; SCIM API preview in 26.7).
+  - id: uma2
+    conforms: true
+    evidence: Keycloak Authorization Services implement User-Managed Access (UMA) 2.0.
+  - id: dpop
+    conforms: true
+    evidence: Official support for DPoP (RFC 9449) added in Keycloak 26.4.
+  - id: fapi2
+    conforms: true
+    evidence: Keycloak provides FAPI 1.0 and FAPI 2.0 client policies/profiles.
+  - id: openid4vci
+    conforms: true
+    evidence: Keycloak can act as an OpenID for Verifiable Credential Issuance (OpenID4VCI) credential issuer (experimental).
+  - id: authzen
+    conforms: true
+    evidence: Experimental AuthZEN authorization API support added in 26.6.
+  - id: shared-signals-framework
+    conforms: true
+    evidence: Experimental Shared Signals Framework (SSF) support added in 26.7.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: Admin REST API returns application/json error objects (error/error_description, errorMessage), not application/problem+json.
+  - id: fhir-r4
+    conforms: false
+  - id: odata
+    conforms: false

@@ -1,0 +1,31 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Keycloak Admin REST API
+  version: 1.0.0
+extends: openapi/keycloak-admin-rest-api-openapi.yml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-provider: keycloak
+      x-apievangelist-artifacts:
+        - authentication/keycloak-authentication.yml
+        - conformance/keycloak-conformance.yml
+        - errors/keycloak-problem-types.yml
+        - lifecycle/keycloak-lifecycle.yml
+        - conventions/keycloak-conventions.yml
+        - data-model/keycloak-data-model.yml
+        - mcp/keycloak-mcp.yml
+        - packages/keycloak-packages.yml
+  - target: $.info
+    update:
+      x-apievangelist-standards:
+        - oauth2
+        - oidc
+        - saml2
+        - scim2
+        - uma2
+        - dpop
+  - target: $.externalDocs
+    update:
+      description: Keycloak Server Administration Guide
+      url: https://www.keycloak.org/docs/latest/server_admin/

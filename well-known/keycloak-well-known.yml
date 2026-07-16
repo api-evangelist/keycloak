@@ -1,0 +1,22 @@
+generated: '2026-06-20'
+method: searched
+source: https://www.keycloak.org/.well-known/
+host: https://www.keycloak.org
+notes: >-
+  Probed the Keycloak project website host. The OpenID Connect / OAuth discovery
+  documents (openid-configuration, oauth-authorization-server) are not served at
+  the project website root — they are served per-realm by a running Keycloak
+  server at /realms/{realm}/.well-known/openid-configuration, which requires a
+  live deployment and is not a fixed public host.
+documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: keycloak-security.txt
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
