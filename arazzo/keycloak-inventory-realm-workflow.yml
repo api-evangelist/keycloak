@@ -1,0 +1,159 @@
+arazzo: 1.0.1
+info:
+  title: Keycloak Inventory a Realm
+  summary: Discover available realms and assemble a full read-only inventory of one realm's clients, roles, groups, and identity providers.
+  description: >-
+    The discovery pass to run before any of the other Keycloak workflows. A realm
+    is really five separate catalogs behind five separate endpoints, and there is
+    no single call that returns the picture. This workflow lists the realms the
+    token can see, confirms the target realm, and then gathers its clients,
+    realm-level roles, top-level groups, and federated identity providers into
+    one set of outputs an operator or an agent can reason over before deciding
+    what to change. Nothing is mutated, so it is safe against production and
+    suitable for a scheduled configuration snapshot. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: keycloakAdminApi
+  url: ../openapi/keycloak-admin-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: inventory-realm
+  summary: Assemble a read-only configuration inventory of a single realm.
+  description: >-
+    Lists accessible realms, confirms the target realm's settings, and reads its
+    clients, realm roles, top-level groups, and identity providers without
+    changing anything.
+  inputs:
+    type: object
+    required:
+    - realm
+    properties:
+      realm:
+        type: string
+        description: The name of the realm to inventory.
+      max:
+        type: integer
+        description: >-
+          Maximum number of clients, roles, and groups to return per catalog. An
+          estate larger than this needs the catalogs paged.
+  steps:
+  - stepId: listRealms
+    description: >-
+      List every realm the authenticated token can see. This scopes the exercise
+      and reveals realms an operator may not have known were there.
+    operationId: getRealms
+    parameters:
+    - name: briefRepresentation
+      in: query
+      value: true
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      realms: $response.body
+  - stepId: loadRealmSettings
+    description: >-
+      Read the target realm's representation, capturing the security posture that
+      every client, role, and group in the inventory inherits.
+    operationId: getRealm
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      realmName: $response.body#/realm
+      displayName: $response.body#/displayName
+      enabled: $response.body#/enabled
+      sslRequired: $response.body#/sslRequired
+      bruteForceProtected: $response.body#/bruteForceProtected
+      passwordPolicy: $response.body#/passwordPolicy
+      registrationAllowed: $response.body#/registrationAllowed
+      accessTokenLifespan: $response.body#/accessTokenLifespan
+      ssoSessionIdleTimeout: $response.body#/ssoSessionIdleTimeout
+      eventsEnabled: $response.body#/eventsEnabled
+      adminEventsEnabled: $response.body#/adminEventsEnabled
+  - stepId: listClients
+    description: >-
+      Read the realm's registered clients. This is the application surface: every
+      client here is a way into the realm.
+    operationId: getClients
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: max
+      in: query
+      value: $inputs.max
+    - name: viewableOnly
+      in: query
+      value: false
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      clients: $response.body
+  - stepId: listRealmRoles
+    description: >-
+      Read the realm-level role catalog. These are the entitlements that
+      onboarding and role mapping workflows draw from.
+    operationId: getRoles
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: max
+      in: query
+      value: $inputs.max
+    - name: briefRepresentation
+      in: query
+      value: false
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      realmRoles: $response.body
+  - stepId: listGroups
+    description: >-
+      Read the top-level group tree. Note this returns root groups; nested
+      subgroups come back inside each group's subGroups property rather than as
+      separate entries.
+    operationId: getGroups
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: max
+      in: query
+      value: $inputs.max
+    - name: briefRepresentation
+      in: query
+      value: false
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      groups: $response.body
+  - stepId: listIdentityProviders
+    description: >-
+      Read the federated identity providers. Each one is an external trust
+      relationship, and therefore part of the realm's attack surface.
+    operationId: getIdentityProviders
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      identityProviders: $response.body
+  outputs:
+    accessibleRealms: $steps.listRealms.outputs.realms
+    realm: $steps.loadRealmSettings.outputs.realmName
+    realmEnabled: $steps.loadRealmSettings.outputs.enabled
+    sslRequired: $steps.loadRealmSettings.outputs.sslRequired
+    bruteForceProtected: $steps.loadRealmSettings.outputs.bruteForceProtected
+    passwordPolicy: $steps.loadRealmSettings.outputs.passwordPolicy
+    clients: $steps.listClients.outputs.clients
+    realmRoles: $steps.listRealmRoles.outputs.realmRoles
+    groups: $steps.listGroups.outputs.groups
+    identityProviders: $steps.listIdentityProviders.outputs.identityProviders

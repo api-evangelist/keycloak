@@ -1,0 +1,216 @@
+arazzo: 1.0.1
+info:
+  title: Keycloak Offboard a User
+  summary: Disable a user, strip realm role mappings and group membership, and optionally delete the account.
+  description: >-
+    The deprovisioning counterpart to onboarding, ordered the way a careful
+    operator actually runs it: disable the account first so access stops
+    immediately, then unwind the entitlements that outlive a disabled account,
+    and only then decide whether to delete. Role mappings are read before they
+    are removed, because the Keycloak delete-mappings endpoint takes the role
+    representations to remove in its request body rather than a role name. The
+    destructive final delete is gated behind an explicit hardDelete input so the
+    default outcome is a disabled, stripped, but recoverable account. Every step
+    spells out its request inline so the flow can be read and executed without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: keycloakAdminApi
+  url: ../openapi/keycloak-admin-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: offboard-user
+  summary: Disable a realm user, remove its roles and group membership, and optionally delete it.
+  description: >-
+    Resolves the user by username, disables the account, strips realm-level role
+    mappings and group membership, and deletes the account only when hardDelete
+    is true.
+  inputs:
+    type: object
+    required:
+    - realm
+    - username
+    properties:
+      realm:
+        type: string
+        description: The name of the realm the user belongs to.
+      username:
+        type: string
+        description: The username of the account to offboard.
+      hardDelete:
+        type: boolean
+        description: >-
+          When true the account is permanently deleted after being stripped. When
+          false (the default posture) the account is left disabled and empty but
+          recoverable.
+  steps:
+  - stepId: resolveUser
+    description: >-
+      Resolve the account UUID from the username. Every subsequent admin call is
+      keyed on the UUID, and a miss here stops the flow before anything is
+      changed.
+    operationId: getUsers
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: username
+      in: query
+      value: $inputs.username
+    - name: max
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.length > 0
+      type: jsonpath
+    outputs:
+      userId: $response.body#/0/id
+      resolvedUsername: $response.body#/0/username
+      userEmail: $response.body#/0/email
+  - stepId: disableUser
+    description: >-
+      Disable the account first. This is the step that actually stops access, so
+      it runs before the slower entitlement teardown rather than after it.
+    operationId: updateUser
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: userId
+      in: path
+      value: $steps.resolveUser.outputs.userId
+    requestBody:
+      contentType: application/json
+      payload:
+        username: $steps.resolveUser.outputs.resolvedUsername
+        enabled: false
+    successCriteria:
+    - condition: $statusCode == 204
+  - stepId: listRoleMappings
+    description: >-
+      Read the realm-level role mappings currently granted to the user. The
+      removal endpoint needs these representations verbatim in its body, so they
+      have to be captured before they can be revoked.
+    operationId: getUserRealmRoleMappings
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: userId
+      in: path
+      value: $steps.resolveUser.outputs.userId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      realmRoles: $response.body
+    onSuccess:
+    - name: noRoleMappings
+      type: goto
+      stepId: listGroupMemberships
+      criteria:
+      - context: $response.body
+        condition: $.length == 0
+        type: jsonpath
+  - stepId: stripRoleMappings
+    description: >-
+      Revoke every realm-level role captured in the previous step by passing the
+      role representations back to the delete-mappings endpoint.
+    operationId: deleteUserRealmRoleMappings
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: userId
+      in: path
+      value: $steps.resolveUser.outputs.userId
+    requestBody:
+      contentType: application/json
+      payload: $steps.listRoleMappings.outputs.realmRoles
+    successCriteria:
+    - condition: $statusCode == 204
+  - stepId: listGroupMemberships
+    description: >-
+      Read the groups the user belongs to, since group membership carries roles
+      of its own and survives a disabled account.
+    operationId: getUserGroups
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: userId
+      in: path
+      value: $steps.resolveUser.outputs.userId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      groups: $response.body
+      primaryGroupId: $response.body#/0/id
+    onSuccess:
+    - name: noGroupMemberships
+      type: goto
+      stepId: evaluateDeletion
+      criteria:
+      - context: $response.body
+        condition: $.length == 0
+        type: jsonpath
+  - stepId: removeFromPrimaryGroup
+    description: >-
+      Remove the user from the first group returned. Keycloak exposes group
+      removal one group at a time, so a user in several groups needs this
+      workflow re-run per group id.
+    operationId: removeUserFromGroup
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: userId
+      in: path
+      value: $steps.resolveUser.outputs.userId
+    - name: groupId
+      in: path
+      value: $steps.listGroupMemberships.outputs.primaryGroupId
+    successCriteria:
+    - condition: $statusCode == 204
+  - stepId: evaluateDeletion
+    description: >-
+      Re-read the account to confirm it is disabled, and stop here unless the
+      caller explicitly asked for a hard delete.
+    operationId: getUser
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: userId
+      in: path
+      value: $steps.resolveUser.outputs.userId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      finalEnabled: $response.body#/enabled
+    onSuccess:
+    - name: retainDisabledAccount
+      type: end
+      criteria:
+      - condition: $inputs.hardDelete == false
+  - stepId: deleteUserAccount
+    description: >-
+      Permanently delete the stripped account. Only reached when hardDelete is
+      true; this cannot be undone.
+    operationId: deleteUser
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: userId
+      in: path
+      value: $steps.resolveUser.outputs.userId
+    successCriteria:
+    - condition: $statusCode == 204
+  outputs:
+    userId: $steps.resolveUser.outputs.userId
+    username: $steps.resolveUser.outputs.resolvedUsername
+    revokedRealmRoles: $steps.listRoleMappings.outputs.realmRoles
+    formerGroups: $steps.listGroupMemberships.outputs.groups
+    accountEnabled: $steps.evaluateDeletion.outputs.finalEnabled

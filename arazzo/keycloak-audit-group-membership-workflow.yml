@@ -1,0 +1,151 @@
+arazzo: 1.0.1
+info:
+  title: Keycloak Audit Group Membership
+  summary: Resolve a group by name, read its roles and roster, and spot-check the effective roles of a member.
+  description: >-
+    A read-only review of who is in a group and what that membership actually
+    grants. The workflow resolves the group by name, reads the roles attached to
+    the group itself, pages the member roster, and then spot-checks the first
+    member's direct realm role mappings so the reviewer can see how group
+    inherited access sits alongside individually granted access. That last step
+    is deliberately a sample of one: Keycloak has no bulk endpoint for the role
+    mappings of every member, so a full roster review means running the user
+    access audit workflow per member id returned here. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: keycloakAdminApi
+  url: ../openapi/keycloak-admin-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: audit-group-membership
+  summary: Read a group's roles and member roster, with a spot check of one member's direct roles.
+  description: >-
+    Resolves a group by name, reads its representation and member list, and
+    samples the realm-level role mappings of the first member without changing
+    anything.
+  inputs:
+    type: object
+    required:
+    - realm
+    - groupName
+    properties:
+      realm:
+        type: string
+        description: The name of the realm to audit within.
+      groupName:
+        type: string
+        description: The name of the top-level group under review.
+      max:
+        type: integer
+        description: >-
+          Maximum number of members to return in the roster page. Large groups
+          need this raised or the roster paged with the first input.
+      first:
+        type: integer
+        description: Pagination offset into the member roster.
+  steps:
+  - stepId: resolveGroup
+    description: >-
+      Resolve the group UUID by searching top-level groups by name so the detail
+      and member endpoints can be addressed.
+    operationId: getGroups
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: search
+      in: query
+      value: $inputs.groupName
+    - name: max
+      in: query
+      value: 1
+    - name: briefRepresentation
+      in: query
+      value: false
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.length > 0
+      type: jsonpath
+    outputs:
+      groupId: $response.body#/0/id
+  - stepId: loadGroup
+    description: >-
+      Read the group representation, which carries the realm and client roles
+      attached to the group. These are the entitlements every member inherits
+      simply by being in it.
+    operationId: getGroup
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: groupId
+      in: path
+      value: $steps.resolveGroup.outputs.groupId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      groupName: $response.body#/name
+      groupPath: $response.body#/path
+      inheritedRealmRoles: $response.body#/realmRoles
+      inheritedClientRoles: $response.body#/clientRoles
+      attributes: $response.body#/attributes
+      subGroups: $response.body#/subGroups
+  - stepId: listMembers
+    description: >-
+      Page the group's member roster. This is the list of accounts that inherit
+      every role captured in the previous step.
+    operationId: getGroupMembers
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: groupId
+      in: path
+      value: $steps.resolveGroup.outputs.groupId
+    - name: first
+      in: query
+      value: $inputs.first
+    - name: max
+      in: query
+      value: $inputs.max
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      members: $response.body
+      firstMemberId: $response.body#/0/id
+      firstMemberUsername: $response.body#/0/username
+    onSuccess:
+    - name: emptyGroup
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.length == 0
+        type: jsonpath
+  - stepId: sampleMemberRoles
+    description: >-
+      Spot-check the first member's directly granted realm roles, so the reviewer
+      can compare inherited access against individual grants. A full roster
+      review means repeating this per member id.
+    operationId: getUserRealmRoleMappings
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: userId
+      in: path
+      value: $steps.listMembers.outputs.firstMemberId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      sampledDirectRoles: $response.body
+  outputs:
+    groupId: $steps.resolveGroup.outputs.groupId
+    groupPath: $steps.loadGroup.outputs.groupPath
+    inheritedRealmRoles: $steps.loadGroup.outputs.inheritedRealmRoles
+    inheritedClientRoles: $steps.loadGroup.outputs.inheritedClientRoles
+    members: $steps.listMembers.outputs.members
+    sampledMemberUsername: $steps.listMembers.outputs.firstMemberUsername
+    sampledMemberDirectRoles: $steps.sampleMemberRoles.outputs.sampledDirectRoles

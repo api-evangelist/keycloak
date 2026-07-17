@@ -1,0 +1,124 @@
+arazzo: 1.0.1
+info:
+  title: Keycloak Audit a User's Effective Access
+  summary: Resolve a user by username and assemble their profile, realm role mappings, and group membership.
+  description: >-
+    A read-only access review for a single account. Keycloak scatters the answer
+    to "what can this person actually do?" across three separate endpoints, so
+    this workflow resolves the user UUID from a username and then gathers the
+    full profile, the realm-level role mappings, and the group membership into a
+    single set of outputs an auditor or an agent can reason over. Nothing is
+    mutated, which makes the flow safe to run against production on a schedule.
+    Every step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: keycloakAdminApi
+  url: ../openapi/keycloak-admin-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: audit-user-access
+  summary: Gather a single user's profile, realm roles, and groups for an access review.
+  description: >-
+    Resolves a username to a UUID, then reads the user representation, the
+    realm-level role mappings, and the group membership without changing
+    anything.
+  inputs:
+    type: object
+    required:
+    - realm
+    - username
+    properties:
+      realm:
+        type: string
+        description: The name of the realm to audit within.
+      username:
+        type: string
+        description: The username of the account under review.
+  steps:
+  - stepId: resolveUser
+    description: >-
+      Resolve the account UUID from the username so the detail endpoints can be
+      addressed. Fails fast when the username matches no account in the realm.
+    operationId: getUsers
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: username
+      in: query
+      value: $inputs.username
+    - name: max
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.length > 0
+      type: jsonpath
+    outputs:
+      userId: $response.body#/0/id
+  - stepId: loadUserProfile
+    description: >-
+      Read the full user representation, which carries the enabled flag, email
+      verification state, required actions, and federation link that a review
+      needs alongside the entitlements.
+    operationId: getUser
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: userId
+      in: path
+      value: $steps.resolveUser.outputs.userId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      username: $response.body#/username
+      email: $response.body#/email
+      enabled: $response.body#/enabled
+      emailVerified: $response.body#/emailVerified
+      createdTimestamp: $response.body#/createdTimestamp
+      requiredActions: $response.body#/requiredActions
+      federationLink: $response.body#/federationLink
+  - stepId: loadRealmRoleMappings
+    description: >-
+      Read the realm-level roles granted directly to the account. These are the
+      entitlements assigned to the person rather than inherited through a group.
+    operationId: getUserRealmRoleMappings
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: userId
+      in: path
+      value: $steps.resolveUser.outputs.userId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      realmRoles: $response.body
+  - stepId: loadGroupMemberships
+    description: >-
+      Read the groups the account belongs to. Group membership is the second
+      source of access, and reviewing direct roles without it produces a
+      misleading picture.
+    operationId: getUserGroups
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: userId
+      in: path
+      value: $steps.resolveUser.outputs.userId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      groups: $response.body
+  outputs:
+    userId: $steps.resolveUser.outputs.userId
+    username: $steps.loadUserProfile.outputs.username
+    email: $steps.loadUserProfile.outputs.email
+    enabled: $steps.loadUserProfile.outputs.enabled
+    requiredActions: $steps.loadUserProfile.outputs.requiredActions
+    directRealmRoles: $steps.loadRealmRoleMappings.outputs.realmRoles
+    groupMemberships: $steps.loadGroupMemberships.outputs.groups

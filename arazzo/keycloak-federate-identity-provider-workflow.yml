@@ -1,0 +1,190 @@
+arazzo: 1.0.1
+info:
+  title: Keycloak Federate an Identity Provider
+  summary: Upsert an OIDC or SAML identity provider by alias and verify the stored configuration.
+  description: >-
+    Wiring an external IdP into a realm, written to be re-runnable. Identity
+    providers are addressed by alias rather than by a generated id, which is what
+    makes a genuine upsert possible here: the workflow probes the alias directly
+    and accepts both 200 and 404 as a successful probe, then branches on the
+    status code to update the existing provider or create a new one. Both
+    branches converge on a read-back that returns the stored configuration.
+    Provider secrets in the config map are write-only in practice, so the
+    read-back confirms the wiring without echoing the client secret. Every step
+    spells out its request inline so the flow can be read and executed without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: keycloakAdminApi
+  url: ../openapi/keycloak-admin-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: federate-identity-provider
+  summary: Create or update a federated identity provider and confirm its configuration.
+  description: >-
+    Probes the realm for an identity provider by alias, updates it when present
+    and creates it when absent, then reads the provider back to verify the stored
+    configuration.
+  inputs:
+    type: object
+    required:
+    - realm
+    - alias
+    - providerId
+    - config
+    properties:
+      realm:
+        type: string
+        description: The name of the realm to federate the provider into.
+      alias:
+        type: string
+        description: >-
+          The unique alias for the identity provider (e.g. "corp-okta"). This is
+          the identifier the provider is addressed by and appears in the broker
+          redirect URI.
+      displayName:
+        type: string
+        description: The name shown on the login page button.
+      providerId:
+        type: string
+        description: >-
+          The identity provider type, such as oidc, saml, google, github, or
+          facebook.
+      config:
+        type: object
+        description: >-
+          Provider-specific configuration as a map of string values, such as
+          clientId, clientSecret, authorizationUrl, and tokenUrl for an OIDC
+          provider.
+      trustEmail:
+        type: boolean
+        description: >-
+          When true, emails from this provider are treated as verified. Only
+          enable for providers that genuinely verify email.
+      firstBrokerLoginFlowAlias:
+        type: string
+        description: The authentication flow to run on a user's first login through this provider.
+  steps:
+  - stepId: precheckProvider
+    description: >-
+      Probe the alias directly. Both 200 and 404 count as a successful probe
+      here: the status code is the branch signal, and a 404 is the expected
+      answer for a provider that has not been federated yet.
+    operationId: getIdentityProvider
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: alias
+      in: path
+      value: $inputs.alias
+    successCriteria:
+    - condition: $statusCode == 200 || $statusCode == 404
+    onSuccess:
+    - name: providerExists
+      type: goto
+      stepId: updateExistingProvider
+      criteria:
+      - condition: $statusCode == 200
+    - name: providerMissing
+      type: goto
+      stepId: createNewProvider
+      criteria:
+      - condition: $statusCode == 404
+  - stepId: updateExistingProvider
+    description: >-
+      Update the federated provider in place, keyed by its alias. Jumps to the
+      read-back so the create branch is not also executed.
+    operationId: updateIdentityProvider
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: alias
+      in: path
+      value: $inputs.alias
+    requestBody:
+      contentType: application/json
+      payload:
+        alias: $inputs.alias
+        displayName: $inputs.displayName
+        providerId: $inputs.providerId
+        enabled: true
+        trustEmail: $inputs.trustEmail
+        storeToken: false
+        linkOnly: false
+        firstBrokerLoginFlowAlias: $inputs.firstBrokerLoginFlowAlias
+        config: $inputs.config
+    successCriteria:
+    - condition: $statusCode == 204
+    onSuccess:
+    - name: updated
+      type: goto
+      stepId: readBackProvider
+  - stepId: createNewProvider
+    description: >-
+      Federate the provider for the first time. Keycloak answers 201 with no
+      response body, so the stored configuration is resolved by the read-back
+      step that follows.
+    operationId: createIdentityProvider
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    requestBody:
+      contentType: application/json
+      payload:
+        alias: $inputs.alias
+        displayName: $inputs.displayName
+        providerId: $inputs.providerId
+        enabled: true
+        trustEmail: $inputs.trustEmail
+        storeToken: false
+        linkOnly: false
+        addReadTokenRoleOnCreate: false
+        firstBrokerLoginFlowAlias: $inputs.firstBrokerLoginFlowAlias
+        config: $inputs.config
+    successCriteria:
+    - condition: $statusCode == 201
+  - stepId: readBackProvider
+    description: >-
+      Read the provider back to confirm the stored configuration and the internal
+      id Keycloak generated. Secrets in the config map are not echoed, so this
+      verifies the wiring rather than the credential.
+    operationId: getIdentityProvider
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: alias
+      in: path
+      value: $inputs.alias
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      resolvedAlias: $response.body#/alias
+      internalId: $response.body#/internalId
+      resolvedProviderId: $response.body#/providerId
+      providerEnabled: $response.body#/enabled
+      trustEmail: $response.body#/trustEmail
+      storedConfig: $response.body#/config
+  - stepId: listRealmProviders
+    description: >-
+      List every identity provider in the realm, so the caller ends with the full
+      federation picture rather than just the provider that was touched.
+    operationId: getIdentityProviders
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      identityProviders: $response.body
+  outputs:
+    alias: $steps.readBackProvider.outputs.resolvedAlias
+    internalId: $steps.readBackProvider.outputs.internalId
+    providerId: $steps.readBackProvider.outputs.resolvedProviderId
+    enabled: $steps.readBackProvider.outputs.providerEnabled
+    storedConfig: $steps.readBackProvider.outputs.storedConfig
+    realmIdentityProviders: $steps.listRealmProviders.outputs.identityProviders

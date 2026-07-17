@@ -1,0 +1,212 @@
+arazzo: 1.0.1
+info:
+  title: Keycloak Register a Confidential OIDC Client
+  summary: Register an OpenID Connect client in a realm, resolve its internal UUID, and retrieve its generated secret.
+  description: >-
+    The flow every integrator runs when standing up a new application against
+    Keycloak. It turns on a trap worth naming: Keycloak addresses clients by an
+    internal UUID that is not the clientId you chose, and the create call answers
+    201 with only a Location header and no body. So the clientId has to be
+    exchanged for the UUID through a filtered list call before the secret can be
+    fetched at all. The workflow pre-checks for an existing registration, creates
+    the confidential client when it is missing, converges both branches on the
+    UUID lookup, and ends by reading back the client and its generated secret.
+    Every step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: keycloakAdminApi
+  url: ../openapi/keycloak-admin-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: register-oidc-client
+  summary: Create a confidential OIDC client and retrieve its client secret.
+  description: >-
+    Idempotently registers a confidential OpenID Connect client with the
+    authorization code flow enabled, resolves its internal UUID, and returns the
+    generated client secret.
+  inputs:
+    type: object
+    required:
+    - realm
+    - clientId
+    - redirectUris
+    properties:
+      realm:
+        type: string
+        description: The name of the realm to register the client in.
+      clientId:
+        type: string
+        description: The OAuth client identifier used in OIDC flows (e.g. "billing-web").
+      clientName:
+        type: string
+        description: A human readable display name for the client.
+      description:
+        type: string
+        description: A description of what the client is for.
+      rootUrl:
+        type: string
+        description: The root URL of the application.
+      redirectUris:
+        type: array
+        description: The list of valid redirect URIs for the authorization code flow.
+        items:
+          type: string
+      webOrigins:
+        type: array
+        description: The list of allowed CORS origins for the client.
+        items:
+          type: string
+      serviceAccountsEnabled:
+        type: boolean
+        description: >-
+          When true the client also gets a service account for the client
+          credentials grant.
+  steps:
+  - stepId: confirmRealm
+    description: >-
+      Confirm the realm exists and is enabled before registering anything into
+      it.
+    operationId: getRealm
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      realmName: $response.body#/realm
+      realmEnabled: $response.body#/enabled
+  - stepId: precheckClient
+    description: >-
+      Filter the realm's clients by clientId to see whether this application is
+      already registered, keeping the workflow idempotent.
+    operationId: getClients
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: clientId
+      in: query
+      value: $inputs.clientId
+    - name: max
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    onSuccess:
+    - name: clientMissing
+      type: goto
+      stepId: createConfidentialClient
+      criteria:
+      - context: $response.body
+        condition: $.length == 0
+        type: jsonpath
+    - name: clientAlreadyRegistered
+      type: goto
+      stepId: resolveClientUuid
+      criteria:
+      - context: $response.body
+        condition: $.length > 0
+        type: jsonpath
+  - stepId: createConfidentialClient
+    description: >-
+      Register the client as confidential with the authorization code flow on and
+      the implicit flow off. Keycloak generates the secret server-side and
+      answers 201 with a Location header and no body, so the secret is fetched
+      later rather than read from here.
+    operationId: createClient
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    requestBody:
+      contentType: application/json
+      payload:
+        clientId: $inputs.clientId
+        name: $inputs.clientName
+        description: $inputs.description
+        enabled: true
+        protocol: openid-connect
+        publicClient: false
+        clientAuthenticatorType: client-secret
+        standardFlowEnabled: true
+        implicitFlowEnabled: false
+        directAccessGrantsEnabled: false
+        serviceAccountsEnabled: $inputs.serviceAccountsEnabled
+        rootUrl: $inputs.rootUrl
+        redirectUris: $inputs.redirectUris
+        webOrigins: $inputs.webOrigins
+        fullScopeAllowed: false
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      createdClientLocation: $response.header.Location
+  - stepId: resolveClientUuid
+    description: >-
+      Exchange the clientId for Keycloak's internal client UUID. Both the created
+      and the already-registered branch converge here, because the secret and
+      detail endpoints are keyed on the UUID rather than the clientId.
+    operationId: getClients
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: clientId
+      in: query
+      value: $inputs.clientId
+    - name: max
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.length > 0
+      type: jsonpath
+    outputs:
+      clientUuid: $response.body#/0/id
+      resolvedClientId: $response.body#/0/clientId
+  - stepId: loadClient
+    description: >-
+      Read the stored client representation back to confirm the flags Keycloak
+      actually persisted, which is the only way to catch a silently defaulted
+      setting.
+    operationId: getClient
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: clientUuid
+      in: path
+      value: $steps.resolveClientUuid.outputs.clientUuid
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      clientEnabled: $response.body#/enabled
+      publicClient: $response.body#/publicClient
+      standardFlowEnabled: $response.body#/standardFlowEnabled
+      serviceAccountsEnabled: $response.body#/serviceAccountsEnabled
+      registeredRedirectUris: $response.body#/redirectUris
+  - stepId: fetchClientSecret
+    description: >-
+      Retrieve the server-generated client secret. This is the credential the
+      application needs to complete the authorization code exchange, and it is
+      only ever available from this endpoint.
+    operationId: getClientSecret
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: clientUuid
+      in: path
+      value: $steps.resolveClientUuid.outputs.clientUuid
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      secretType: $response.body#/type
+      clientSecret: $response.body#/value
+  outputs:
+    clientUuid: $steps.resolveClientUuid.outputs.clientUuid
+    clientId: $steps.resolveClientUuid.outputs.resolvedClientId
+    clientSecret: $steps.fetchClientSecret.outputs.clientSecret
+    registeredRedirectUris: $steps.loadClient.outputs.registeredRedirectUris

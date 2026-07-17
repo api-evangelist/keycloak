@@ -1,0 +1,151 @@
+arazzo: 1.0.1
+info:
+  title: Keycloak Upsert a Realm Role
+  summary: Create a realm-level role if it is missing, update it if it already exists, then read it back.
+  description: >-
+    The role definition half of managing Keycloak declaratively. A pipeline that
+    applies a role catalog cannot know whether each role already exists, so this
+    workflow searches for the role by name and branches: a match is updated in
+    place, a miss is created, and both branches converge on a read-back that
+    returns the authoritative representation. The search is deliberately not
+    trusted as an exact match, since Keycloak's role search does substring
+    matching; the read-back by exact name is what confirms the role the flow
+    actually landed on. Every step spells out its request inline so the flow can
+    be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: keycloakAdminApi
+  url: ../openapi/keycloak-admin-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: upsert-realm-role
+  summary: Idempotently define a realm-level role and return its stored representation.
+  description: >-
+    Searches the realm for a role by name, updates it when present and creates it
+    when absent, then reads the role back by exact name to confirm the result.
+  inputs:
+    type: object
+    required:
+    - realm
+    - roleName
+    properties:
+      realm:
+        type: string
+        description: The name of the realm to define the role in.
+      roleName:
+        type: string
+        description: The name of the realm-level role (e.g. "billing-admin").
+      description:
+        type: string
+        description: A human readable description of what the role grants.
+      attributes:
+        type: object
+        description: >-
+          Optional role attributes, as a map of attribute name to an array of
+          string values.
+  steps:
+  - stepId: searchRoles
+    description: >-
+      Search the realm's roles for the target name. Keycloak matches substrings
+      here, so a hit is treated only as a signal to take the update branch, not
+      as proof of an exact match.
+    operationId: getRoles
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: search
+      in: query
+      value: $inputs.roleName
+    - name: max
+      in: query
+      value: 100
+    - name: briefRepresentation
+      in: query
+      value: false
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      matchedRoles: $response.body
+    onSuccess:
+    - name: roleExists
+      type: goto
+      stepId: updateExistingRole
+      criteria:
+      - context: $response.body
+        condition: $.length > 0
+        type: jsonpath
+    - name: roleMissing
+      type: goto
+      stepId: createNewRole
+      criteria:
+      - context: $response.body
+        condition: $.length == 0
+        type: jsonpath
+  - stepId: updateExistingRole
+    description: >-
+      Update the role in place, addressed by its exact name rather than by
+      anything the substring search returned. Jumps straight to the read-back so
+      the create branch is not also executed.
+    operationId: updateRole
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: roleName
+      in: path
+      value: $inputs.roleName
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.roleName
+        description: $inputs.description
+        attributes: $inputs.attributes
+    successCriteria:
+    - condition: $statusCode == 204
+    onSuccess:
+    - name: updated
+      type: goto
+      stepId: readBackRole
+  - stepId: createNewRole
+    description: >-
+      Create the realm-level role. Keycloak answers 201 with no response body, so
+      the representation is resolved by the read-back step that follows.
+    operationId: createRole
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.roleName
+        description: $inputs.description
+        attributes: $inputs.attributes
+    successCriteria:
+    - condition: $statusCode == 201
+  - stepId: readBackRole
+    description: >-
+      Read the role by its exact name to return the authoritative stored
+      representation, including the generated id that role mapping calls require.
+    operationId: getRole
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: roleName
+      in: path
+      value: $inputs.roleName
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      roleId: $response.body#/id
+      resolvedRoleName: $response.body#/name
+      roleDescription: $response.body#/description
+      composite: $response.body#/composite
+      containerId: $response.body#/containerId
+  outputs:
+    roleId: $steps.readBackRole.outputs.roleId
+    roleName: $steps.readBackRole.outputs.resolvedRoleName
+    description: $steps.readBackRole.outputs.roleDescription
+    composite: $steps.readBackRole.outputs.composite

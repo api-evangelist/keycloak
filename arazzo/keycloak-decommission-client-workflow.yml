@@ -1,0 +1,151 @@
+arazzo: 1.0.1
+info:
+  title: Keycloak Decommission a Client
+  summary: Snapshot a client registration, disable it, and optionally delete it after a soak period.
+  description: >-
+    Retiring a client is the change most likely to break something nobody
+    remembered was calling, so this workflow does it the safe way round: capture
+    the full registration first as a rebuild record, disable the client so
+    traffic fails visibly and reversibly, then delete only when explicitly told
+    to. Disabling is the reversible probe; deletion is not. In practice the
+    workflow is run once with hardDelete false to break traffic and watch for
+    fallout, then again with hardDelete true once the soak period is clean. Every
+    step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: keycloakAdminApi
+  url: ../openapi/keycloak-admin-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: decommission-client
+  summary: Capture, disable, and optionally delete a client registration.
+  description: >-
+    Resolves a client by clientId, snapshots its representation for rebuild,
+    disables it, and permanently deletes the registration only when hardDelete is
+    true.
+  inputs:
+    type: object
+    required:
+    - realm
+    - clientId
+    properties:
+      realm:
+        type: string
+        description: The name of the realm the client is registered in.
+      clientId:
+        type: string
+        description: The OAuth client identifier to decommission.
+      hardDelete:
+        type: boolean
+        description: >-
+          When true the registration is permanently deleted after being disabled.
+          When false the client is left disabled and restorable, which is the
+          recommended first pass.
+  steps:
+  - stepId: resolveClient
+    description: >-
+      Exchange the clientId for the internal client UUID that the detail and
+      delete endpoints require.
+    operationId: getClients
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: clientId
+      in: query
+      value: $inputs.clientId
+    - name: max
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.length > 0
+      type: jsonpath
+    outputs:
+      clientUuid: $response.body#/0/id
+      resolvedClientId: $response.body#/0/clientId
+  - stepId: captureClientSnapshot
+    description: >-
+      Read and retain the full client representation before touching it. This
+      snapshot is the only rebuild record once the registration is deleted, since
+      Keycloak keeps nothing recoverable afterwards.
+    operationId: getClient
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: clientUuid
+      in: path
+      value: $steps.resolveClient.outputs.clientUuid
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      snapshot: $response.body
+      clientName: $response.body#/name
+      protocol: $response.body#/protocol
+      redirectUris: $response.body#/redirectUris
+      serviceAccountsEnabled: $response.body#/serviceAccountsEnabled
+  - stepId: disableClient
+    description: >-
+      Disable the client. Token requests start failing immediately, which is the
+      point: it surfaces any forgotten consumer while the change is still a
+      one-field edit away from being undone.
+    operationId: updateClient
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: clientUuid
+      in: path
+      value: $steps.resolveClient.outputs.clientUuid
+    requestBody:
+      contentType: application/json
+      payload:
+        clientId: $steps.resolveClient.outputs.resolvedClientId
+        name: $steps.captureClientSnapshot.outputs.clientName
+        protocol: $steps.captureClientSnapshot.outputs.protocol
+        enabled: false
+    successCriteria:
+    - condition: $statusCode == 204
+  - stepId: confirmDisabled
+    description: >-
+      Read the client back to prove it is disabled, and stop here unless the
+      caller explicitly asked for deletion.
+    operationId: getClient
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: clientUuid
+      in: path
+      value: $steps.resolveClient.outputs.clientUuid
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      finalEnabled: $response.body#/enabled
+    onSuccess:
+    - name: retainDisabledClient
+      type: end
+      criteria:
+      - condition: $inputs.hardDelete == false
+  - stepId: deleteClientRegistration
+    description: >-
+      Permanently remove the client registration. Only reached when hardDelete is
+      true, and only recoverable from the snapshot captured earlier.
+    operationId: deleteClient
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: clientUuid
+      in: path
+      value: $steps.resolveClient.outputs.clientUuid
+    successCriteria:
+    - condition: $statusCode == 204
+  outputs:
+    clientUuid: $steps.resolveClient.outputs.clientUuid
+    clientId: $steps.resolveClient.outputs.resolvedClientId
+    rebuildSnapshot: $steps.captureClientSnapshot.outputs.snapshot
+    clientEnabled: $steps.confirmDisabled.outputs.finalEnabled

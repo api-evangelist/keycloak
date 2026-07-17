@@ -1,0 +1,168 @@
+arazzo: 1.0.1
+info:
+  title: Keycloak Apply a Realm Security Baseline
+  summary: Capture a realm's current settings, apply brute force protection and session hardening, and verify the result.
+  description: >-
+    Realm security posture is a set of defaults most deployments never revisit,
+    so this workflow turns the baseline into something reviewable and
+    re-runnable. It captures the current settings first as a rollback record,
+    applies brute force protection, SSL enforcement, a password policy, event
+    logging, and tightened token and session lifespans in a single realm update,
+    then reads the realm back to prove each control actually persisted rather
+    than being silently ignored. Realm update is a full-representation PUT, so
+    the payload names every control it intends to set instead of relying on the
+    server to merge. Every step spells out its request inline so the flow can be
+    read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: keycloakAdminApi
+  url: ../openapi/keycloak-admin-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: harden-realm
+  summary: Apply and verify a security baseline on a Keycloak realm.
+  description: >-
+    Snapshots the realm's current security settings, applies brute force
+    protection, SSL enforcement, password policy, event logging, and session
+    lifespan limits, then verifies the applied baseline.
+  inputs:
+    type: object
+    required:
+    - realm
+    properties:
+      realm:
+        type: string
+        description: The name of the realm to harden.
+      sslRequired:
+        type: string
+        description: >-
+          SSL enforcement level: all, external, or none. Use "all" for production
+          and never "none" outside a local development realm.
+      passwordPolicy:
+        type: string
+        description: >-
+          The realm password policy string (e.g.
+          "length(12) and upperCase(1) and digits(1) and notUsername()").
+      failureFactor:
+        type: integer
+        description: Number of failed login attempts before the account is temporarily locked.
+      maxFailureWaitSeconds:
+        type: integer
+        description: Maximum lockout wait time in seconds.
+      waitIncrementSeconds:
+        type: integer
+        description: How much the lockout wait grows after each additional failure.
+      accessTokenLifespan:
+        type: integer
+        description: Access token lifespan in seconds. Shorter limits the blast radius of a leaked token.
+      ssoSessionIdleTimeout:
+        type: integer
+        description: SSO session idle timeout in seconds.
+      ssoSessionMaxLifespan:
+        type: integer
+        description: Maximum SSO session lifespan in seconds regardless of activity.
+      bruteForceProtected:
+        type: boolean
+        description: Whether to enable brute force detection on the realm.
+      verifyEmail:
+        type: boolean
+        description: Whether users must verify their email address.
+  steps:
+  - stepId: captureCurrentBaseline
+    description: >-
+      Snapshot the realm's current security settings before changing anything.
+      This is the rollback record, and the before/after comparison that makes the
+      change auditable.
+    operationId: getRealm
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      realmName: $response.body#/realm
+      priorSslRequired: $response.body#/sslRequired
+      priorBruteForceProtected: $response.body#/bruteForceProtected
+      priorPasswordPolicy: $response.body#/passwordPolicy
+      priorAccessTokenLifespan: $response.body#/accessTokenLifespan
+      priorSsoSessionIdleTimeout: $response.body#/ssoSessionIdleTimeout
+      priorEventsEnabled: $response.body#/eventsEnabled
+      priorAdminEventsEnabled: $response.body#/adminEventsEnabled
+  - stepId: applySecurityBaseline
+    description: >-
+      Apply the baseline in a single realm update: brute force protection with a
+      growing lockout, SSL enforcement, the password policy, admin and login
+      event logging, and tightened token and session lifespans. Realm update is a
+      full-representation PUT, so every intended control is named explicitly.
+    operationId: updateRealm
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    requestBody:
+      contentType: application/json
+      payload:
+        realm: $steps.captureCurrentBaseline.outputs.realmName
+        enabled: true
+        sslRequired: $inputs.sslRequired
+        bruteForceProtected: $inputs.bruteForceProtected
+        permanentLockout: false
+        failureFactor: $inputs.failureFactor
+        maxFailureWaitSeconds: $inputs.maxFailureWaitSeconds
+        waitIncrementSeconds: $inputs.waitIncrementSeconds
+        passwordPolicy: $inputs.passwordPolicy
+        verifyEmail: $inputs.verifyEmail
+        resetPasswordAllowed: true
+        rememberMe: false
+        loginWithEmailAllowed: true
+        duplicateEmailsAllowed: false
+        registrationAllowed: false
+        eventsEnabled: true
+        adminEventsEnabled: true
+        adminEventsDetailsEnabled: true
+        accessTokenLifespan: $inputs.accessTokenLifespan
+        ssoSessionIdleTimeout: $inputs.ssoSessionIdleTimeout
+        ssoSessionMaxLifespan: $inputs.ssoSessionMaxLifespan
+    successCriteria:
+    - condition: $statusCode == 204
+  - stepId: verifyBaseline
+    description: >-
+      Read the realm back and assert the controls persisted. An update that
+      returns 204 while silently dropping a field is the failure mode this step
+      exists to catch.
+    operationId: getRealm
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.bruteForceProtected == true
+      type: jsonpath
+    - context: $response.body
+      condition: $.eventsEnabled == true
+      type: jsonpath
+    - context: $response.body
+      condition: $.adminEventsEnabled == true
+      type: jsonpath
+    outputs:
+      appliedSslRequired: $response.body#/sslRequired
+      appliedBruteForceProtected: $response.body#/bruteForceProtected
+      appliedPasswordPolicy: $response.body#/passwordPolicy
+      appliedFailureFactor: $response.body#/failureFactor
+      appliedAccessTokenLifespan: $response.body#/accessTokenLifespan
+      appliedSsoSessionIdleTimeout: $response.body#/ssoSessionIdleTimeout
+      appliedSsoSessionMaxLifespan: $response.body#/ssoSessionMaxLifespan
+      appliedEventsEnabled: $response.body#/eventsEnabled
+      appliedAdminEventsEnabled: $response.body#/adminEventsEnabled
+  outputs:
+    realm: $steps.captureCurrentBaseline.outputs.realmName
+    priorSslRequired: $steps.captureCurrentBaseline.outputs.priorSslRequired
+    priorBruteForceProtected: $steps.captureCurrentBaseline.outputs.priorBruteForceProtected
+    priorPasswordPolicy: $steps.captureCurrentBaseline.outputs.priorPasswordPolicy
+    appliedSslRequired: $steps.verifyBaseline.outputs.appliedSslRequired
+    appliedBruteForceProtected: $steps.verifyBaseline.outputs.appliedBruteForceProtected
+    appliedPasswordPolicy: $steps.verifyBaseline.outputs.appliedPasswordPolicy
+    appliedAccessTokenLifespan: $steps.verifyBaseline.outputs.appliedAccessTokenLifespan

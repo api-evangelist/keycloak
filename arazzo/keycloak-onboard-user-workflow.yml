@@ -1,0 +1,241 @@
+arazzo: 1.0.1
+info:
+  title: Keycloak Onboard a User
+  summary: Provision a realm user, set an initial password, and grant a realm-level role.
+  description: >-
+    The canonical Keycloak user provisioning flow. The workflow confirms the
+    target realm, pre-checks whether the username is already taken, and then
+    branches: an existing user is reused, while a missing user is created. Both
+    branches converge on a read-back search, because the Keycloak Admin API
+    returns 201 with only a Location header and no response body on create, so
+    the user UUID must be resolved by searching the realm before any dependent
+    call can be made. The flow then sets a temporary password and grants a
+    realm-level role, verifying the mapping at the end. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: keycloakAdminApi
+  url: ../openapi/keycloak-admin-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: onboard-user
+  summary: Create a user in a realm, set an initial password, and assign a realm role.
+  description: >-
+    Idempotently provisions a user account: reuses the account when the username
+    already exists, otherwise creates it, then resolves the UUID, sets a
+    temporary password, and grants the requested realm-level role.
+  inputs:
+    type: object
+    required:
+    - realm
+    - username
+    - email
+    - password
+    - roleName
+    properties:
+      realm:
+        type: string
+        description: The name of the realm to provision the user into (e.g. "customers").
+      username:
+        type: string
+        description: The username for the account. Must be unique within the realm.
+      email:
+        type: string
+        description: The email address for the account.
+      firstName:
+        type: string
+        description: The user's given name.
+      lastName:
+        type: string
+        description: The user's family name.
+      password:
+        type: string
+        description: The initial password to set on the account.
+      temporaryPassword:
+        type: boolean
+        description: >-
+          When true the user is forced to change the password at next login.
+          Defaults to true for onboarding.
+      roleName:
+        type: string
+        description: The realm-level role to grant (e.g. "offline_access").
+  steps:
+  - stepId: confirmRealm
+    description: >-
+      Read the realm representation to confirm the realm exists and is enabled
+      before attempting to write any users into it.
+    operationId: getRealm
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      realmName: $response.body#/realm
+      realmEnabled: $response.body#/enabled
+      registrationEmailAsUsername: $response.body#/registrationEmailAsUsername
+  - stepId: precheckUser
+    description: >-
+      Search the realm for an existing account with this username so the flow
+      stays idempotent and never trips the 409 conflict on create.
+    operationId: getUsers
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: username
+      in: query
+      value: $inputs.username
+    - name: max
+      in: query
+      value: 1
+    - name: briefRepresentation
+      in: query
+      value: true
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      existingUserId: $response.body#/0/id
+    onSuccess:
+    - name: userMissing
+      type: goto
+      stepId: createUserAccount
+      criteria:
+      - context: $response.body
+        condition: $.length == 0
+        type: jsonpath
+    - name: userExists
+      type: goto
+      stepId: resolveUserId
+      criteria:
+      - context: $response.body
+        condition: $.length > 0
+        type: jsonpath
+  - stepId: createUserAccount
+    description: >-
+      Create the enabled user account. Keycloak answers 201 with a Location
+      header and no response body, so the UUID is resolved by the next step
+      rather than read from this response.
+    operationId: createUser
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    requestBody:
+      contentType: application/json
+      payload:
+        username: $inputs.username
+        email: $inputs.email
+        firstName: $inputs.firstName
+        lastName: $inputs.lastName
+        enabled: true
+        emailVerified: false
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      createdUserLocation: $response.header.Location
+  - stepId: resolveUserId
+    description: >-
+      Resolve the user UUID by searching the realm for the username. Both the
+      created and the pre-existing branch converge here, because every dependent
+      Keycloak call is keyed on the UUID rather than the username.
+    operationId: getUsers
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: username
+      in: query
+      value: $inputs.username
+    - name: max
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.length > 0
+      type: jsonpath
+    outputs:
+      userId: $response.body#/0/id
+      resolvedUsername: $response.body#/0/username
+      userEnabled: $response.body#/0/enabled
+  - stepId: setInitialPassword
+    description: >-
+      Set the account password. Marking the credential temporary forces a
+      password change at first login, which is the expected onboarding posture.
+    operationId: resetUserPassword
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: userId
+      in: path
+      value: $steps.resolveUserId.outputs.userId
+    requestBody:
+      contentType: application/json
+      payload:
+        type: password
+        value: $inputs.password
+        temporary: $inputs.temporaryPassword
+    successCriteria:
+    - condition: $statusCode == 204
+  - stepId: resolveRole
+    description: >-
+      Look up the realm-level role by name to obtain the id and name pair that
+      the role-mapping endpoint requires in its request body.
+    operationId: getRole
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: roleName
+      in: path
+      value: $inputs.roleName
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      roleId: $response.body#/id
+      resolvedRoleName: $response.body#/name
+      roleComposite: $response.body#/composite
+  - stepId: assignRealmRole
+    description: >-
+      Grant the resolved realm-level role to the user. The body is an array of
+      role representations, each requiring the id and name of the role.
+    operationId: addUserRealmRoleMappings
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: userId
+      in: path
+      value: $steps.resolveUserId.outputs.userId
+    requestBody:
+      contentType: application/json
+      payload:
+      - id: $steps.resolveRole.outputs.roleId
+        name: $steps.resolveRole.outputs.resolvedRoleName
+    successCriteria:
+    - condition: $statusCode == 204
+  - stepId: verifyRoleMappings
+    description: >-
+      Read the user's realm-level role mappings back to prove the grant landed
+      before the onboarding flow reports success.
+    operationId: getUserRealmRoleMappings
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: userId
+      in: path
+      value: $steps.resolveUserId.outputs.userId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      realmRoles: $response.body
+  outputs:
+    userId: $steps.resolveUserId.outputs.userId
+    username: $steps.resolveUserId.outputs.resolvedUsername
+    grantedRoleId: $steps.resolveRole.outputs.roleId
+    realmRoles: $steps.verifyRoleMappings.outputs.realmRoles

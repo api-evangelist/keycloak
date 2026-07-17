@@ -1,0 +1,134 @@
+arazzo: 1.0.1
+info:
+  title: Keycloak Assign a User to a Group
+  summary: Resolve a user and a group by name, add the membership, and verify it landed.
+  description: >-
+    Group membership is how access is granted at scale in Keycloak, but the
+    membership endpoint speaks only UUIDs while operators and upstream systems
+    speak usernames and group names. This workflow closes that gap: it resolves
+    both identifiers, adds the membership, and reads the user's groups back to
+    prove the assignment took. The add is a PUT and therefore idempotent, so
+    re-running the flow on an existing membership is safe rather than an error.
+    Every step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: keycloakAdminApi
+  url: ../openapi/keycloak-admin-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: assign-user-to-group
+  summary: Add a user to a group by username and group name, then verify the membership.
+  description: >-
+    Resolves a username to a user UUID and a group name to a group UUID, adds the
+    user to the group, and reads back the user's group list to confirm.
+  inputs:
+    type: object
+    required:
+    - realm
+    - username
+    - groupName
+    properties:
+      realm:
+        type: string
+        description: The name of the realm the user and group live in.
+      username:
+        type: string
+        description: The username of the account to add to the group.
+      groupName:
+        type: string
+        description: The name of the top-level group to add the user to.
+  steps:
+  - stepId: resolveUser
+    description: >-
+      Resolve the account UUID from the username. The membership endpoint accepts
+      only UUIDs, so this lookup is mandatory rather than convenience.
+    operationId: getUsers
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: username
+      in: query
+      value: $inputs.username
+    - name: max
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.length > 0
+      type: jsonpath
+    outputs:
+      userId: $response.body#/0/id
+      resolvedUsername: $response.body#/0/username
+  - stepId: resolveGroup
+    description: >-
+      Resolve the group UUID by searching top-level groups by name. Note this
+      searches root groups; a nested subgroup has to be addressed by the id from
+      its parent's subGroups tree instead.
+    operationId: getGroups
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: search
+      in: query
+      value: $inputs.groupName
+    - name: max
+      in: query
+      value: 1
+    - name: briefRepresentation
+      in: query
+      value: false
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.length > 0
+      type: jsonpath
+    outputs:
+      groupId: $response.body#/0/id
+      groupPath: $response.body#/0/path
+      groupRealmRoles: $response.body#/0/realmRoles
+  - stepId: addMembership
+    description: >-
+      Add the user to the group. This is a PUT, so applying it to a user who is
+      already a member succeeds quietly rather than conflicting.
+    operationId: addUserToGroup
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: userId
+      in: path
+      value: $steps.resolveUser.outputs.userId
+    - name: groupId
+      in: path
+      value: $steps.resolveGroup.outputs.groupId
+    successCriteria:
+    - condition: $statusCode == 204
+  - stepId: verifyMembership
+    description: >-
+      Read the user's group list back to prove the membership landed, and to show
+      the caller every other group the account now inherits access from.
+    operationId: getUserGroups
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: userId
+      in: path
+      value: $steps.resolveUser.outputs.userId
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.length > 0
+      type: jsonpath
+    outputs:
+      groups: $response.body
+  outputs:
+    userId: $steps.resolveUser.outputs.userId
+    username: $steps.resolveUser.outputs.resolvedUsername
+    groupId: $steps.resolveGroup.outputs.groupId
+    groupPath: $steps.resolveGroup.outputs.groupPath
+    groups: $steps.verifyMembership.outputs.groups

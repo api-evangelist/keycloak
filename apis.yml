@@ -53,6 +53,45 @@ apis:
       - type: MCPServer
         url: mcp/keycloak-mcp.yml
 common:
+  - type: Arazzo
+    url: arazzo/keycloak-onboard-user-workflow.yml
+    name: Keycloak Onboard a User
+  - type: Arazzo
+    url: arazzo/keycloak-offboard-user-workflow.yml
+    name: Keycloak Offboard a User
+  - type: Arazzo
+    url: arazzo/keycloak-audit-user-access-workflow.yml
+    name: Keycloak Audit a User's Effective Access
+  - type: Arazzo
+    url: arazzo/keycloak-register-oidc-client-workflow.yml
+    name: Keycloak Register a Confidential OIDC Client
+  - type: Arazzo
+    url: arazzo/keycloak-rotate-client-secret-workflow.yml
+    name: Keycloak Rotate a Client Secret
+  - type: Arazzo
+    url: arazzo/keycloak-decommission-client-workflow.yml
+    name: Keycloak Decommission a Client
+  - type: Arazzo
+    url: arazzo/keycloak-upsert-realm-role-workflow.yml
+    name: Keycloak Upsert a Realm Role
+  - type: Arazzo
+    url: arazzo/keycloak-provision-group-hierarchy-workflow.yml
+    name: Keycloak Provision a Group Hierarchy
+  - type: Arazzo
+    url: arazzo/keycloak-assign-user-to-group-workflow.yml
+    name: Keycloak Assign a User to a Group
+  - type: Arazzo
+    url: arazzo/keycloak-audit-group-membership-workflow.yml
+    name: Keycloak Audit Group Membership
+  - type: Arazzo
+    url: arazzo/keycloak-federate-identity-provider-workflow.yml
+    name: Keycloak Federate an Identity Provider
+  - type: Arazzo
+    url: arazzo/keycloak-harden-realm-workflow.yml
+    name: Keycloak Apply a Realm Security Baseline
+  - type: Arazzo
+    url: arazzo/keycloak-inventory-realm-workflow.yml
+    name: Keycloak Inventory a Realm
   - type: AgenticAccess
     url: agentic-access/keycloak-agentic-access.yml
   - type: Packages

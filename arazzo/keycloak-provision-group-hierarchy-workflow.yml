@@ -1,0 +1,149 @@
+arazzo: 1.0.1
+info:
+  title: Keycloak Provision a Group Hierarchy
+  summary: Create a top-level group, resolve its id, nest a child group beneath it, and read back the hierarchy.
+  description: >-
+    Group trees are how most Keycloak deployments model org structure, and
+    building one exposes a quirk worth knowing: creating a child group requires
+    the parent's UUID, but creating the parent returns 201 with no response body
+    and no Location header. The parent id can only be recovered by searching the
+    realm's groups by name. This workflow does exactly that, then nests the child
+    through the dedicated children endpoint and reads the parent back so the
+    caller can see the assembled subGroups tree. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: keycloakAdminApi
+  url: ../openapi/keycloak-admin-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: provision-group-hierarchy
+  summary: Create a parent group with a nested child group and return the resulting tree.
+  description: >-
+    Creates a top-level group, resolves its UUID by search because create returns
+    no body, creates a child group beneath it, and reads the parent back to
+    confirm the hierarchy.
+  inputs:
+    type: object
+    required:
+    - realm
+    - parentGroupName
+    - childGroupName
+    properties:
+      realm:
+        type: string
+        description: The name of the realm to provision the groups in.
+      parentGroupName:
+        type: string
+        description: The name of the top-level group (e.g. "engineering").
+      childGroupName:
+        type: string
+        description: The name of the subgroup to nest beneath the parent (e.g. "platform").
+      parentAttributes:
+        type: object
+        description: >-
+          Optional attributes for the parent group, as a map of name to an array
+          of string values.
+      parentRealmRoles:
+        type: array
+        description: Realm-level roles to attach to the parent group.
+        items:
+          type: string
+      childRealmRoles:
+        type: array
+        description: Realm-level roles to attach to the child group.
+        items:
+          type: string
+  steps:
+  - stepId: createParentGroup
+    description: >-
+      Create the top-level group. Keycloak answers 201 with no body and no
+      Location header, which is why the next step has to go looking for the id.
+    operationId: createGroup
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.parentGroupName
+        attributes: $inputs.parentAttributes
+        realmRoles: $inputs.parentRealmRoles
+    successCriteria:
+    - condition: $statusCode == 201
+  - stepId: resolveParentGroup
+    description: >-
+      Recover the parent group's UUID by searching the realm's top-level groups
+      by name. This is the only route to the id, and the child endpoint cannot be
+      called without it.
+    operationId: getGroups
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: search
+      in: query
+      value: $inputs.parentGroupName
+    - name: max
+      in: query
+      value: 1
+    - name: briefRepresentation
+      in: query
+      value: false
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.length > 0
+      type: jsonpath
+    outputs:
+      parentGroupId: $response.body#/0/id
+      parentGroupPath: $response.body#/0/path
+  - stepId: createChildGroup
+    description: >-
+      Nest the subgroup beneath the resolved parent using the dedicated children
+      endpoint. Posting to the top-level groups endpoint instead would silently
+      create a second root group rather than a child.
+    operationId: createChildGroup
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: groupId
+      in: path
+      value: $steps.resolveParentGroup.outputs.parentGroupId
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.childGroupName
+        realmRoles: $inputs.childRealmRoles
+    successCriteria:
+    - condition: $statusCode == 201
+  - stepId: readBackHierarchy
+    description: >-
+      Read the parent group back to confirm the child was nested correctly and to
+      return the full subGroups tree with the generated paths.
+    operationId: getGroup
+    parameters:
+    - name: realm
+      in: path
+      value: $inputs.realm
+    - name: groupId
+      in: path
+      value: $steps.resolveParentGroup.outputs.parentGroupId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      groupId: $response.body#/id
+      groupName: $response.body#/name
+      groupPath: $response.body#/path
+      subGroups: $response.body#/subGroups
+      childGroupId: $response.body#/subGroups/0/id
+      childGroupPath: $response.body#/subGroups/0/path
+  outputs:
+    parentGroupId: $steps.readBackHierarchy.outputs.groupId
+    parentGroupPath: $steps.readBackHierarchy.outputs.groupPath
+    childGroupId: $steps.readBackHierarchy.outputs.childGroupId
+    childGroupPath: $steps.readBackHierarchy.outputs.childGroupPath
+    subGroups: $steps.readBackHierarchy.outputs.subGroups
