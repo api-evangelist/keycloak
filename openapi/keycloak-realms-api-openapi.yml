@@ -1,0 +1,534 @@
+openapi: 3.0.3
+info:
+  title: Keycloak Admin REST Clients Realms API
+  description: The Keycloak Admin REST API provides endpoints for managing all aspects of a Keycloak deployment, including realms, users, clients, roles, groups, and identity providers. All endpoints require authentication via a bearer token obtained from the Keycloak token endpoint.
+  version: 26.0.0
+  contact:
+    name: Keycloak
+    url: https://www.keycloak.org/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://{host}/admin/realms
+  description: Keycloak Admin REST API
+  variables:
+    host:
+      default: localhost:8080
+      description: Keycloak server host and port
+security:
+- bearerAuth: []
+tags:
+- name: Realms
+  description: Manage Keycloak realms
+paths:
+  /:
+    get:
+      operationId: getRealms
+      summary: Keycloak List all realms
+      description: Returns a list of all realms accessible to the authenticated user.
+      tags:
+      - Realms
+      parameters:
+      - name: briefRepresentation
+        in: query
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: A list of realm representations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RealmRepresentation'
+  /{realm}:
+    parameters:
+    - $ref: '#/components/parameters/realm'
+    get:
+      operationId: getRealm
+      summary: Keycloak Get a realm
+      description: Returns the representation of a specific realm.
+      tags:
+      - Realms
+      responses:
+        '200':
+          description: A realm representation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RealmRepresentation'
+        '404':
+          description: Realm not found
+    put:
+      operationId: updateRealm
+      summary: Keycloak Update a realm
+      description: Updates the configuration of an existing realm.
+      tags:
+      - Realms
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RealmRepresentation'
+      responses:
+        '204':
+          description: Realm updated successfully
+        '404':
+          description: Realm not found
+    delete:
+      operationId: deleteRealm
+      summary: Keycloak Delete a realm
+      description: Permanently deletes a realm and all its data.
+      tags:
+      - Realms
+      responses:
+        '204':
+          description: Realm deleted successfully
+        '404':
+          description: Realm not found
+components:
+  parameters:
+    realm:
+      name: realm
+      in: path
+      required: true
+      description: The name of the realm
+      schema:
+        type: string
+  schemas:
+    UserRepresentation:
+      type: object
+      description: Representation of a Keycloak user
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        emailVerified:
+          type: boolean
+        enabled:
+          type: boolean
+        createdTimestamp:
+          type: integer
+          format: int64
+          readOnly: true
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        credentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialRepresentation'
+          writeOnly: true
+        requiredActions:
+          type: array
+          items:
+            type: string
+        federatedIdentities:
+          type: array
+          items:
+            type: object
+            properties:
+              identityProvider:
+                type: string
+              userId:
+                type: string
+              userName:
+                type: string
+        realmRoles:
+          type: array
+          items:
+            type: string
+        clientRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        groups:
+          type: array
+          items:
+            type: string
+        totp:
+          type: boolean
+        federationLink:
+          type: string
+        serviceAccountClientId:
+          type: string
+        notBefore:
+          type: integer
+    RealmRepresentation:
+      type: object
+      description: Representation of a Keycloak realm
+      properties:
+        id:
+          type: string
+        realm:
+          type: string
+          description: The unique name of the realm
+        displayName:
+          type: string
+        displayNameHtml:
+          type: string
+        enabled:
+          type: boolean
+        sslRequired:
+          type: string
+          enum:
+          - all
+          - external
+          - none
+        registrationAllowed:
+          type: boolean
+        registrationEmailAsUsername:
+          type: boolean
+        rememberMe:
+          type: boolean
+        verifyEmail:
+          type: boolean
+        loginWithEmailAllowed:
+          type: boolean
+        duplicateEmailsAllowed:
+          type: boolean
+        resetPasswordAllowed:
+          type: boolean
+        editUsernameAllowed:
+          type: boolean
+        bruteForceProtected:
+          type: boolean
+        permanentLockout:
+          type: boolean
+        maxFailureWaitSeconds:
+          type: integer
+        minimumQuickLoginWaitSeconds:
+          type: integer
+        waitIncrementSeconds:
+          type: integer
+        quickLoginCheckMilliSeconds:
+          type: integer
+        maxDeltaTimeSeconds:
+          type: integer
+        failureFactor:
+          type: integer
+        defaultRoles:
+          type: array
+          items:
+            type: string
+        requiredCredentials:
+          type: array
+          items:
+            type: string
+        passwordPolicy:
+          type: string
+        otpPolicyType:
+          type: string
+        otpPolicyAlgorithm:
+          type: string
+        otpPolicyDigits:
+          type: integer
+        otpPolicyPeriod:
+          type: integer
+        otpPolicyInitialCounter:
+          type: integer
+        browserSecurityHeaders:
+          type: object
+          additionalProperties:
+            type: string
+        smtpServer:
+          type: object
+          additionalProperties:
+            type: string
+        eventsEnabled:
+          type: boolean
+        eventsExpiration:
+          type: integer
+        eventsListeners:
+          type: array
+          items:
+            type: string
+        adminEventsEnabled:
+          type: boolean
+        adminEventsDetailsEnabled:
+          type: boolean
+        internationalizationEnabled:
+          type: boolean
+        supportedLocales:
+          type: array
+          items:
+            type: string
+        defaultLocale:
+          type: string
+        accessTokenLifespan:
+          type: integer
+        accessTokenLifespanForImplicitFlow:
+          type: integer
+        ssoSessionIdleTimeout:
+          type: integer
+        ssoSessionMaxLifespan:
+          type: integer
+        offlineSessionIdleTimeout:
+          type: integer
+        accessCodeLifespan:
+          type: integer
+        accessCodeLifespanUserAction:
+          type: integer
+        accessCodeLifespanLogin:
+          type: integer
+        actionTokenGeneratedByAdminLifespan:
+          type: integer
+        actionTokenGeneratedByUserLifespan:
+          type: integer
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserRepresentation'
+        clients:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientRepresentation'
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupRepresentation'
+        roles:
+          type: object
+          properties:
+            realm:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+        identityProviders:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdentityProviderRepresentation'
+    RoleRepresentation:
+      type: object
+      description: Representation of a role in Keycloak
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+        description:
+          type: string
+        composite:
+          type: boolean
+          description: Whether this role is a composite of other roles
+        composites:
+          type: object
+          properties:
+            realm:
+              type: array
+              items:
+                type: string
+            client:
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  type: string
+        clientRole:
+          type: boolean
+        containerId:
+          type: string
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    CredentialRepresentation:
+      type: object
+      description: Representation of a user credential
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          description: The credential type (e.g., password, otp)
+        value:
+          type: string
+          writeOnly: true
+        temporary:
+          type: boolean
+          description: If true, user must change the credential on next login
+        createdDate:
+          type: integer
+          format: int64
+        userLabel:
+          type: string
+    ClientRepresentation:
+      type: object
+      description: Representation of an OAuth/OIDC client registered in Keycloak
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        clientId:
+          type: string
+          description: The client identifier used in OAuth/OIDC flows
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        clientAuthenticatorType:
+          type: string
+          description: The authenticator type for confidential clients
+        secret:
+          type: string
+          writeOnly: true
+        rootUrl:
+          type: string
+          format: uri
+        baseUrl:
+          type: string
+        adminUrl:
+          type: string
+        surrogateAuthRequired:
+          type: boolean
+        redirectUris:
+          type: array
+          items:
+            type: string
+        webOrigins:
+          type: array
+          items:
+            type: string
+        bearerOnly:
+          type: boolean
+        consentRequired:
+          type: boolean
+        standardFlowEnabled:
+          type: boolean
+          description: Enable Authorization Code Flow
+        implicitFlowEnabled:
+          type: boolean
+          description: Enable Implicit Flow
+        directAccessGrantsEnabled:
+          type: boolean
+          description: Enable Resource Owner Password Credentials Grant
+        serviceAccountsEnabled:
+          type: boolean
+          description: Enable Client Credentials Grant
+        publicClient:
+          type: boolean
+          description: Whether the client is public (no client secret) or confidential
+        frontchannelLogout:
+          type: boolean
+        protocol:
+          type: string
+          enum:
+          - openid-connect
+          - saml
+        attributes:
+          type: object
+          additionalProperties:
+            type: string
+        fullScopeAllowed:
+          type: boolean
+        defaultClientScopes:
+          type: array
+          items:
+            type: string
+        optionalClientScopes:
+          type: array
+          items:
+            type: string
+        authorizationServicesEnabled:
+          type: boolean
+    IdentityProviderRepresentation:
+      type: object
+      description: Representation of a federated identity provider
+      properties:
+        alias:
+          type: string
+          description: Unique alias for the identity provider
+        displayName:
+          type: string
+        internalId:
+          type: string
+          readOnly: true
+        providerId:
+          type: string
+          description: The identity provider type (e.g., oidc, saml, google, github, facebook)
+        enabled:
+          type: boolean
+        trustEmail:
+          type: boolean
+        storeToken:
+          type: boolean
+        addReadTokenRoleOnCreate:
+          type: boolean
+        authenticateByDefault:
+          type: boolean
+        linkOnly:
+          type: boolean
+        firstBrokerLoginFlowAlias:
+          type: string
+        postBrokerLoginFlowAlias:
+          type: string
+        config:
+          type: object
+          additionalProperties:
+            type: string
+          description: Provider-specific configuration (e.g., clientId, clientSecret, authorizationUrl, tokenUrl for OIDC providers)
+    GroupRepresentation:
+      type: object
+      description: Representation of a user group in Keycloak
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+        path:
+          type: string
+          description: Full path of the group including parent groups
+        subGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupRepresentation'
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        realmRoles:
+          type: array
+          items:
+            type: string
+        clientRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Access token obtained from the Keycloak token endpoint. Use the master realm admin credentials or a service account with appropriate realm-management roles.

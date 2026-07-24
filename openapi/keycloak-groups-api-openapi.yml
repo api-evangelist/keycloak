@@ -1,0 +1,357 @@
+openapi: 3.0.3
+info:
+  title: Keycloak Admin REST Clients Groups API
+  description: The Keycloak Admin REST API provides endpoints for managing all aspects of a Keycloak deployment, including realms, users, clients, roles, groups, and identity providers. All endpoints require authentication via a bearer token obtained from the Keycloak token endpoint.
+  version: 26.0.0
+  contact:
+    name: Keycloak
+    url: https://www.keycloak.org/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://{host}/admin/realms
+  description: Keycloak Admin REST API
+  variables:
+    host:
+      default: localhost:8080
+      description: Keycloak server host and port
+security:
+- bearerAuth: []
+tags:
+- name: Groups
+  description: Manage user groups within a realm
+paths:
+  /{realm}/users/{userId}/groups:
+    parameters:
+    - $ref: '#/components/parameters/realm'
+    - $ref: '#/components/parameters/userId'
+    get:
+      operationId: getUserGroups
+      summary: Keycloak Get groups for a user
+      tags:
+      - Groups
+      responses:
+        '200':
+          description: A list of group representations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupRepresentation'
+  /{realm}/users/{userId}/groups/{groupId}:
+    parameters:
+    - $ref: '#/components/parameters/realm'
+    - $ref: '#/components/parameters/userId'
+    - $ref: '#/components/parameters/groupId'
+    put:
+      operationId: addUserToGroup
+      summary: Keycloak Add a user to a group
+      tags:
+      - Groups
+      responses:
+        '204':
+          description: User added to group
+    delete:
+      operationId: removeUserFromGroup
+      summary: Keycloak Remove a user from a group
+      tags:
+      - Groups
+      responses:
+        '204':
+          description: User removed from group
+  /{realm}/groups:
+    parameters:
+    - $ref: '#/components/parameters/realm'
+    get:
+      operationId: getGroups
+      summary: Keycloak List groups
+      description: Returns a list of top-level groups in the realm.
+      tags:
+      - Groups
+      parameters:
+      - name: search
+        in: query
+        schema:
+          type: string
+      - name: first
+        in: query
+        schema:
+          type: integer
+      - name: max
+        in: query
+        schema:
+          type: integer
+      - name: briefRepresentation
+        in: query
+        schema:
+          type: boolean
+          default: true
+      responses:
+        '200':
+          description: A list of group representations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupRepresentation'
+    post:
+      operationId: createGroup
+      summary: Keycloak Create a top-level group
+      tags:
+      - Groups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupRepresentation'
+      responses:
+        '201':
+          description: Group created successfully
+  /{realm}/groups/{groupId}:
+    parameters:
+    - $ref: '#/components/parameters/realm'
+    - $ref: '#/components/parameters/groupId'
+    get:
+      operationId: getGroup
+      summary: Keycloak Get a group
+      tags:
+      - Groups
+      responses:
+        '200':
+          description: A group representation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupRepresentation'
+        '404':
+          description: Group not found
+    put:
+      operationId: updateGroup
+      summary: Keycloak Update a group
+      tags:
+      - Groups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupRepresentation'
+      responses:
+        '204':
+          description: Group updated successfully
+    delete:
+      operationId: deleteGroup
+      summary: Keycloak Delete a group
+      tags:
+      - Groups
+      responses:
+        '204':
+          description: Group deleted successfully
+  /{realm}/groups/{groupId}/children:
+    parameters:
+    - $ref: '#/components/parameters/realm'
+    - $ref: '#/components/parameters/groupId'
+    post:
+      operationId: createChildGroup
+      summary: Keycloak Create a child group
+      description: Creates a new subgroup under the specified parent group.
+      tags:
+      - Groups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupRepresentation'
+      responses:
+        '201':
+          description: Child group created
+  /{realm}/groups/{groupId}/members:
+    parameters:
+    - $ref: '#/components/parameters/realm'
+    - $ref: '#/components/parameters/groupId'
+    get:
+      operationId: getGroupMembers
+      summary: Keycloak Get members of a group
+      tags:
+      - Groups
+      parameters:
+      - name: first
+        in: query
+        schema:
+          type: integer
+      - name: max
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: A list of user representations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserRepresentation'
+components:
+  parameters:
+    realm:
+      name: realm
+      in: path
+      required: true
+      description: The name of the realm
+      schema:
+        type: string
+    groupId:
+      name: groupId
+      in: path
+      required: true
+      description: The UUID of the group
+      schema:
+        type: string
+        format: uuid
+    userId:
+      name: userId
+      in: path
+      required: true
+      description: The UUID of the user
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    UserRepresentation:
+      type: object
+      description: Representation of a Keycloak user
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        emailVerified:
+          type: boolean
+        enabled:
+          type: boolean
+        createdTimestamp:
+          type: integer
+          format: int64
+          readOnly: true
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        credentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialRepresentation'
+          writeOnly: true
+        requiredActions:
+          type: array
+          items:
+            type: string
+        federatedIdentities:
+          type: array
+          items:
+            type: object
+            properties:
+              identityProvider:
+                type: string
+              userId:
+                type: string
+              userName:
+                type: string
+        realmRoles:
+          type: array
+          items:
+            type: string
+        clientRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        groups:
+          type: array
+          items:
+            type: string
+        totp:
+          type: boolean
+        federationLink:
+          type: string
+        serviceAccountClientId:
+          type: string
+        notBefore:
+          type: integer
+    CredentialRepresentation:
+      type: object
+      description: Representation of a user credential
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          description: The credential type (e.g., password, otp)
+        value:
+          type: string
+          writeOnly: true
+        temporary:
+          type: boolean
+          description: If true, user must change the credential on next login
+        createdDate:
+          type: integer
+          format: int64
+        userLabel:
+          type: string
+    GroupRepresentation:
+      type: object
+      description: Representation of a user group in Keycloak
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+        path:
+          type: string
+          description: Full path of the group including parent groups
+        subGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupRepresentation'
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        realmRoles:
+          type: array
+          items:
+            type: string
+        clientRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Access token obtained from the Keycloak token endpoint. Use the master realm admin credentials or a service account with appropriate realm-management roles.

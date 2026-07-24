@@ -1,0 +1,274 @@
+openapi: 3.0.3
+info:
+  title: Keycloak Admin REST Clients API
+  description: The Keycloak Admin REST API provides endpoints for managing all aspects of a Keycloak deployment, including realms, users, clients, roles, groups, and identity providers. All endpoints require authentication via a bearer token obtained from the Keycloak token endpoint.
+  version: 26.0.0
+  contact:
+    name: Keycloak
+    url: https://www.keycloak.org/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://{host}/admin/realms
+  description: Keycloak Admin REST API
+  variables:
+    host:
+      default: localhost:8080
+      description: Keycloak server host and port
+security:
+- bearerAuth: []
+tags:
+- name: Clients
+  description: Manage OAuth/OIDC clients within a realm
+paths:
+  /{realm}/clients:
+    parameters:
+    - $ref: '#/components/parameters/realm'
+    get:
+      operationId: getClients
+      summary: Keycloak List clients
+      description: Returns a list of clients registered in the realm.
+      tags:
+      - Clients
+      parameters:
+      - name: clientId
+        in: query
+        description: Filter by clientId
+        schema:
+          type: string
+      - name: search
+        in: query
+        schema:
+          type: boolean
+          default: false
+      - name: first
+        in: query
+        schema:
+          type: integer
+      - name: max
+        in: query
+        schema:
+          type: integer
+          default: 100
+      - name: viewableOnly
+        in: query
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: A list of client representations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientRepresentation'
+    post:
+      operationId: createClient
+      summary: Keycloak Create a new client
+      description: Registers a new client in the realm.
+      tags:
+      - Clients
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientRepresentation'
+      responses:
+        '201':
+          description: Client created successfully
+          headers:
+            Location:
+              description: URI of the created client
+              schema:
+                type: string
+  /{realm}/clients/{clientUuid}:
+    parameters:
+    - $ref: '#/components/parameters/realm'
+    - $ref: '#/components/parameters/clientUuid'
+    get:
+      operationId: getClient
+      summary: Keycloak Get a client
+      description: Returns the representation of a specific client.
+      tags:
+      - Clients
+      responses:
+        '200':
+          description: A client representation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientRepresentation'
+        '404':
+          description: Client not found
+    put:
+      operationId: updateClient
+      summary: Keycloak Update a client
+      description: Updates the configuration of an existing client.
+      tags:
+      - Clients
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientRepresentation'
+      responses:
+        '204':
+          description: Client updated successfully
+    delete:
+      operationId: deleteClient
+      summary: Keycloak Delete a client
+      description: Removes a client registration from the realm.
+      tags:
+      - Clients
+      responses:
+        '204':
+          description: Client deleted successfully
+  /{realm}/clients/{clientUuid}/client-secret:
+    parameters:
+    - $ref: '#/components/parameters/realm'
+    - $ref: '#/components/parameters/clientUuid'
+    get:
+      operationId: getClientSecret
+      summary: Keycloak Get the client secret
+      tags:
+      - Clients
+      responses:
+        '200':
+          description: The client secret
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  value:
+                    type: string
+    post:
+      operationId: regenerateClientSecret
+      summary: Keycloak Regenerate the client secret
+      tags:
+      - Clients
+      responses:
+        '200':
+          description: The new client secret
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  value:
+                    type: string
+components:
+  parameters:
+    clientUuid:
+      name: clientUuid
+      in: path
+      required: true
+      description: The internal UUID of the client (not the clientId)
+      schema:
+        type: string
+        format: uuid
+    realm:
+      name: realm
+      in: path
+      required: true
+      description: The name of the realm
+      schema:
+        type: string
+  schemas:
+    ClientRepresentation:
+      type: object
+      description: Representation of an OAuth/OIDC client registered in Keycloak
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        clientId:
+          type: string
+          description: The client identifier used in OAuth/OIDC flows
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        clientAuthenticatorType:
+          type: string
+          description: The authenticator type for confidential clients
+        secret:
+          type: string
+          writeOnly: true
+        rootUrl:
+          type: string
+          format: uri
+        baseUrl:
+          type: string
+        adminUrl:
+          type: string
+        surrogateAuthRequired:
+          type: boolean
+        redirectUris:
+          type: array
+          items:
+            type: string
+        webOrigins:
+          type: array
+          items:
+            type: string
+        bearerOnly:
+          type: boolean
+        consentRequired:
+          type: boolean
+        standardFlowEnabled:
+          type: boolean
+          description: Enable Authorization Code Flow
+        implicitFlowEnabled:
+          type: boolean
+          description: Enable Implicit Flow
+        directAccessGrantsEnabled:
+          type: boolean
+          description: Enable Resource Owner Password Credentials Grant
+        serviceAccountsEnabled:
+          type: boolean
+          description: Enable Client Credentials Grant
+        publicClient:
+          type: boolean
+          description: Whether the client is public (no client secret) or confidential
+        frontchannelLogout:
+          type: boolean
+        protocol:
+          type: string
+          enum:
+          - openid-connect
+          - saml
+        attributes:
+          type: object
+          additionalProperties:
+            type: string
+        fullScopeAllowed:
+          type: boolean
+        defaultClientScopes:
+          type: array
+          items:
+            type: string
+        optionalClientScopes:
+          type: array
+          items:
+            type: string
+        authorizationServicesEnabled:
+          type: boolean
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Access token obtained from the Keycloak token endpoint. Use the master realm admin credentials or a service account with appropriate realm-management roles.

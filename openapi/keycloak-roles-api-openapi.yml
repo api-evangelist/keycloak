@@ -1,0 +1,230 @@
+openapi: 3.0.3
+info:
+  title: Keycloak Admin REST Clients Roles API
+  description: The Keycloak Admin REST API provides endpoints for managing all aspects of a Keycloak deployment, including realms, users, clients, roles, groups, and identity providers. All endpoints require authentication via a bearer token obtained from the Keycloak token endpoint.
+  version: 26.0.0
+  contact:
+    name: Keycloak
+    url: https://www.keycloak.org/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://{host}/admin/realms
+  description: Keycloak Admin REST API
+  variables:
+    host:
+      default: localhost:8080
+      description: Keycloak server host and port
+security:
+- bearerAuth: []
+tags:
+- name: Roles
+  description: Manage realm-level and client-level roles
+paths:
+  /{realm}/users/{userId}/role-mappings/realm:
+    parameters:
+    - $ref: '#/components/parameters/realm'
+    - $ref: '#/components/parameters/userId'
+    get:
+      operationId: getUserRealmRoleMappings
+      summary: Keycloak Get realm-level role mappings for a user
+      tags:
+      - Roles
+      responses:
+        '200':
+          description: A list of role representations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+    post:
+      operationId: addUserRealmRoleMappings
+      summary: Keycloak Add realm-level role mappings to a user
+      tags:
+      - Roles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: Role mappings added
+    delete:
+      operationId: deleteUserRealmRoleMappings
+      summary: Keycloak Remove realm-level role mappings from a user
+      tags:
+      - Roles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: Role mappings removed
+  /{realm}/roles:
+    parameters:
+    - $ref: '#/components/parameters/realm'
+    get:
+      operationId: getRoles
+      summary: Keycloak List realm-level roles
+      description: Returns a list of all roles defined at the realm level.
+      tags:
+      - Roles
+      parameters:
+      - name: search
+        in: query
+        schema:
+          type: string
+      - name: first
+        in: query
+        schema:
+          type: integer
+      - name: max
+        in: query
+        schema:
+          type: integer
+      - name: briefRepresentation
+        in: query
+        schema:
+          type: boolean
+          default: true
+      responses:
+        '200':
+          description: A list of role representations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+    post:
+      operationId: createRole
+      summary: Keycloak Create a realm-level role
+      tags:
+      - Roles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '201':
+          description: Role created successfully
+  /{realm}/roles/{roleName}:
+    parameters:
+    - $ref: '#/components/parameters/realm'
+    - name: roleName
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getRole
+      summary: Keycloak Get a realm-level role by name
+      tags:
+      - Roles
+      responses:
+        '200':
+          description: A role representation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleRepresentation'
+        '404':
+          description: Role not found
+    put:
+      operationId: updateRole
+      summary: Keycloak Update a realm-level role
+      tags:
+      - Roles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: Role updated successfully
+    delete:
+      operationId: deleteRole
+      summary: Keycloak Delete a realm-level role
+      tags:
+      - Roles
+      responses:
+        '204':
+          description: Role deleted successfully
+components:
+  parameters:
+    userId:
+      name: userId
+      in: path
+      required: true
+      description: The UUID of the user
+      schema:
+        type: string
+        format: uuid
+    realm:
+      name: realm
+      in: path
+      required: true
+      description: The name of the realm
+      schema:
+        type: string
+  schemas:
+    RoleRepresentation:
+      type: object
+      description: Representation of a role in Keycloak
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+        description:
+          type: string
+        composite:
+          type: boolean
+          description: Whether this role is a composite of other roles
+        composites:
+          type: object
+          properties:
+            realm:
+              type: array
+              items:
+                type: string
+            client:
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  type: string
+        clientRole:
+          type: boolean
+        containerId:
+          type: string
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Access token obtained from the Keycloak token endpoint. Use the master realm admin credentials or a service account with appropriate realm-management roles.

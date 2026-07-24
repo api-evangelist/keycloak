@@ -1,0 +1,153 @@
+openapi: 3.0.3
+info:
+  title: Keycloak Admin REST Clients Identity Providers API
+  description: The Keycloak Admin REST API provides endpoints for managing all aspects of a Keycloak deployment, including realms, users, clients, roles, groups, and identity providers. All endpoints require authentication via a bearer token obtained from the Keycloak token endpoint.
+  version: 26.0.0
+  contact:
+    name: Keycloak
+    url: https://www.keycloak.org/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://{host}/admin/realms
+  description: Keycloak Admin REST API
+  variables:
+    host:
+      default: localhost:8080
+      description: Keycloak server host and port
+security:
+- bearerAuth: []
+tags:
+- name: Identity Providers
+  description: Manage identity providers for federated authentication
+paths:
+  /{realm}/identity-provider/instances:
+    parameters:
+    - $ref: '#/components/parameters/realm'
+    get:
+      operationId: getIdentityProviders
+      summary: Keycloak List identity providers
+      description: Returns a list of identity providers configured in the realm.
+      tags:
+      - Identity Providers
+      responses:
+        '200':
+          description: A list of identity provider representations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IdentityProviderRepresentation'
+    post:
+      operationId: createIdentityProvider
+      summary: Keycloak Create an identity provider
+      tags:
+      - Identity Providers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdentityProviderRepresentation'
+      responses:
+        '201':
+          description: Identity provider created successfully
+  /{realm}/identity-provider/instances/{alias}:
+    parameters:
+    - $ref: '#/components/parameters/realm'
+    - name: alias
+      in: path
+      required: true
+      description: The alias of the identity provider
+      schema:
+        type: string
+    get:
+      operationId: getIdentityProvider
+      summary: Keycloak Get an identity provider
+      tags:
+      - Identity Providers
+      responses:
+        '200':
+          description: An identity provider representation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityProviderRepresentation'
+        '404':
+          description: Identity provider not found
+    put:
+      operationId: updateIdentityProvider
+      summary: Keycloak Update an identity provider
+      tags:
+      - Identity Providers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdentityProviderRepresentation'
+      responses:
+        '204':
+          description: Identity provider updated
+    delete:
+      operationId: deleteIdentityProvider
+      summary: Keycloak Delete an identity provider
+      tags:
+      - Identity Providers
+      responses:
+        '204':
+          description: Identity provider deleted
+components:
+  schemas:
+    IdentityProviderRepresentation:
+      type: object
+      description: Representation of a federated identity provider
+      properties:
+        alias:
+          type: string
+          description: Unique alias for the identity provider
+        displayName:
+          type: string
+        internalId:
+          type: string
+          readOnly: true
+        providerId:
+          type: string
+          description: The identity provider type (e.g., oidc, saml, google, github, facebook)
+        enabled:
+          type: boolean
+        trustEmail:
+          type: boolean
+        storeToken:
+          type: boolean
+        addReadTokenRoleOnCreate:
+          type: boolean
+        authenticateByDefault:
+          type: boolean
+        linkOnly:
+          type: boolean
+        firstBrokerLoginFlowAlias:
+          type: string
+        postBrokerLoginFlowAlias:
+          type: string
+        config:
+          type: object
+          additionalProperties:
+            type: string
+          description: Provider-specific configuration (e.g., clientId, clientSecret, authorizationUrl, tokenUrl for OIDC providers)
+  parameters:
+    realm:
+      name: realm
+      in: path
+      required: true
+      description: The name of the realm
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Access token obtained from the Keycloak token endpoint. Use the master realm admin credentials or a service account with appropriate realm-management roles.
