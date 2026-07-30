@@ -5,7 +5,20 @@ description: >-
   single sign-on, identity brokering, user federation, and fine-grained authorization using OAuth 2.0 and OpenID
   Connect.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/keycloak.png
 tags:
   - Authentication
   - Authorization
@@ -19,39 +32,156 @@ created: '2025-01-01'
 modified: '2026-06-20'
 specificationVersion: '0.19'
 apis:
-  - aid: keycloak:admin-rest-api
-    name: Keycloak Admin REST API
-    description: >-
-      REST API for managing Keycloak realms, users, clients, roles, groups, and identity providers. Provides full
-      administrative control over all aspects of a Keycloak deployment.
-    humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
-    tags:
-      - Access Management
-      - Admin
-      - Identity
-    properties:
-      - type: Documentation
-        url: https://www.keycloak.org/docs-api/latest/rest-api/
-      - type: Reference
-        url: https://www.keycloak.org/docs/latest/server_admin/
-      - type: OpenAPI
-        url: openapi/keycloak-admin-rest-api-openapi.yml
-      - type: JSONSchema
-        url: json-schema/realm.yml
-      - type: JSONSchema
-        url: json-schema/client.yml
-      - type: JSONSchema
-        url: json-schema/user.yml
-      - type: JSONLD
-        url: json-ld/keycloak-context.yml
-      - type: Overlay
-        url: overlays/keycloak-admin-rest-api-overlay.yaml
-      - type: ErrorCatalog
-        url: errors/keycloak-problem-types.yml
-      - type: DataModel
-        url: data-model/keycloak-data-model.yml
-      - type: MCPServer
-        url: mcp/keycloak-mcp.yml
+- aid: keycloak:keycloak-clients-api
+  name: Keycloak Clients API
+  description: Manage OAuth/OIDC clients within a realm
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Clients
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-clients-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-groups-api
+  name: Keycloak Groups API
+  description: Manage user groups within a realm
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-groups-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-identity-providers-api
+  name: Keycloak Identity Providers API
+  description: Manage identity providers for federated authentication
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Identity Providers
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-identity-providers-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-realms-api
+  name: Keycloak Realms API
+  description: Manage Keycloak realms
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Realms
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-realms-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-roles-api
+  name: Keycloak Roles API
+  description: Manage realm-level and client-level roles
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Roles
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-roles-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-users-api
+  name: Keycloak Users API
+  description: Manage users within a realm
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-users-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
 common:
   - type: Arazzo
     url: arazzo/keycloak-onboard-user-workflow.yml
