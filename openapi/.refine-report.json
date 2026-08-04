@@ -1,0 +1,24 @@
+{
+  "provider": "keycloak",
+  "sources": [
+    "keycloak-clients-api-openapi.yml",
+    "keycloak-groups-api-openapi.yml",
+    "keycloak-identity-providers-api-openapi.yml",
+    "keycloak-realms-api-openapi.yml",
+    "keycloak-roles-api-openapi.yml",
+    "keycloak-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "keycloak-clients-api-openapi.yml",
+    "keycloak-groups-api-openapi.yml",
+    "keycloak-identity-providers-api-openapi.yml",
+    "keycloak-realms-api-openapi.yml",
+    "keycloak-roles-api-openapi.yml",
+    "keycloak-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
