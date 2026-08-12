@@ -183,6 +183,10 @@ apis:
   - type: DataModel
     url: data-model/keycloak-data-model.yml
 common:
+  - type: MCPServer
+    url: mcp/keycloak-mcp.yml
+  - type: Overlay
+    url: overlays/keycloak-admin-rest-api-overlay.yaml
   - type: Arazzo
     url: arazzo/keycloak-onboard-user-workflow.yml
     name: Keycloak Onboard a User
