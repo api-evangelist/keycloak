@@ -30,7 +30,7 @@ tags:
 url: https://raw.githubusercontent.com/api-evangelist/keycloak/refs/heads/main/apis.yml
 created: '2025-01-01'
 modified: '2026-06-20'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: keycloak:keycloak-clients-api
   name: Keycloak Clients API
