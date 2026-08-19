@@ -1,0 +1,103 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Keycloak Admin REST Clients Realms API",
+    "version": "26.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Realms",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Keycloak List all realms",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{host}/admin/realms/",
+            "params": [
+              {
+                "name": "briefRepresentation",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of all realms accessible to the authenticated user."
+        },
+        {
+          "info": {
+            "name": "Keycloak Get a realm",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{host}/admin/realms/:realm",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              }
+            ]
+          },
+          "docs": "Returns the representation of a specific realm."
+        },
+        {
+          "info": {
+            "name": "Keycloak Update a realm",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{host}/admin/realms/:realm",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the configuration of an existing realm."
+        },
+        {
+          "info": {
+            "name": "Keycloak Delete a realm",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{host}/admin/realms/:realm",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              }
+            ]
+          },
+          "docs": "Permanently deletes a realm and all its data."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

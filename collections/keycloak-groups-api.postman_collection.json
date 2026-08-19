@@ -1,0 +1,1405 @@
+{
+  "item": [
+    {
+      "id": "9f5124f6-d06b-4ac8-911b-63056adbb258",
+      "name": "Groups",
+      "description": {
+        "content": "Manage user groups within a realm",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ffa524be-33b5-4d4a-9cd5-124172e3738c",
+          "name": "Keycloak Get groups for a user",
+          "request": {
+            "name": "Keycloak Get groups for a user",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "users",
+                ":userId",
+                "groups"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "userId",
+                  "description": "(Required) The UUID of the user"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f61ee486-b946-429a-9191-e630a82b2ef2",
+              "name": "A list of group representations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "users",
+                    ":userId",
+                    "groups"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "userId",
+                      "description": "(Required) The UUID of the user"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"410e9e14-1a32-f4d7-26c1-53e5586e6792\",\n    \"name\": \"string\",\n    \"path\": \"string\",\n    \"subGroups\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n      }\n    ],\n    \"attributes\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ],\n      \"key_1\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"realmRoles\": [\n      \"string\",\n      \"string\"\n    ],\n    \"clientRoles\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  },\n  {\n    \"id\": \"f761197a-c4f7-f28c-6f47-3643a87dbe86\",\n    \"name\": \"string\",\n    \"path\": \"string\",\n    \"subGroups\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n      }\n    ],\n    \"attributes\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"realmRoles\": [\n      \"string\",\n      \"string\"\n    ],\n    \"clientRoles\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ],\n      \"key_1\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6425ca6d-8956-4869-977a-5bff526c196e",
+          "name": "Keycloak Add a user to a group",
+          "request": {
+            "name": "Keycloak Add a user to a group",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "users",
+                ":userId",
+                "groups",
+                ":groupId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "userId",
+                  "description": "(Required) The UUID of the user"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "groupId",
+                  "description": "(Required) The UUID of the group"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "method": "PUT",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8c7b279c-1792-430d-a67c-af9d73a8cdc8",
+              "name": "User added to group",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "users",
+                    ":userId",
+                    "groups",
+                    ":groupId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "userId",
+                      "description": "(Required) The UUID of the user"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "groupId",
+                      "description": "(Required) The UUID of the group"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "abca079f-85f4-47d3-acd8-2de40f3c85c9",
+          "name": "Keycloak Remove a user from a group",
+          "request": {
+            "name": "Keycloak Remove a user from a group",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "users",
+                ":userId",
+                "groups",
+                ":groupId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "userId",
+                  "description": "(Required) The UUID of the user"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "groupId",
+                  "description": "(Required) The UUID of the group"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c23de4c8-4aee-4b0b-94e3-f5439c121a1f",
+              "name": "User removed from group",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "users",
+                    ":userId",
+                    "groups",
+                    ":groupId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "userId",
+                      "description": "(Required) The UUID of the user"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "groupId",
+                      "description": "(Required) The UUID of the group"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5192da51-bdd6-4fb0-b954-53362aac123d",
+          "name": "Keycloak List groups",
+          "request": {
+            "name": "Keycloak List groups",
+            "description": {
+              "content": "Returns a list of top-level groups in the realm.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":realm",
+                "groups"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "first",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "max",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "briefRepresentation",
+                  "value": "true"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5fbe2f14-12d4-4f1f-9136-3179f7eb7368",
+              "name": "A list of group representations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "groups"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "first",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "max",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "briefRepresentation",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"524a2dcd-44d6-fccf-e51c-ace3fec62d8a\",\n    \"name\": \"string\",\n    \"path\": \"string\",\n    \"subGroups\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n      }\n    ],\n    \"attributes\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ],\n      \"key_1\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"realmRoles\": [\n      \"string\",\n      \"string\"\n    ],\n    \"clientRoles\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ],\n      \"key_1\": [\n        \"string\",\n        \"string\"\n      ],\n      \"key_2\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  },\n  {\n    \"id\": \"d6d42739-7fd8-eeda-3732-623a32986ba4\",\n    \"name\": \"string\",\n    \"path\": \"string\",\n    \"subGroups\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n      }\n    ],\n    \"attributes\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"realmRoles\": [\n      \"string\",\n      \"string\"\n    ],\n    \"clientRoles\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ],\n      \"key_1\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "df4691a8-a7d1-493b-be14-ff62d16ef35e",
+          "name": "Keycloak Create a top-level group",
+          "request": {
+            "name": "Keycloak Create a top-level group",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "groups"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"path\": \"<string>\",\n  \"subGroups\": [\n    {\n      \"name\": \"<string>\",\n      \"path\": \"<string>\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"path\": \"<string>\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    }\n  ],\n  \"attributes\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"realmRoles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"clientRoles\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3f4069e3-13ba-4a4a-96b6-7b144039ecbc",
+              "name": "Group created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "groups"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"path\": \"<string>\",\n  \"subGroups\": [\n    {\n      \"name\": \"<string>\",\n      \"path\": \"<string>\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_2\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"path\": \"<string>\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    }\n  ],\n  \"attributes\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_2\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_3\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"realmRoles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"clientRoles\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "affadfe2-44f4-44f9-ac4d-ef765424c12f",
+          "name": "Keycloak Get a group",
+          "request": {
+            "name": "Keycloak Get a group",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "groups",
+                ":groupId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "groupId",
+                  "description": "(Required) The UUID of the group"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5ab55ba3-642b-4cdf-85b4-91e4109efe98",
+              "name": "A group representation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "groups",
+                    ":groupId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "groupId",
+                      "description": "(Required) The UUID of the group"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"d1436769-ce71-8c8d-db13-15d6b95e90fe\",\n  \"name\": \"<string>\",\n  \"path\": \"<string>\",\n  \"subGroups\": [\n    {\n      \"id\": \"2f199f11-108c-84e0-aaec-fa740559e07b\",\n      \"name\": \"<string>\",\n      \"path\": \"<string>\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_2\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_3\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    {\n      \"id\": \"1770f2a7-888f-8a95-4d56-bc9a1d55e11f\",\n      \"name\": \"<string>\",\n      \"path\": \"<string>\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_2\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_3\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_4\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    }\n  ],\n  \"attributes\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"realmRoles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"clientRoles\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d1fc5c3b-f8a1-4fc1-81a6-2db2bb6d8050",
+              "name": "Group not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "groups",
+                    ":groupId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "groupId",
+                      "description": "(Required) The UUID of the group"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1b182501-d1ed-41b3-9ae9-1da9a01a3339",
+          "name": "Keycloak Update a group",
+          "request": {
+            "name": "Keycloak Update a group",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "groups",
+                ":groupId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "groupId",
+                  "description": "(Required) The UUID of the group"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"path\": \"<string>\",\n  \"subGroups\": [\n    {\n      \"name\": \"<string>\",\n      \"path\": \"<string>\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"path\": \"<string>\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    }\n  ],\n  \"attributes\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"realmRoles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"clientRoles\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e8af1506-5861-4ffc-9a74-92485fbd821c",
+              "name": "Group updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "groups",
+                    ":groupId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "groupId",
+                      "description": "(Required) The UUID of the group"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"path\": \"<string>\",\n  \"subGroups\": [\n    {\n      \"name\": \"<string>\",\n      \"path\": \"<string>\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_2\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"path\": \"<string>\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    }\n  ],\n  \"attributes\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_2\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_3\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"realmRoles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"clientRoles\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "80314a32-ccb8-4f8b-adf8-5269a2e2d6af",
+          "name": "Keycloak Delete a group",
+          "request": {
+            "name": "Keycloak Delete a group",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "groups",
+                ":groupId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "groupId",
+                  "description": "(Required) The UUID of the group"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "728bb3d4-aeb5-43a6-bd25-d0da597b74ba",
+              "name": "Group deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "groups",
+                    ":groupId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "groupId",
+                      "description": "(Required) The UUID of the group"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d4336151-f315-4bab-b89d-caea6a3b8a5e",
+          "name": "Keycloak Create a child group",
+          "request": {
+            "name": "Keycloak Create a child group",
+            "description": {
+              "content": "Creates a new subgroup under the specified parent group.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":realm",
+                "groups",
+                ":groupId",
+                "children"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "groupId",
+                  "description": "(Required) The UUID of the group"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"path\": \"<string>\",\n  \"subGroups\": [\n    {\n      \"name\": \"<string>\",\n      \"path\": \"<string>\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"path\": \"<string>\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    }\n  ],\n  \"attributes\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"realmRoles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"clientRoles\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "37638348-5741-4100-9a7f-84b44db42bc5",
+              "name": "Child group created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "groups",
+                    ":groupId",
+                    "children"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "groupId",
+                      "description": "(Required) The UUID of the group"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"path\": \"<string>\",\n  \"subGroups\": [\n    {\n      \"name\": \"<string>\",\n      \"path\": \"<string>\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_2\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"path\": \"<string>\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    }\n  ],\n  \"attributes\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_2\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_3\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"realmRoles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"clientRoles\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e5133b20-78c9-47f8-bda9-3cc56d207e16",
+          "name": "Keycloak Get members of a group",
+          "request": {
+            "name": "Keycloak Get members of a group",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "groups",
+                ":groupId",
+                "members"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "first",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "max",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "groupId",
+                  "description": "(Required) The UUID of the group"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "782855d5-9684-4383-9b17-a9794b16c82d",
+              "name": "A list of user representations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "groups",
+                    ":groupId",
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "first",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "max",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "groupId",
+                      "description": "(Required) The UUID of the group"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"c00f56de-6d96-cf7b-4b26-bec0fb9df4ed\",\n    \"username\": \"string\",\n    \"firstName\": \"string\",\n    \"lastName\": \"string\",\n    \"email\": \"V68-pZ24Jpzzh@GqCRWhPjRnnluJudEEMZhsmjnHMJqiDF.tmmj\",\n    \"emailVerified\": false,\n    \"enabled\": true,\n    \"createdTimestamp\": 6696,\n    \"attributes\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ],\n      \"key_1\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"requiredActions\": [\n      \"string\",\n      \"string\"\n    ],\n    \"federatedIdentities\": [\n      {\n        \"identityProvider\": \"string\",\n        \"userId\": \"string\",\n        \"userName\": \"string\"\n      },\n      {\n        \"identityProvider\": \"string\",\n        \"userId\": \"string\",\n        \"userName\": \"string\"\n      }\n    ],\n    \"realmRoles\": [\n      \"string\",\n      \"string\"\n    ],\n    \"clientRoles\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"groups\": [\n      \"string\",\n      \"string\"\n    ],\n    \"totp\": true,\n    \"federationLink\": \"string\",\n    \"serviceAccountClientId\": \"string\",\n    \"notBefore\": 8238\n  },\n  {\n    \"id\": \"1a622f59-bf74-67fe-8c68-0078a66b200b\",\n    \"username\": \"string\",\n    \"firstName\": \"string\",\n    \"lastName\": \"string\",\n    \"email\": \"uXrAAsMZ@fEbYJMSR.cks\",\n    \"emailVerified\": true,\n    \"enabled\": true,\n    \"createdTimestamp\": 6790,\n    \"attributes\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"requiredActions\": [\n      \"string\",\n      \"string\"\n    ],\n    \"federatedIdentities\": [\n      {\n        \"identityProvider\": \"string\",\n        \"userId\": \"string\",\n        \"userName\": \"string\"\n      },\n      {\n        \"identityProvider\": \"string\",\n        \"userId\": \"string\",\n        \"userName\": \"string\"\n      }\n    ],\n    \"realmRoles\": [\n      \"string\",\n      \"string\"\n    ],\n    \"clientRoles\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ],\n      \"key_1\": [\n        \"string\",\n        \"string\"\n      ],\n      \"key_2\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"groups\": [\n      \"string\",\n      \"string\"\n    ],\n    \"totp\": false,\n    \"federationLink\": \"string\",\n    \"serviceAccountClientId\": \"string\",\n    \"notBefore\": 9195\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Keycloak server host and port",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "localhost:8080",
+      "key": "host"
+    },
+    {
+      "type": "string",
+      "value": "https://{{host}}/admin/realms",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "20765417-6d32-4129-a6a6-d7dec8aee2ce",
+    "name": "Keycloak Admin REST Clients Groups API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Keycloak Admin REST API provides endpoints for managing all aspects of a Keycloak deployment, including realms, users, clients, roles, groups, and identity providers. All endpoints require authentication via a bearer token obtained from the Keycloak token endpoint.\n\nContact Support:\n Name: Keycloak",
+      "type": "text/plain"
+    }
+  }
+}

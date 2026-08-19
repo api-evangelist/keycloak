@@ -1,0 +1,427 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Keycloak Admin REST Clients Users API",
+    "version": "26.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Keycloak List users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{host}/admin/realms/:realm/users",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search string for username, first name, last name, or email"
+              },
+              {
+                "name": "username",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "email",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "firstName",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "lastName",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "enabled",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "first",
+                "value": "",
+                "type": "query",
+                "description": "Pagination offset"
+              },
+              {
+                "name": "max",
+                "value": "",
+                "type": "query",
+                "description": "Maximum results size"
+              },
+              {
+                "name": "briefRepresentation",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of users in the realm, filtered by query parameters."
+        },
+        {
+          "info": {
+            "name": "Keycloak Create a new user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{host}/admin/realms/:realm/users",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new user in the realm."
+        },
+        {
+          "info": {
+            "name": "Keycloak Get a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{host}/admin/realms/:realm/users/:userId",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the user"
+              }
+            ]
+          },
+          "docs": "Returns the representation of a specific user."
+        },
+        {
+          "info": {
+            "name": "Keycloak Update a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{host}/admin/realms/:realm/users/:userId",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the user"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the properties of an existing user."
+        },
+        {
+          "info": {
+            "name": "Keycloak Delete a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{host}/admin/realms/:realm/users/:userId",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the user"
+              }
+            ]
+          },
+          "docs": "Permanently deletes a user from the realm."
+        },
+        {
+          "info": {
+            "name": "Keycloak Get realm-level role mappings for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{host}/admin/realms/:realm/users/:userId/role-mappings/realm",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the user"
+              }
+            ]
+          },
+          "docs": "Keycloak Get realm-level role mappings for a user"
+        },
+        {
+          "info": {
+            "name": "Keycloak Add realm-level role mappings to a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{host}/admin/realms/:realm/users/:userId/role-mappings/realm",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the user"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Keycloak Add realm-level role mappings to a user"
+        },
+        {
+          "info": {
+            "name": "Keycloak Remove realm-level role mappings from a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{host}/admin/realms/:realm/users/:userId/role-mappings/realm",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the user"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Keycloak Remove realm-level role mappings from a user"
+        },
+        {
+          "info": {
+            "name": "Keycloak Get groups for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{host}/admin/realms/:realm/users/:userId/groups",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the user"
+              }
+            ]
+          },
+          "docs": "Keycloak Get groups for a user"
+        },
+        {
+          "info": {
+            "name": "Keycloak Add a user to a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{host}/admin/realms/:realm/users/:userId/groups/:groupId",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the user"
+              },
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the group"
+              }
+            ]
+          },
+          "docs": "Keycloak Add a user to a group"
+        },
+        {
+          "info": {
+            "name": "Keycloak Remove a user from a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{host}/admin/realms/:realm/users/:userId/groups/:groupId",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the user"
+              },
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the group"
+              }
+            ]
+          },
+          "docs": "Keycloak Remove a user from a group"
+        },
+        {
+          "info": {
+            "name": "Keycloak Reset a user's password",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{host}/admin/realms/:realm/users/:userId/reset-password",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the user"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sets a new password for the user. Set temporary to true to require a password change on next login."
+        },
+        {
+          "info": {
+            "name": "Keycloak Get members of a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{host}/admin/realms/:realm/groups/:groupId/members",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the group"
+              },
+              {
+                "name": "first",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "max",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Keycloak Get members of a group"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,221 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Keycloak Admin REST Clients API",
+    "version": "26.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Clients",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Keycloak List clients",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{host}/admin/realms/:realm/clients",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "query",
+                "description": "Filter by clientId"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "first",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "max",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "viewableOnly",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of clients registered in the realm."
+        },
+        {
+          "info": {
+            "name": "Keycloak Create a new client",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{host}/admin/realms/:realm/clients",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Registers a new client in the realm."
+        },
+        {
+          "info": {
+            "name": "Keycloak Get a client",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{host}/admin/realms/:realm/clients/:clientUuid",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "clientUuid",
+                "value": "",
+                "type": "path",
+                "description": "The internal UUID of the client (not the clientId)"
+              }
+            ]
+          },
+          "docs": "Returns the representation of a specific client."
+        },
+        {
+          "info": {
+            "name": "Keycloak Update a client",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{host}/admin/realms/:realm/clients/:clientUuid",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "clientUuid",
+                "value": "",
+                "type": "path",
+                "description": "The internal UUID of the client (not the clientId)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the configuration of an existing client."
+        },
+        {
+          "info": {
+            "name": "Keycloak Delete a client",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{host}/admin/realms/:realm/clients/:clientUuid",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "clientUuid",
+                "value": "",
+                "type": "path",
+                "description": "The internal UUID of the client (not the clientId)"
+              }
+            ]
+          },
+          "docs": "Removes a client registration from the realm."
+        },
+        {
+          "info": {
+            "name": "Keycloak Get the client secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{host}/admin/realms/:realm/clients/:clientUuid/client-secret",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "clientUuid",
+                "value": "",
+                "type": "path",
+                "description": "The internal UUID of the client (not the clientId)"
+              }
+            ]
+          },
+          "docs": "Keycloak Get the client secret"
+        },
+        {
+          "info": {
+            "name": "Keycloak Regenerate the client secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{host}/admin/realms/:realm/clients/:clientUuid/client-secret",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "clientUuid",
+                "value": "",
+                "type": "path",
+                "description": "The internal UUID of the client (not the clientId)"
+              }
+            ]
+          },
+          "docs": "Keycloak Regenerate the client secret"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,715 @@
+{
+  "item": [
+    {
+      "id": "ead65a4f-f5cd-4dc5-8bd8-6d22117010ec",
+      "name": "Identity Providers",
+      "description": {
+        "content": "Manage identity providers for federated authentication",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d5a09b01-a3eb-4026-b0ff-675df4110ce0",
+          "name": "Keycloak List identity providers",
+          "request": {
+            "name": "Keycloak List identity providers",
+            "description": {
+              "content": "Returns a list of identity providers configured in the realm.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":realm",
+                "identity-provider",
+                "instances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d745dcaf-b94e-43a9-b5cf-1f838cfbe4a4",
+              "name": "A list of identity provider representations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "identity-provider",
+                    "instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"alias\": \"string\",\n    \"displayName\": \"string\",\n    \"internalId\": \"string\",\n    \"providerId\": \"string\",\n    \"enabled\": false,\n    \"trustEmail\": false,\n    \"storeToken\": false,\n    \"addReadTokenRoleOnCreate\": false,\n    \"authenticateByDefault\": true,\n    \"linkOnly\": true,\n    \"firstBrokerLoginFlowAlias\": \"string\",\n    \"postBrokerLoginFlowAlias\": \"string\",\n    \"config\": {\n      \"key_0\": \"string\"\n    }\n  },\n  {\n    \"alias\": \"string\",\n    \"displayName\": \"string\",\n    \"internalId\": \"string\",\n    \"providerId\": \"string\",\n    \"enabled\": true,\n    \"trustEmail\": true,\n    \"storeToken\": true,\n    \"addReadTokenRoleOnCreate\": true,\n    \"authenticateByDefault\": false,\n    \"linkOnly\": true,\n    \"firstBrokerLoginFlowAlias\": \"string\",\n    \"postBrokerLoginFlowAlias\": \"string\",\n    \"config\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f1c4c570-aa36-406a-ba31-919793ef1bbe",
+          "name": "Keycloak Create an identity provider",
+          "request": {
+            "name": "Keycloak Create an identity provider",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "identity-provider",
+                "instances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"alias\": \"<string>\",\n  \"displayName\": \"<string>\",\n  \"providerId\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"trustEmail\": \"<boolean>\",\n  \"storeToken\": \"<boolean>\",\n  \"addReadTokenRoleOnCreate\": \"<boolean>\",\n  \"authenticateByDefault\": \"<boolean>\",\n  \"linkOnly\": \"<boolean>\",\n  \"firstBrokerLoginFlowAlias\": \"<string>\",\n  \"postBrokerLoginFlowAlias\": \"<string>\",\n  \"config\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0bdaf01a-736d-4796-a260-980fb62a9a49",
+              "name": "Identity provider created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "identity-provider",
+                    "instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"alias\": \"<string>\",\n  \"displayName\": \"<string>\",\n  \"providerId\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"trustEmail\": \"<boolean>\",\n  \"storeToken\": \"<boolean>\",\n  \"addReadTokenRoleOnCreate\": \"<boolean>\",\n  \"authenticateByDefault\": \"<boolean>\",\n  \"linkOnly\": \"<boolean>\",\n  \"firstBrokerLoginFlowAlias\": \"<string>\",\n  \"postBrokerLoginFlowAlias\": \"<string>\",\n  \"config\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1c9afc2a-0a78-40e2-816e-49f2cdfddfac",
+          "name": "Keycloak Get an identity provider",
+          "request": {
+            "name": "Keycloak Get an identity provider",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "identity-provider",
+                "instances",
+                ":alias"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "alias",
+                  "description": "(Required) The alias of the identity provider"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "20a9b61f-f63a-42d7-9930-d21b95d4fcbb",
+              "name": "An identity provider representation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "identity-provider",
+                    "instances",
+                    ":alias"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "alias",
+                      "description": "(Required) The alias of the identity provider"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"alias\": \"<string>\",\n  \"displayName\": \"<string>\",\n  \"internalId\": \"string\",\n  \"providerId\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"trustEmail\": \"<boolean>\",\n  \"storeToken\": \"<boolean>\",\n  \"addReadTokenRoleOnCreate\": \"<boolean>\",\n  \"authenticateByDefault\": \"<boolean>\",\n  \"linkOnly\": \"<boolean>\",\n  \"firstBrokerLoginFlowAlias\": \"<string>\",\n  \"postBrokerLoginFlowAlias\": \"<string>\",\n  \"config\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "27a28906-fd22-4e7b-a070-42bb22b97f9d",
+              "name": "Identity provider not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "identity-provider",
+                    "instances",
+                    ":alias"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "alias",
+                      "description": "(Required) The alias of the identity provider"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e1c9b0c2-ba25-4c34-af83-e59deb1b902e",
+          "name": "Keycloak Update an identity provider",
+          "request": {
+            "name": "Keycloak Update an identity provider",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "identity-provider",
+                "instances",
+                ":alias"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "alias",
+                  "description": "(Required) The alias of the identity provider"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"alias\": \"<string>\",\n  \"displayName\": \"<string>\",\n  \"providerId\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"trustEmail\": \"<boolean>\",\n  \"storeToken\": \"<boolean>\",\n  \"addReadTokenRoleOnCreate\": \"<boolean>\",\n  \"authenticateByDefault\": \"<boolean>\",\n  \"linkOnly\": \"<boolean>\",\n  \"firstBrokerLoginFlowAlias\": \"<string>\",\n  \"postBrokerLoginFlowAlias\": \"<string>\",\n  \"config\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "603ebe70-9e00-4cb4-bfe7-bb63dde3f129",
+              "name": "Identity provider updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "identity-provider",
+                    "instances",
+                    ":alias"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "alias",
+                      "description": "(Required) The alias of the identity provider"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"alias\": \"<string>\",\n  \"displayName\": \"<string>\",\n  \"providerId\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"trustEmail\": \"<boolean>\",\n  \"storeToken\": \"<boolean>\",\n  \"addReadTokenRoleOnCreate\": \"<boolean>\",\n  \"authenticateByDefault\": \"<boolean>\",\n  \"linkOnly\": \"<boolean>\",\n  \"firstBrokerLoginFlowAlias\": \"<string>\",\n  \"postBrokerLoginFlowAlias\": \"<string>\",\n  \"config\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "315f8655-f4a1-4f97-87fd-683876cdd9ce",
+          "name": "Keycloak Delete an identity provider",
+          "request": {
+            "name": "Keycloak Delete an identity provider",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "identity-provider",
+                "instances",
+                ":alias"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "alias",
+                  "description": "(Required) The alias of the identity provider"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a09c3e39-8af1-404d-baeb-5e66cf030e94",
+              "name": "Identity provider deleted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "identity-provider",
+                    "instances",
+                    ":alias"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "alias",
+                      "description": "(Required) The alias of the identity provider"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Keycloak server host and port",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "localhost:8080",
+      "key": "host"
+    },
+    {
+      "type": "string",
+      "value": "https://{{host}}/admin/realms",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "7066bf67-dfac-40f3-b61f-e401bfb2c870",
+    "name": "Keycloak Admin REST Clients Identity Providers API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Keycloak Admin REST API provides endpoints for managing all aspects of a Keycloak deployment, including realms, users, clients, roles, groups, and identity providers. All endpoints require authentication via a bearer token obtained from the Keycloak token endpoint.\n\nContact Support:\n Name: Keycloak",
+      "type": "text/plain"
+    }
+  }
+}

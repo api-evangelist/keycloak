@@ -1,0 +1,316 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Keycloak Admin REST Clients Groups API",
+    "version": "26.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Groups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Keycloak Get groups for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{host}/admin/realms/:realm/users/:userId/groups",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the user"
+              }
+            ]
+          },
+          "docs": "Keycloak Get groups for a user"
+        },
+        {
+          "info": {
+            "name": "Keycloak Add a user to a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{host}/admin/realms/:realm/users/:userId/groups/:groupId",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the user"
+              },
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the group"
+              }
+            ]
+          },
+          "docs": "Keycloak Add a user to a group"
+        },
+        {
+          "info": {
+            "name": "Keycloak Remove a user from a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{host}/admin/realms/:realm/users/:userId/groups/:groupId",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the user"
+              },
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the group"
+              }
+            ]
+          },
+          "docs": "Keycloak Remove a user from a group"
+        },
+        {
+          "info": {
+            "name": "Keycloak List groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{host}/admin/realms/:realm/groups",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "first",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "max",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "briefRepresentation",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of top-level groups in the realm."
+        },
+        {
+          "info": {
+            "name": "Keycloak Create a top-level group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{host}/admin/realms/:realm/groups",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Keycloak Create a top-level group"
+        },
+        {
+          "info": {
+            "name": "Keycloak Get a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{host}/admin/realms/:realm/groups/:groupId",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the group"
+              }
+            ]
+          },
+          "docs": "Keycloak Get a group"
+        },
+        {
+          "info": {
+            "name": "Keycloak Update a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{host}/admin/realms/:realm/groups/:groupId",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the group"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Keycloak Update a group"
+        },
+        {
+          "info": {
+            "name": "Keycloak Delete a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{host}/admin/realms/:realm/groups/:groupId",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the group"
+              }
+            ]
+          },
+          "docs": "Keycloak Delete a group"
+        },
+        {
+          "info": {
+            "name": "Keycloak Create a child group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{host}/admin/realms/:realm/groups/:groupId/children",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the group"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new subgroup under the specified parent group."
+        },
+        {
+          "info": {
+            "name": "Keycloak Get members of a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{host}/admin/realms/:realm/groups/:groupId/members",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the group"
+              },
+              {
+                "name": "first",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "max",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Keycloak Get members of a group"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

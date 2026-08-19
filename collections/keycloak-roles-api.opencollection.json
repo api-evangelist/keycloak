@@ -1,0 +1,245 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Keycloak Admin REST Clients Roles API",
+    "version": "26.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Roles",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Keycloak Get realm-level role mappings for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{host}/admin/realms/:realm/users/:userId/role-mappings/realm",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the user"
+              }
+            ]
+          },
+          "docs": "Keycloak Get realm-level role mappings for a user"
+        },
+        {
+          "info": {
+            "name": "Keycloak Add realm-level role mappings to a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{host}/admin/realms/:realm/users/:userId/role-mappings/realm",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the user"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Keycloak Add realm-level role mappings to a user"
+        },
+        {
+          "info": {
+            "name": "Keycloak Remove realm-level role mappings from a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{host}/admin/realms/:realm/users/:userId/role-mappings/realm",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the user"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Keycloak Remove realm-level role mappings from a user"
+        },
+        {
+          "info": {
+            "name": "Keycloak List realm-level roles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{host}/admin/realms/:realm/roles",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "first",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "max",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "briefRepresentation",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of all roles defined at the realm level."
+        },
+        {
+          "info": {
+            "name": "Keycloak Create a realm-level role",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{host}/admin/realms/:realm/roles",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Keycloak Create a realm-level role"
+        },
+        {
+          "info": {
+            "name": "Keycloak Get a realm-level role by name",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{host}/admin/realms/:realm/roles/:roleName",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "roleName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Keycloak Get a realm-level role by name"
+        },
+        {
+          "info": {
+            "name": "Keycloak Update a realm-level role",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{host}/admin/realms/:realm/roles/:roleName",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "roleName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Keycloak Update a realm-level role"
+        },
+        {
+          "info": {
+            "name": "Keycloak Delete a realm-level role",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{host}/admin/realms/:realm/roles/:roleName",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "roleName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Keycloak Delete a realm-level role"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

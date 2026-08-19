@@ -1,0 +1,1016 @@
+{
+  "item": [
+    {
+      "id": "18796cf0-2752-408d-94a3-17e5f992b79d",
+      "name": "Clients",
+      "description": {
+        "content": "Manage OAuth/OIDC clients within a realm",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7f653cd0-2299-4e58-875e-092a6866a52a",
+          "name": "Keycloak List clients",
+          "request": {
+            "name": "Keycloak List clients",
+            "description": {
+              "content": "Returns a list of clients registered in the realm.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":realm",
+                "clients"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "clientId",
+                  "value": "<string>",
+                  "description": "Filter by clientId"
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "false"
+                },
+                {
+                  "disabled": false,
+                  "key": "first",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "max",
+                  "value": "100"
+                },
+                {
+                  "disabled": false,
+                  "key": "viewableOnly",
+                  "value": "false"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1b16af0d-25d6-4a26-8350-27c54922c37c",
+              "name": "A list of client representations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "clients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "clientId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "false"
+                    },
+                    {
+                      "key": "first",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "max",
+                      "value": "100"
+                    },
+                    {
+                      "key": "viewableOnly",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"96c88dd2-ae14-a9cc-1de7-af6f1cc5e727\",\n    \"clientId\": \"string\",\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"enabled\": true,\n    \"clientAuthenticatorType\": \"string\",\n    \"rootUrl\": \"http://VsuaWlwCnJmXknJBxfphOocsuoFJaUlS.fkfgKK4LQviQXhs4BTaHspxspQuny\",\n    \"baseUrl\": \"string\",\n    \"adminUrl\": \"string\",\n    \"surrogateAuthRequired\": false,\n    \"redirectUris\": [\n      \"string\",\n      \"string\"\n    ],\n    \"webOrigins\": [\n      \"string\",\n      \"string\"\n    ],\n    \"bearerOnly\": false,\n    \"consentRequired\": true,\n    \"standardFlowEnabled\": true,\n    \"implicitFlowEnabled\": false,\n    \"directAccessGrantsEnabled\": true,\n    \"serviceAccountsEnabled\": true,\n    \"publicClient\": false,\n    \"frontchannelLogout\": true,\n    \"protocol\": \"openid-connect\",\n    \"attributes\": {\n      \"key_0\": \"string\"\n    },\n    \"fullScopeAllowed\": true,\n    \"defaultClientScopes\": [\n      \"string\",\n      \"string\"\n    ],\n    \"optionalClientScopes\": [\n      \"string\",\n      \"string\"\n    ],\n    \"authorizationServicesEnabled\": false\n  },\n  {\n    \"id\": \"261f5a20-01c1-26f8-743e-38fa031a6ac0\",\n    \"clientId\": \"string\",\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"enabled\": false,\n    \"clientAuthenticatorType\": \"string\",\n    \"rootUrl\": \"https://kNWFDbgmftppKDjlsqlcuEEfcxpGhZwW.rixgkzU5gSfrnMJ6j19faKleisAoO8rN78iBAtZzY45aF.X9AUtBW4SLrMi\",\n    \"baseUrl\": \"string\",\n    \"adminUrl\": \"string\",\n    \"surrogateAuthRequired\": false,\n    \"redirectUris\": [\n      \"string\",\n      \"string\"\n    ],\n    \"webOrigins\": [\n      \"string\",\n      \"string\"\n    ],\n    \"bearerOnly\": true,\n    \"consentRequired\": false,\n    \"standardFlowEnabled\": true,\n    \"implicitFlowEnabled\": false,\n    \"directAccessGrantsEnabled\": true,\n    \"serviceAccountsEnabled\": false,\n    \"publicClient\": true,\n    \"frontchannelLogout\": true,\n    \"protocol\": \"saml\",\n    \"attributes\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    },\n    \"fullScopeAllowed\": true,\n    \"defaultClientScopes\": [\n      \"string\",\n      \"string\"\n    ],\n    \"optionalClientScopes\": [\n      \"string\",\n      \"string\"\n    ],\n    \"authorizationServicesEnabled\": false\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e19ea651-2ae4-4af5-881c-9d9c23b65d68",
+          "name": "Keycloak Create a new client",
+          "request": {
+            "name": "Keycloak Create a new client",
+            "description": {
+              "content": "Registers a new client in the realm.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":realm",
+                "clients"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientId\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"clientAuthenticatorType\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"rootUrl\": \"<uri>\",\n  \"baseUrl\": \"<string>\",\n  \"adminUrl\": \"<string>\",\n  \"surrogateAuthRequired\": \"<boolean>\",\n  \"redirectUris\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"webOrigins\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"bearerOnly\": \"<boolean>\",\n  \"consentRequired\": \"<boolean>\",\n  \"standardFlowEnabled\": \"<boolean>\",\n  \"implicitFlowEnabled\": \"<boolean>\",\n  \"directAccessGrantsEnabled\": \"<boolean>\",\n  \"serviceAccountsEnabled\": \"<boolean>\",\n  \"publicClient\": \"<boolean>\",\n  \"frontchannelLogout\": \"<boolean>\",\n  \"protocol\": \"<string>\",\n  \"attributes\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"fullScopeAllowed\": \"<boolean>\",\n  \"defaultClientScopes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"optionalClientScopes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"authorizationServicesEnabled\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cf548d6d-bd2e-49bc-8017-5bcd7bae33cc",
+              "name": "Client created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "clients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientId\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"clientAuthenticatorType\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"rootUrl\": \"<uri>\",\n  \"baseUrl\": \"<string>\",\n  \"adminUrl\": \"<string>\",\n  \"surrogateAuthRequired\": \"<boolean>\",\n  \"redirectUris\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"webOrigins\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"bearerOnly\": \"<boolean>\",\n  \"consentRequired\": \"<boolean>\",\n  \"standardFlowEnabled\": \"<boolean>\",\n  \"implicitFlowEnabled\": \"<boolean>\",\n  \"directAccessGrantsEnabled\": \"<boolean>\",\n  \"serviceAccountsEnabled\": \"<boolean>\",\n  \"publicClient\": \"<boolean>\",\n  \"frontchannelLogout\": \"<boolean>\",\n  \"protocol\": \"<string>\",\n  \"attributes\": {\n    \"key_0\": \"<string>\"\n  },\n  \"fullScopeAllowed\": \"<boolean>\",\n  \"defaultClientScopes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"optionalClientScopes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"authorizationServicesEnabled\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "URI of the created client",
+                  "key": "Location",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "58a8caff-31fd-4749-8e29-93b0c79a9617",
+          "name": "Keycloak Get a client",
+          "request": {
+            "name": "Keycloak Get a client",
+            "description": {
+              "content": "Returns the representation of a specific client.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":realm",
+                "clients",
+                ":clientUuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "clientUuid",
+                  "description": "(Required) The internal UUID of the client (not the clientId)"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "20dcbf64-20a7-4be8-89d0-fb19d75450d4",
+              "name": "A client representation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "clients",
+                    ":clientUuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "clientUuid",
+                      "description": "(Required) The internal UUID of the client (not the clientId)"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"148a402a-d1cc-9b5d-4fdf-3bfaf17c127a\",\n  \"clientId\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"clientAuthenticatorType\": \"<string>\",\n  \"rootUrl\": \"<uri>\",\n  \"baseUrl\": \"<string>\",\n  \"adminUrl\": \"<string>\",\n  \"surrogateAuthRequired\": \"<boolean>\",\n  \"redirectUris\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"webOrigins\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"bearerOnly\": \"<boolean>\",\n  \"consentRequired\": \"<boolean>\",\n  \"standardFlowEnabled\": \"<boolean>\",\n  \"implicitFlowEnabled\": \"<boolean>\",\n  \"directAccessGrantsEnabled\": \"<boolean>\",\n  \"serviceAccountsEnabled\": \"<boolean>\",\n  \"publicClient\": \"<boolean>\",\n  \"frontchannelLogout\": \"<boolean>\",\n  \"protocol\": \"<string>\",\n  \"attributes\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"fullScopeAllowed\": \"<boolean>\",\n  \"defaultClientScopes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"optionalClientScopes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"authorizationServicesEnabled\": \"<boolean>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ed4aa3a9-3d72-4449-b3c8-420199c46ab0",
+              "name": "Client not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "clients",
+                    ":clientUuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "clientUuid",
+                      "description": "(Required) The internal UUID of the client (not the clientId)"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9b7aaf99-a652-4720-8cb4-9f7b86e210bc",
+          "name": "Keycloak Update a client",
+          "request": {
+            "name": "Keycloak Update a client",
+            "description": {
+              "content": "Updates the configuration of an existing client.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":realm",
+                "clients",
+                ":clientUuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "clientUuid",
+                  "description": "(Required) The internal UUID of the client (not the clientId)"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientId\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"clientAuthenticatorType\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"rootUrl\": \"<uri>\",\n  \"baseUrl\": \"<string>\",\n  \"adminUrl\": \"<string>\",\n  \"surrogateAuthRequired\": \"<boolean>\",\n  \"redirectUris\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"webOrigins\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"bearerOnly\": \"<boolean>\",\n  \"consentRequired\": \"<boolean>\",\n  \"standardFlowEnabled\": \"<boolean>\",\n  \"implicitFlowEnabled\": \"<boolean>\",\n  \"directAccessGrantsEnabled\": \"<boolean>\",\n  \"serviceAccountsEnabled\": \"<boolean>\",\n  \"publicClient\": \"<boolean>\",\n  \"frontchannelLogout\": \"<boolean>\",\n  \"protocol\": \"<string>\",\n  \"attributes\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"fullScopeAllowed\": \"<boolean>\",\n  \"defaultClientScopes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"optionalClientScopes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"authorizationServicesEnabled\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bdd1cd4f-c01f-4501-abe4-a99a05717f75",
+              "name": "Client updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "clients",
+                    ":clientUuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "clientUuid",
+                      "description": "(Required) The internal UUID of the client (not the clientId)"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientId\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"clientAuthenticatorType\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"rootUrl\": \"<uri>\",\n  \"baseUrl\": \"<string>\",\n  \"adminUrl\": \"<string>\",\n  \"surrogateAuthRequired\": \"<boolean>\",\n  \"redirectUris\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"webOrigins\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"bearerOnly\": \"<boolean>\",\n  \"consentRequired\": \"<boolean>\",\n  \"standardFlowEnabled\": \"<boolean>\",\n  \"implicitFlowEnabled\": \"<boolean>\",\n  \"directAccessGrantsEnabled\": \"<boolean>\",\n  \"serviceAccountsEnabled\": \"<boolean>\",\n  \"publicClient\": \"<boolean>\",\n  \"frontchannelLogout\": \"<boolean>\",\n  \"protocol\": \"<string>\",\n  \"attributes\": {\n    \"key_0\": \"<string>\"\n  },\n  \"fullScopeAllowed\": \"<boolean>\",\n  \"defaultClientScopes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"optionalClientScopes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"authorizationServicesEnabled\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bf1b1161-d3e3-4aaf-b73e-da939b856dfe",
+          "name": "Keycloak Delete a client",
+          "request": {
+            "name": "Keycloak Delete a client",
+            "description": {
+              "content": "Removes a client registration from the realm.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":realm",
+                "clients",
+                ":clientUuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "clientUuid",
+                  "description": "(Required) The internal UUID of the client (not the clientId)"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9ce832bf-0a78-46d4-b058-2a4a8d3bb555",
+              "name": "Client deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "clients",
+                    ":clientUuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "clientUuid",
+                      "description": "(Required) The internal UUID of the client (not the clientId)"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "235bda8b-d8b0-4e56-b15e-6831863516d6",
+          "name": "Keycloak Get the client secret",
+          "request": {
+            "name": "Keycloak Get the client secret",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "clients",
+                ":clientUuid",
+                "client-secret"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "clientUuid",
+                  "description": "(Required) The internal UUID of the client (not the clientId)"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "08fb46ab-3b92-440a-a9ab-d5b1d7114472",
+              "name": "The client secret",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "clients",
+                    ":clientUuid",
+                    "client-secret"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "clientUuid",
+                      "description": "(Required) The internal UUID of the client (not the clientId)"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"value\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b5d25838-e521-44f6-88e8-96cd5418bf22",
+          "name": "Keycloak Regenerate the client secret",
+          "request": {
+            "name": "Keycloak Regenerate the client secret",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "clients",
+                ":clientUuid",
+                "client-secret"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "clientUuid",
+                  "description": "(Required) The internal UUID of the client (not the clientId)"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cf0360e5-8062-48ab-a22c-99c57493ae4f",
+              "name": "The new client secret",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "clients",
+                    ":clientUuid",
+                    "client-secret"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "clientUuid",
+                      "description": "(Required) The internal UUID of the client (not the clientId)"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"value\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Keycloak server host and port",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "localhost:8080",
+      "key": "host"
+    },
+    {
+      "type": "string",
+      "value": "https://{{host}}/admin/realms",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "342651a9-4ae0-4394-823b-c9bb84353a6f",
+    "name": "Keycloak Admin REST Clients API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Keycloak Admin REST API provides endpoints for managing all aspects of a Keycloak deployment, including realms, users, clients, roles, groups, and identity providers. All endpoints require authentication via a bearer token obtained from the Keycloak token endpoint.\n\nContact Support:\n Name: Keycloak",
+      "type": "text/plain"
+    }
+  }
+}

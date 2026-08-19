@@ -1,0 +1,2066 @@
+{
+  "item": [
+    {
+      "id": "6495a4a0-e70b-4773-95d3-89003ce99985",
+      "name": "Users",
+      "description": {
+        "content": "Manage users within a realm",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "33c95f56-bfda-4305-88ad-101ead15c7b3",
+          "name": "Keycloak List users",
+          "request": {
+            "name": "Keycloak List users",
+            "description": {
+              "content": "Returns a list of users in the realm, filtered by query parameters.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":realm",
+                "users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Search string for username, first name, last name, or email"
+                },
+                {
+                  "disabled": false,
+                  "key": "username",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "email",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "firstName",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "lastName",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "enabled",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "first",
+                  "value": "<integer>",
+                  "description": "Pagination offset"
+                },
+                {
+                  "disabled": false,
+                  "key": "max",
+                  "value": "100",
+                  "description": "Maximum results size"
+                },
+                {
+                  "disabled": false,
+                  "key": "briefRepresentation",
+                  "value": "false"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cc3de5cf-b9ec-4643-a1ef-ac10d3079b2b",
+              "name": "A list of user representations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "username",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "email",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "firstName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "lastName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "enabled",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "first",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "max",
+                      "value": "100"
+                    },
+                    {
+                      "key": "briefRepresentation",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"3ee7d777-0af8-ed9e-8cc5-fe376ca61fe8\",\n    \"username\": \"string\",\n    \"firstName\": \"string\",\n    \"lastName\": \"string\",\n    \"email\": \"cxPAMYKiU@cJGhPyMT.wk\",\n    \"emailVerified\": true,\n    \"enabled\": false,\n    \"createdTimestamp\": 9619,\n    \"attributes\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ],\n      \"key_1\": [\n        \"string\",\n        \"string\"\n      ],\n      \"key_2\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"requiredActions\": [\n      \"string\",\n      \"string\"\n    ],\n    \"federatedIdentities\": [\n      {\n        \"identityProvider\": \"string\",\n        \"userId\": \"string\",\n        \"userName\": \"string\"\n      },\n      {\n        \"identityProvider\": \"string\",\n        \"userId\": \"string\",\n        \"userName\": \"string\"\n      }\n    ],\n    \"realmRoles\": [\n      \"string\",\n      \"string\"\n    ],\n    \"clientRoles\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ],\n      \"key_1\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"groups\": [\n      \"string\",\n      \"string\"\n    ],\n    \"totp\": false,\n    \"federationLink\": \"string\",\n    \"serviceAccountClientId\": \"string\",\n    \"notBefore\": 3340\n  },\n  {\n    \"id\": \"872f7d7d-59cd-dbfd-399a-4e78539ee6e2\",\n    \"username\": \"string\",\n    \"firstName\": \"string\",\n    \"lastName\": \"string\",\n    \"email\": \"eUH3VS@QmsweKDuDuBlYOGsyvCVmBm.vit\",\n    \"emailVerified\": true,\n    \"enabled\": true,\n    \"createdTimestamp\": 3048,\n    \"attributes\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ],\n      \"key_1\": [\n        \"string\",\n        \"string\"\n      ],\n      \"key_2\": [\n        \"string\",\n        \"string\"\n      ],\n      \"key_3\": [\n        \"string\",\n        \"string\"\n      ],\n      \"key_4\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"requiredActions\": [\n      \"string\",\n      \"string\"\n    ],\n    \"federatedIdentities\": [\n      {\n        \"identityProvider\": \"string\",\n        \"userId\": \"string\",\n        \"userName\": \"string\"\n      },\n      {\n        \"identityProvider\": \"string\",\n        \"userId\": \"string\",\n        \"userName\": \"string\"\n      }\n    ],\n    \"realmRoles\": [\n      \"string\",\n      \"string\"\n    ],\n    \"clientRoles\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"groups\": [\n      \"string\",\n      \"string\"\n    ],\n    \"totp\": false,\n    \"federationLink\": \"string\",\n    \"serviceAccountClientId\": \"string\",\n    \"notBefore\": 332\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f868ccbe-16b1-4a34-a179-dd27a9958c1b",
+          "name": "Keycloak Create a new user",
+          "request": {
+            "name": "Keycloak Create a new user",
+            "description": {
+              "content": "Creates a new user in the realm.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":realm",
+                "users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"email\": \"<email>\",\n  \"emailVerified\": \"<boolean>\",\n  \"enabled\": \"<boolean>\",\n  \"attributes\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"credentials\": [\n    {\n      \"id\": \"<string>\",\n      \"type\": \"<string>\",\n      \"value\": \"<string>\",\n      \"temporary\": \"<boolean>\",\n      \"createdDate\": \"<long>\",\n      \"userLabel\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"type\": \"<string>\",\n      \"value\": \"<string>\",\n      \"temporary\": \"<boolean>\",\n      \"createdDate\": \"<long>\",\n      \"userLabel\": \"<string>\"\n    }\n  ],\n  \"requiredActions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"federatedIdentities\": [\n    {\n      \"identityProvider\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"userName\": \"<string>\"\n    },\n    {\n      \"identityProvider\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"userName\": \"<string>\"\n    }\n  ],\n  \"realmRoles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"clientRoles\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"groups\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"totp\": \"<boolean>\",\n  \"federationLink\": \"<string>\",\n  \"serviceAccountClientId\": \"<string>\",\n  \"notBefore\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "af1be8e5-beff-404c-baf3-619b2ba49fed",
+              "name": "User created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"email\": \"<email>\",\n  \"emailVerified\": \"<boolean>\",\n  \"enabled\": \"<boolean>\",\n  \"attributes\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"credentials\": [\n    {\n      \"id\": \"<string>\",\n      \"type\": \"<string>\",\n      \"value\": \"<string>\",\n      \"temporary\": \"<boolean>\",\n      \"createdDate\": \"<long>\",\n      \"userLabel\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"type\": \"<string>\",\n      \"value\": \"<string>\",\n      \"temporary\": \"<boolean>\",\n      \"createdDate\": \"<long>\",\n      \"userLabel\": \"<string>\"\n    }\n  ],\n  \"requiredActions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"federatedIdentities\": [\n    {\n      \"identityProvider\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"userName\": \"<string>\"\n    },\n    {\n      \"identityProvider\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"userName\": \"<string>\"\n    }\n  ],\n  \"realmRoles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"clientRoles\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"groups\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"totp\": \"<boolean>\",\n  \"federationLink\": \"<string>\",\n  \"serviceAccountClientId\": \"<string>\",\n  \"notBefore\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "URI of the created user",
+                  "key": "Location",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f6ee9bf6-2855-45fd-b49a-f77113c03ab7",
+              "name": "User already exists",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"email\": \"<email>\",\n  \"emailVerified\": \"<boolean>\",\n  \"enabled\": \"<boolean>\",\n  \"attributes\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"credentials\": [\n    {\n      \"id\": \"<string>\",\n      \"type\": \"<string>\",\n      \"value\": \"<string>\",\n      \"temporary\": \"<boolean>\",\n      \"createdDate\": \"<long>\",\n      \"userLabel\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"type\": \"<string>\",\n      \"value\": \"<string>\",\n      \"temporary\": \"<boolean>\",\n      \"createdDate\": \"<long>\",\n      \"userLabel\": \"<string>\"\n    }\n  ],\n  \"requiredActions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"federatedIdentities\": [\n    {\n      \"identityProvider\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"userName\": \"<string>\"\n    },\n    {\n      \"identityProvider\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"userName\": \"<string>\"\n    }\n  ],\n  \"realmRoles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"clientRoles\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"groups\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"totp\": \"<boolean>\",\n  \"federationLink\": \"<string>\",\n  \"serviceAccountClientId\": \"<string>\",\n  \"notBefore\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4f702526-1d78-478b-a53b-0245de810db7",
+          "name": "Keycloak Get a user",
+          "request": {
+            "name": "Keycloak Get a user",
+            "description": {
+              "content": "Returns the representation of a specific user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":realm",
+                "users",
+                ":userId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "userId",
+                  "description": "(Required) The UUID of the user"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "32e679bc-2b12-4819-92b5-1602f77ce003",
+              "name": "A user representation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "users",
+                    ":userId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "userId",
+                      "description": "(Required) The UUID of the user"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"648c74b7-e018-c864-603f-163b149db8e4\",\n  \"username\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"email\": \"<email>\",\n  \"emailVerified\": \"<boolean>\",\n  \"enabled\": \"<boolean>\",\n  \"createdTimestamp\": 3354,\n  \"attributes\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"requiredActions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"federatedIdentities\": [\n    {\n      \"identityProvider\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"userName\": \"<string>\"\n    },\n    {\n      \"identityProvider\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"userName\": \"<string>\"\n    }\n  ],\n  \"realmRoles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"clientRoles\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"groups\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"totp\": \"<boolean>\",\n  \"federationLink\": \"<string>\",\n  \"serviceAccountClientId\": \"<string>\",\n  \"notBefore\": \"<integer>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bb23e2db-97aa-41eb-8176-20b35895287a",
+              "name": "User not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "users",
+                    ":userId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "userId",
+                      "description": "(Required) The UUID of the user"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "051b9e99-0c7d-48a5-890e-ca7a395947f5",
+          "name": "Keycloak Update a user",
+          "request": {
+            "name": "Keycloak Update a user",
+            "description": {
+              "content": "Updates the properties of an existing user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":realm",
+                "users",
+                ":userId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "userId",
+                  "description": "(Required) The UUID of the user"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"email\": \"<email>\",\n  \"emailVerified\": \"<boolean>\",\n  \"enabled\": \"<boolean>\",\n  \"attributes\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"credentials\": [\n    {\n      \"id\": \"<string>\",\n      \"type\": \"<string>\",\n      \"value\": \"<string>\",\n      \"temporary\": \"<boolean>\",\n      \"createdDate\": \"<long>\",\n      \"userLabel\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"type\": \"<string>\",\n      \"value\": \"<string>\",\n      \"temporary\": \"<boolean>\",\n      \"createdDate\": \"<long>\",\n      \"userLabel\": \"<string>\"\n    }\n  ],\n  \"requiredActions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"federatedIdentities\": [\n    {\n      \"identityProvider\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"userName\": \"<string>\"\n    },\n    {\n      \"identityProvider\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"userName\": \"<string>\"\n    }\n  ],\n  \"realmRoles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"clientRoles\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"groups\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"totp\": \"<boolean>\",\n  \"federationLink\": \"<string>\",\n  \"serviceAccountClientId\": \"<string>\",\n  \"notBefore\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b25f530a-df56-49e3-b4aa-e21c348086fd",
+              "name": "User updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "users",
+                    ":userId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "userId",
+                      "description": "(Required) The UUID of the user"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"email\": \"<email>\",\n  \"emailVerified\": \"<boolean>\",\n  \"enabled\": \"<boolean>\",\n  \"attributes\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"credentials\": [\n    {\n      \"id\": \"<string>\",\n      \"type\": \"<string>\",\n      \"value\": \"<string>\",\n      \"temporary\": \"<boolean>\",\n      \"createdDate\": \"<long>\",\n      \"userLabel\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"type\": \"<string>\",\n      \"value\": \"<string>\",\n      \"temporary\": \"<boolean>\",\n      \"createdDate\": \"<long>\",\n      \"userLabel\": \"<string>\"\n    }\n  ],\n  \"requiredActions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"federatedIdentities\": [\n    {\n      \"identityProvider\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"userName\": \"<string>\"\n    },\n    {\n      \"identityProvider\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"userName\": \"<string>\"\n    }\n  ],\n  \"realmRoles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"clientRoles\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"groups\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"totp\": \"<boolean>\",\n  \"federationLink\": \"<string>\",\n  \"serviceAccountClientId\": \"<string>\",\n  \"notBefore\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1311a6be-5679-444e-9d8b-d6f409b83c67",
+              "name": "User not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "users",
+                    ":userId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "userId",
+                      "description": "(Required) The UUID of the user"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"email\": \"<email>\",\n  \"emailVerified\": \"<boolean>\",\n  \"enabled\": \"<boolean>\",\n  \"attributes\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"credentials\": [\n    {\n      \"id\": \"<string>\",\n      \"type\": \"<string>\",\n      \"value\": \"<string>\",\n      \"temporary\": \"<boolean>\",\n      \"createdDate\": \"<long>\",\n      \"userLabel\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"type\": \"<string>\",\n      \"value\": \"<string>\",\n      \"temporary\": \"<boolean>\",\n      \"createdDate\": \"<long>\",\n      \"userLabel\": \"<string>\"\n    }\n  ],\n  \"requiredActions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"federatedIdentities\": [\n    {\n      \"identityProvider\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"userName\": \"<string>\"\n    },\n    {\n      \"identityProvider\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"userName\": \"<string>\"\n    }\n  ],\n  \"realmRoles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"clientRoles\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_1\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"groups\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"totp\": \"<boolean>\",\n  \"federationLink\": \"<string>\",\n  \"serviceAccountClientId\": \"<string>\",\n  \"notBefore\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "157d4f80-0632-4cc2-bf8d-1c74aa81cc2c",
+          "name": "Keycloak Delete a user",
+          "request": {
+            "name": "Keycloak Delete a user",
+            "description": {
+              "content": "Permanently deletes a user from the realm.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":realm",
+                "users",
+                ":userId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "userId",
+                  "description": "(Required) The UUID of the user"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "148f7be8-2f2c-41d4-b99e-449a31de45c3",
+              "name": "User deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "users",
+                    ":userId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "userId",
+                      "description": "(Required) The UUID of the user"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6ddba9f4-e7a7-4927-9fdf-aa773fdecd3c",
+              "name": "User not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "users",
+                    ":userId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "userId",
+                      "description": "(Required) The UUID of the user"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "94a00204-bbe3-4e66-9bb9-8a8001e8d9da",
+          "name": "Keycloak Get realm-level role mappings for a user",
+          "request": {
+            "name": "Keycloak Get realm-level role mappings for a user",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "users",
+                ":userId",
+                "role-mappings",
+                "realm"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "userId",
+                  "description": "(Required) The UUID of the user"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0102ef0d-cc5c-4c05-9f6d-3a4f0f4fc83c",
+              "name": "A list of role representations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "users",
+                    ":userId",
+                    "role-mappings",
+                    "realm"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "userId",
+                      "description": "(Required) The UUID of the user"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"f7b40652-a054-a9dd-405c-ceab72df748f\",\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"composite\": true,\n    \"composites\": {\n      \"realm\": [\n        \"string\",\n        \"string\"\n      ],\n      \"client\": {\n        \"key_0\": [\n          \"string\",\n          \"string\"\n        ],\n        \"key_1\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    },\n    \"clientRole\": true,\n    \"containerId\": \"string\",\n    \"attributes\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ],\n      \"key_1\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  },\n  {\n    \"id\": \"c2fe3ffb-b4c9-068c-326b-df0d5c041164\",\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"composite\": true,\n    \"composites\": {\n      \"realm\": [\n        \"string\",\n        \"string\"\n      ],\n      \"client\": {\n        \"key_0\": [\n          \"string\",\n          \"string\"\n        ],\n        \"key_1\": [\n          \"string\",\n          \"string\"\n        ],\n        \"key_2\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    },\n    \"clientRole\": false,\n    \"containerId\": \"string\",\n    \"attributes\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0e181293-9e25-439c-972b-756993fe290d",
+          "name": "Keycloak Add realm-level role mappings to a user",
+          "request": {
+            "name": "Keycloak Add realm-level role mappings to a user",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "users",
+                ":userId",
+                "role-mappings",
+                "realm"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "userId",
+                  "description": "(Required) The UUID of the user"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"composite\": \"<boolean>\",\n    \"composites\": {\n      \"realm\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"client\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    \"clientRole\": \"<boolean>\",\n    \"containerId\": \"<string>\",\n    \"attributes\": {\n      \"key_0\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_1\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  },\n  {\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"composite\": \"<boolean>\",\n    \"composites\": {\n      \"realm\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"client\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    \"clientRole\": \"<boolean>\",\n    \"containerId\": \"<string>\",\n    \"attributes\": {\n      \"key_0\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_1\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_2\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_3\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_4\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "56a7119b-586e-45fb-8efe-40ea9ebadd14",
+              "name": "Role mappings added",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "users",
+                    ":userId",
+                    "role-mappings",
+                    "realm"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "userId",
+                      "description": "(Required) The UUID of the user"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"composite\": \"<boolean>\",\n    \"composites\": {\n      \"realm\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"client\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    \"clientRole\": \"<boolean>\",\n    \"containerId\": \"<string>\",\n    \"attributes\": {\n      \"key_0\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_1\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_2\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_3\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  },\n  {\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"composite\": \"<boolean>\",\n    \"composites\": {\n      \"realm\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"client\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    \"clientRole\": \"<boolean>\",\n    \"containerId\": \"<string>\",\n    \"attributes\": {\n      \"key_0\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_1\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_2\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8fa2322c-b077-4df0-a721-1df71d2a74f7",
+          "name": "Keycloak Remove realm-level role mappings from a user",
+          "request": {
+            "name": "Keycloak Remove realm-level role mappings from a user",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "users",
+                ":userId",
+                "role-mappings",
+                "realm"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "userId",
+                  "description": "(Required) The UUID of the user"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"composite\": \"<boolean>\",\n    \"composites\": {\n      \"realm\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"client\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    \"clientRole\": \"<boolean>\",\n    \"containerId\": \"<string>\",\n    \"attributes\": {\n      \"key_0\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_1\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  },\n  {\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"composite\": \"<boolean>\",\n    \"composites\": {\n      \"realm\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"client\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    \"clientRole\": \"<boolean>\",\n    \"containerId\": \"<string>\",\n    \"attributes\": {\n      \"key_0\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_1\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_2\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_3\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_4\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "079f0c3a-e435-4551-8ae7-86c966136fa4",
+              "name": "Role mappings removed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "users",
+                    ":userId",
+                    "role-mappings",
+                    "realm"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "userId",
+                      "description": "(Required) The UUID of the user"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"composite\": \"<boolean>\",\n    \"composites\": {\n      \"realm\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"client\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    \"clientRole\": \"<boolean>\",\n    \"containerId\": \"<string>\",\n    \"attributes\": {\n      \"key_0\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_1\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_2\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_3\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  },\n  {\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"composite\": \"<boolean>\",\n    \"composites\": {\n      \"realm\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"client\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    \"clientRole\": \"<boolean>\",\n    \"containerId\": \"<string>\",\n    \"attributes\": {\n      \"key_0\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_1\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_2\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "df17c69f-8288-4cf3-92fe-45cd5691fe50",
+          "name": "Keycloak Get groups for a user",
+          "request": {
+            "name": "Keycloak Get groups for a user",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "users",
+                ":userId",
+                "groups"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "userId",
+                  "description": "(Required) The UUID of the user"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c867a257-6e7c-4815-9cd2-281544726454",
+              "name": "A list of group representations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "users",
+                    ":userId",
+                    "groups"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "userId",
+                      "description": "(Required) The UUID of the user"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"41ac3e66-2d19-378c-18a9-f67a4098c899\",\n    \"name\": \"string\",\n    \"path\": \"string\",\n    \"subGroups\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n      }\n    ],\n    \"attributes\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"realmRoles\": [\n      \"string\",\n      \"string\"\n    ],\n    \"clientRoles\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  },\n  {\n    \"id\": \"74c9626a-82de-d08e-5948-bb251231abf7\",\n    \"name\": \"string\",\n    \"path\": \"string\",\n    \"subGroups\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n      }\n    ],\n    \"attributes\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ],\n      \"key_1\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"realmRoles\": [\n      \"string\",\n      \"string\"\n    ],\n    \"clientRoles\": {\n      \"key_0\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3546e604-d4a7-4dc0-b772-30bee7529f47",
+          "name": "Keycloak Add a user to a group",
+          "request": {
+            "name": "Keycloak Add a user to a group",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "users",
+                ":userId",
+                "groups",
+                ":groupId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "userId",
+                  "description": "(Required) The UUID of the user"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "groupId",
+                  "description": "(Required) The UUID of the group"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "method": "PUT",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c2177781-80a8-4622-8969-4db4aecd4911",
+              "name": "User added to group",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "users",
+                    ":userId",
+                    "groups",
+                    ":groupId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "userId",
+                      "description": "(Required) The UUID of the user"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "groupId",
+                      "description": "(Required) The UUID of the group"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fce9e2d0-abda-4801-b1f4-08c8978ce3be",
+          "name": "Keycloak Remove a user from a group",
+          "request": {
+            "name": "Keycloak Remove a user from a group",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "users",
+                ":userId",
+                "groups",
+                ":groupId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "userId",
+                  "description": "(Required) The UUID of the user"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "groupId",
+                  "description": "(Required) The UUID of the group"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "32c735d8-9f8e-4d1f-9570-1995a7717047",
+              "name": "User removed from group",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "users",
+                    ":userId",
+                    "groups",
+                    ":groupId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "userId",
+                      "description": "(Required) The UUID of the user"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "groupId",
+                      "description": "(Required) The UUID of the group"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d156d34c-0949-4b18-a4a0-c4617f144aa3",
+          "name": "Keycloak Reset a user's password",
+          "request": {
+            "name": "Keycloak Reset a user's password",
+            "description": {
+              "content": "Sets a new password for the user. Set temporary to true to require a password change on next login.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":realm",
+                "users",
+                ":userId",
+                "reset-password"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "userId",
+                  "description": "(Required) The UUID of the user"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"type\": \"<string>\",\n  \"value\": \"<string>\",\n  \"temporary\": \"<boolean>\",\n  \"createdDate\": \"<long>\",\n  \"userLabel\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8a68badf-d7a0-494f-8585-89931d395b15",
+              "name": "Password reset successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "users",
+                    ":userId",
+                    "reset-password"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "userId",
+                      "description": "(Required) The UUID of the user"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"type\": \"<string>\",\n  \"value\": \"<string>\",\n  \"temporary\": \"<boolean>\",\n  \"createdDate\": \"<long>\",\n  \"userLabel\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "00a2121d-75c3-40cb-aaa2-c5a12f8e9155",
+          "name": "Keycloak Get members of a group",
+          "request": {
+            "name": "Keycloak Get members of a group",
+            "description": {},
+            "url": {
+              "path": [
+                ":realm",
+                "groups",
+                ":groupId",
+                "members"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "first",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "max",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "groupId",
+                  "description": "(Required) The UUID of the group"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "678038a3-e300-4708-bfdb-c40da2654a7f",
+              "name": "A list of user representations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm",
+                    "groups",
+                    ":groupId",
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "first",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "max",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "groupId",
+                      "description": "(Required) The UUID of the group"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"2cf45d2a-eb7a-6d69-2b3c-5df573c4f186\",\n    \"username\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"email\": \"<email>\",\n    \"emailVerified\": \"<boolean>\",\n    \"enabled\": \"<boolean>\",\n    \"createdTimestamp\": 3581,\n    \"attributes\": {\n      \"key_0\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"requiredActions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"federatedIdentities\": [\n      {\n        \"identityProvider\": \"<string>\",\n        \"userId\": \"<string>\",\n        \"userName\": \"<string>\"\n      },\n      {\n        \"identityProvider\": \"<string>\",\n        \"userId\": \"<string>\",\n        \"userName\": \"<string>\"\n      }\n    ],\n    \"realmRoles\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"clientRoles\": {\n      \"key_0\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"groups\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"totp\": \"<boolean>\",\n    \"federationLink\": \"<string>\",\n    \"serviceAccountClientId\": \"<string>\",\n    \"notBefore\": \"<integer>\"\n  },\n  {\n    \"id\": \"fd834d16-3293-3a3b-57f6-7890f3efb8ba\",\n    \"username\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"email\": \"<email>\",\n    \"emailVerified\": \"<boolean>\",\n    \"enabled\": \"<boolean>\",\n    \"createdTimestamp\": 5390,\n    \"attributes\": {\n      \"key_0\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"requiredActions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"federatedIdentities\": [\n      {\n        \"identityProvider\": \"<string>\",\n        \"userId\": \"<string>\",\n        \"userName\": \"<string>\"\n      },\n      {\n        \"identityProvider\": \"<string>\",\n        \"userId\": \"<string>\",\n        \"userName\": \"<string>\"\n      }\n    ],\n    \"realmRoles\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"clientRoles\": {\n      \"key_0\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_1\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"key_2\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"groups\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"totp\": \"<boolean>\",\n    \"federationLink\": \"<string>\",\n    \"serviceAccountClientId\": \"<string>\",\n    \"notBefore\": \"<integer>\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Keycloak server host and port",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "localhost:8080",
+      "key": "host"
+    },
+    {
+      "type": "string",
+      "value": "https://{{host}}/admin/realms",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "ee363cb8-a310-4785-b86c-4945abf8d9b1",
+    "name": "Keycloak Admin REST Clients Users API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Keycloak Admin REST API provides endpoints for managing all aspects of a Keycloak deployment, including realms, users, clients, roles, groups, and identity providers. All endpoints require authentication via a bearer token obtained from the Keycloak token endpoint.\n\nContact Support:\n Name: Keycloak",
+      "type": "text/plain"
+    }
+  }
+}

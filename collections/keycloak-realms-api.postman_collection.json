@@ -1,0 +1,641 @@
+{
+  "item": [
+    {
+      "id": "743b0d5a-fefb-4f13-8554-3d726a0f7f2f",
+      "name": "Realms",
+      "description": {
+        "content": "Manage Keycloak realms",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "58c63113-0784-4932-9d79-3d3b99ea0ecc",
+          "name": "Keycloak List all realms",
+          "request": {
+            "name": "Keycloak List all realms",
+            "description": {
+              "content": "Returns a list of all realms accessible to the authenticated user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "briefRepresentation",
+                  "value": "false"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3d5100ae-5640-4348-bda9-b98b723f6249",
+              "name": "A list of realm representations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "briefRepresentation",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"realm\": \"string\",\n    \"displayName\": \"string\",\n    \"displayNameHtml\": \"string\",\n    \"enabled\": false,\n    \"sslRequired\": \"all\",\n    \"registrationAllowed\": true,\n    \"registrationEmailAsUsername\": false,\n    \"rememberMe\": false,\n    \"verifyEmail\": true,\n    \"loginWithEmailAllowed\": false,\n    \"duplicateEmailsAllowed\": true,\n    \"resetPasswordAllowed\": true,\n    \"editUsernameAllowed\": true,\n    \"bruteForceProtected\": false,\n    \"permanentLockout\": true,\n    \"maxFailureWaitSeconds\": 5974,\n    \"minimumQuickLoginWaitSeconds\": 1392,\n    \"waitIncrementSeconds\": 4351,\n    \"quickLoginCheckMilliSeconds\": 8061,\n    \"maxDeltaTimeSeconds\": 1457,\n    \"failureFactor\": 5338,\n    \"defaultRoles\": [\n      \"string\",\n      \"string\"\n    ],\n    \"requiredCredentials\": [\n      \"string\",\n      \"string\"\n    ],\n    \"passwordPolicy\": \"string\",\n    \"otpPolicyType\": \"string\",\n    \"otpPolicyAlgorithm\": \"string\",\n    \"otpPolicyDigits\": 2701,\n    \"otpPolicyPeriod\": 4928,\n    \"otpPolicyInitialCounter\": 6666,\n    \"browserSecurityHeaders\": {\n      \"key_0\": \"string\"\n    },\n    \"smtpServer\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    },\n    \"eventsEnabled\": false,\n    \"eventsExpiration\": 7553,\n    \"eventsListeners\": [\n      \"string\",\n      \"string\"\n    ],\n    \"adminEventsEnabled\": true,\n    \"adminEventsDetailsEnabled\": true,\n    \"internationalizationEnabled\": true,\n    \"supportedLocales\": [\n      \"string\",\n      \"string\"\n    ],\n    \"defaultLocale\": \"string\",\n    \"accessTokenLifespan\": 2580,\n    \"accessTokenLifespanForImplicitFlow\": 1533,\n    \"ssoSessionIdleTimeout\": 1749,\n    \"ssoSessionMaxLifespan\": 6410,\n    \"offlineSessionIdleTimeout\": 4074,\n    \"accessCodeLifespan\": 2575,\n    \"accessCodeLifespanUserAction\": 1688,\n    \"accessCodeLifespanLogin\": 4350,\n    \"actionTokenGeneratedByAdminLifespan\": 2153,\n    \"actionTokenGeneratedByUserLifespan\": 9196,\n    \"users\": [\n      {\n        \"id\": \"683aebf9-d785-c0bd-0c19-5b2b69d2bd85\",\n        \"username\": \"string\",\n        \"firstName\": \"string\",\n        \"lastName\": \"string\",\n        \"email\": \"lKvh@SULkRbcAfCThdcwEcYsASCS.gqu\",\n        \"emailVerified\": false,\n        \"enabled\": false,\n        \"createdTimestamp\": 7046,\n        \"attributes\": {\n          \"key_0\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_1\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"requiredActions\": [\n          \"string\",\n          \"string\"\n        ],\n        \"federatedIdentities\": [\n          {\n            \"identityProvider\": \"string\",\n            \"userId\": \"string\",\n            \"userName\": \"string\"\n          },\n          {\n            \"identityProvider\": \"string\",\n            \"userId\": \"string\",\n            \"userName\": \"string\"\n          }\n        ],\n        \"realmRoles\": [\n          \"string\",\n          \"string\"\n        ],\n        \"clientRoles\": {\n          \"key_0\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"groups\": [\n          \"string\",\n          \"string\"\n        ],\n        \"totp\": false,\n        \"federationLink\": \"string\",\n        \"serviceAccountClientId\": \"string\",\n        \"notBefore\": 1966\n      },\n      {\n        \"id\": \"c6a39618-0778-e0a9-9775-f6d538130a1b\",\n        \"username\": \"string\",\n        \"firstName\": \"string\",\n        \"lastName\": \"string\",\n        \"email\": \"DK9lC2SlET@LbnTshdbfjxbFPCzhSKAglbUTgFuNHB.rt\",\n        \"emailVerified\": false,\n        \"enabled\": true,\n        \"createdTimestamp\": 2790,\n        \"attributes\": {\n          \"key_0\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"requiredActions\": [\n          \"string\",\n          \"string\"\n        ],\n        \"federatedIdentities\": [\n          {\n            \"identityProvider\": \"string\",\n            \"userId\": \"string\",\n            \"userName\": \"string\"\n          },\n          {\n            \"identityProvider\": \"string\",\n            \"userId\": \"string\",\n            \"userName\": \"string\"\n          }\n        ],\n        \"realmRoles\": [\n          \"string\",\n          \"string\"\n        ],\n        \"clientRoles\": {\n          \"key_0\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_1\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_2\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_3\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"groups\": [\n          \"string\",\n          \"string\"\n        ],\n        \"totp\": true,\n        \"federationLink\": \"string\",\n        \"serviceAccountClientId\": \"string\",\n        \"notBefore\": 299\n      }\n    ],\n    \"clients\": [\n      {\n        \"id\": \"6cf64925-b6b7-99f2-c8ed-afb31472a0ea\",\n        \"clientId\": \"string\",\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"enabled\": true,\n        \"clientAuthenticatorType\": \"string\",\n        \"rootUrl\": \"http://dfFHiGXhVnNRoYyexHkeHi.emIFKOM,Hd2Ml-4qDZdEJE5PAMmuy8dvXJaxEbPLITiWSnBec8fLXEh2sxReIOp-G,7\",\n        \"baseUrl\": \"string\",\n        \"adminUrl\": \"string\",\n        \"surrogateAuthRequired\": true,\n        \"redirectUris\": [\n          \"string\",\n          \"string\"\n        ],\n        \"webOrigins\": [\n          \"string\",\n          \"string\"\n        ],\n        \"bearerOnly\": true,\n        \"consentRequired\": false,\n        \"standardFlowEnabled\": false,\n        \"implicitFlowEnabled\": false,\n        \"directAccessGrantsEnabled\": false,\n        \"serviceAccountsEnabled\": true,\n        \"publicClient\": true,\n        \"frontchannelLogout\": false,\n        \"protocol\": \"saml\",\n        \"attributes\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        },\n        \"fullScopeAllowed\": true,\n        \"defaultClientScopes\": [\n          \"string\",\n          \"string\"\n        ],\n        \"optionalClientScopes\": [\n          \"string\",\n          \"string\"\n        ],\n        \"authorizationServicesEnabled\": false\n      },\n      {\n        \"id\": \"4547cab9-06a1-9e36-28a6-dbfbf650e936\",\n        \"clientId\": \"string\",\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"enabled\": true,\n        \"clientAuthenticatorType\": \"string\",\n        \"rootUrl\": \"http://xnNSQaC.zkUJ9F.QyJ8p-K4SaYggqgWtoUtc3GcSeiL5qgmjpEO5EMqol0p6feIK2nNa,b41jU25DTv\",\n        \"baseUrl\": \"string\",\n        \"adminUrl\": \"string\",\n        \"surrogateAuthRequired\": false,\n        \"redirectUris\": [\n          \"string\",\n          \"string\"\n        ],\n        \"webOrigins\": [\n          \"string\",\n          \"string\"\n        ],\n        \"bearerOnly\": false,\n        \"consentRequired\": false,\n        \"standardFlowEnabled\": false,\n        \"implicitFlowEnabled\": false,\n        \"directAccessGrantsEnabled\": true,\n        \"serviceAccountsEnabled\": false,\n        \"publicClient\": true,\n        \"frontchannelLogout\": true,\n        \"protocol\": \"openid-connect\",\n        \"attributes\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        },\n        \"fullScopeAllowed\": false,\n        \"defaultClientScopes\": [\n          \"string\",\n          \"string\"\n        ],\n        \"optionalClientScopes\": [\n          \"string\",\n          \"string\"\n        ],\n        \"authorizationServicesEnabled\": false\n      }\n    ],\n    \"groups\": [\n      {\n        \"id\": \"e6221a80-02ed-5278-83c9-87777a5fee80\",\n        \"name\": \"string\",\n        \"path\": \"string\",\n        \"subGroups\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n          }\n        ],\n        \"attributes\": {\n          \"key_0\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"realmRoles\": [\n          \"string\",\n          \"string\"\n        ],\n        \"clientRoles\": {\n          \"key_0\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_1\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_2\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      },\n      {\n        \"id\": \"26966cce-a2a3-a023-199d-843fffb74c55\",\n        \"name\": \"string\",\n        \"path\": \"string\",\n        \"subGroups\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n          }\n        ],\n        \"attributes\": {\n          \"key_0\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_1\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_2\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"realmRoles\": [\n          \"string\",\n          \"string\"\n        ],\n        \"clientRoles\": {\n          \"key_0\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_1\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      }\n    ],\n    \"roles\": {\n      \"realm\": [\n        {\n          \"id\": \"c79fe73d-2b39-8233-d1c8-6a7cffc4af9c\",\n          \"name\": \"string\",\n          \"description\": \"string\",\n          \"composite\": false,\n          \"composites\": {\n            \"realm\": [\n              \"string\",\n              \"string\"\n            ],\n            \"client\": {\n              \"key_0\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"key_1\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"key_2\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ]\n            }\n          },\n          \"clientRole\": true,\n          \"containerId\": \"string\",\n          \"attributes\": {\n            \"key_0\": [\n              \"string\",\n              \"string\"\n            ],\n            \"key_1\": [\n              \"string\",\n              \"string\"\n            ]\n          }\n        },\n        {\n          \"id\": \"9bae18a2-86ec-ad43-13ca-809b95fae1a9\",\n          \"name\": \"string\",\n          \"description\": \"string\",\n          \"composite\": false,\n          \"composites\": {\n            \"realm\": [\n              \"string\",\n              \"string\"\n            ],\n            \"client\": {\n              \"key_0\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ]\n            }\n          },\n          \"clientRole\": false,\n          \"containerId\": \"string\",\n          \"attributes\": {\n            \"key_0\": [\n              \"string\",\n              \"string\"\n            ]\n          }\n        }\n      ]\n    },\n    \"identityProviders\": [\n      {\n        \"alias\": \"string\",\n        \"displayName\": \"string\",\n        \"internalId\": \"string\",\n        \"providerId\": \"string\",\n        \"enabled\": true,\n        \"trustEmail\": false,\n        \"storeToken\": false,\n        \"addReadTokenRoleOnCreate\": true,\n        \"authenticateByDefault\": false,\n        \"linkOnly\": false,\n        \"firstBrokerLoginFlowAlias\": \"string\",\n        \"postBrokerLoginFlowAlias\": \"string\",\n        \"config\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        }\n      },\n      {\n        \"alias\": \"string\",\n        \"displayName\": \"string\",\n        \"internalId\": \"string\",\n        \"providerId\": \"string\",\n        \"enabled\": false,\n        \"trustEmail\": false,\n        \"storeToken\": false,\n        \"addReadTokenRoleOnCreate\": false,\n        \"authenticateByDefault\": true,\n        \"linkOnly\": false,\n        \"firstBrokerLoginFlowAlias\": \"string\",\n        \"postBrokerLoginFlowAlias\": \"string\",\n        \"config\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        }\n      }\n    ]\n  },\n  {\n    \"id\": \"string\",\n    \"realm\": \"string\",\n    \"displayName\": \"string\",\n    \"displayNameHtml\": \"string\",\n    \"enabled\": true,\n    \"sslRequired\": \"none\",\n    \"registrationAllowed\": true,\n    \"registrationEmailAsUsername\": false,\n    \"rememberMe\": true,\n    \"verifyEmail\": false,\n    \"loginWithEmailAllowed\": false,\n    \"duplicateEmailsAllowed\": true,\n    \"resetPasswordAllowed\": false,\n    \"editUsernameAllowed\": false,\n    \"bruteForceProtected\": true,\n    \"permanentLockout\": false,\n    \"maxFailureWaitSeconds\": 419,\n    \"minimumQuickLoginWaitSeconds\": 9200,\n    \"waitIncrementSeconds\": 3331,\n    \"quickLoginCheckMilliSeconds\": 5408,\n    \"maxDeltaTimeSeconds\": 7172,\n    \"failureFactor\": 9757,\n    \"defaultRoles\": [\n      \"string\",\n      \"string\"\n    ],\n    \"requiredCredentials\": [\n      \"string\",\n      \"string\"\n    ],\n    \"passwordPolicy\": \"string\",\n    \"otpPolicyType\": \"string\",\n    \"otpPolicyAlgorithm\": \"string\",\n    \"otpPolicyDigits\": 1512,\n    \"otpPolicyPeriod\": 2097,\n    \"otpPolicyInitialCounter\": 9799,\n    \"browserSecurityHeaders\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    },\n    \"smtpServer\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    },\n    \"eventsEnabled\": true,\n    \"eventsExpiration\": 3882,\n    \"eventsListeners\": [\n      \"string\",\n      \"string\"\n    ],\n    \"adminEventsEnabled\": true,\n    \"adminEventsDetailsEnabled\": false,\n    \"internationalizationEnabled\": true,\n    \"supportedLocales\": [\n      \"string\",\n      \"string\"\n    ],\n    \"defaultLocale\": \"string\",\n    \"accessTokenLifespan\": 5543,\n    \"accessTokenLifespanForImplicitFlow\": 5801,\n    \"ssoSessionIdleTimeout\": 9514,\n    \"ssoSessionMaxLifespan\": 1175,\n    \"offlineSessionIdleTimeout\": 2124,\n    \"accessCodeLifespan\": 4032,\n    \"accessCodeLifespanUserAction\": 6030,\n    \"accessCodeLifespanLogin\": 7575,\n    \"actionTokenGeneratedByAdminLifespan\": 3934,\n    \"actionTokenGeneratedByUserLifespan\": 6431,\n    \"users\": [\n      {\n        \"id\": \"8a8dea4e-6b56-8fb0-1606-43f0cabe27f7\",\n        \"username\": \"string\",\n        \"firstName\": \"string\",\n        \"lastName\": \"string\",\n        \"email\": \"gJs@fXJxTsbVQHOKXQoS.lqp\",\n        \"emailVerified\": false,\n        \"enabled\": false,\n        \"createdTimestamp\": 959,\n        \"attributes\": {\n          \"key_0\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"requiredActions\": [\n          \"string\",\n          \"string\"\n        ],\n        \"federatedIdentities\": [\n          {\n            \"identityProvider\": \"string\",\n            \"userId\": \"string\",\n            \"userName\": \"string\"\n          },\n          {\n            \"identityProvider\": \"string\",\n            \"userId\": \"string\",\n            \"userName\": \"string\"\n          }\n        ],\n        \"realmRoles\": [\n          \"string\",\n          \"string\"\n        ],\n        \"clientRoles\": {\n          \"key_0\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"groups\": [\n          \"string\",\n          \"string\"\n        ],\n        \"totp\": true,\n        \"federationLink\": \"string\",\n        \"serviceAccountClientId\": \"string\",\n        \"notBefore\": 6801\n      },\n      {\n        \"id\": \"9b4276c8-996c-8258-f91a-cd89453833dd\",\n        \"username\": \"string\",\n        \"firstName\": \"string\",\n        \"lastName\": \"string\",\n        \"email\": \"jpNDcOLUpDt@NuwVsERaLdqsjdfnGRqtG.ado\",\n        \"emailVerified\": false,\n        \"enabled\": false,\n        \"createdTimestamp\": 984,\n        \"attributes\": {\n          \"key_0\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"requiredActions\": [\n          \"string\",\n          \"string\"\n        ],\n        \"federatedIdentities\": [\n          {\n            \"identityProvider\": \"string\",\n            \"userId\": \"string\",\n            \"userName\": \"string\"\n          },\n          {\n            \"identityProvider\": \"string\",\n            \"userId\": \"string\",\n            \"userName\": \"string\"\n          }\n        ],\n        \"realmRoles\": [\n          \"string\",\n          \"string\"\n        ],\n        \"clientRoles\": {\n          \"key_0\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"groups\": [\n          \"string\",\n          \"string\"\n        ],\n        \"totp\": false,\n        \"federationLink\": \"string\",\n        \"serviceAccountClientId\": \"string\",\n        \"notBefore\": 6632\n      }\n    ],\n    \"clients\": [\n      {\n        \"id\": \"370247ec-ab5f-e07d-5cbe-a585699c145d\",\n        \"clientId\": \"string\",\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"enabled\": true,\n        \"clientAuthenticatorType\": \"string\",\n        \"rootUrl\": \"https://TgOijxh.kqvgzq,9SdSwW5-,SasQYB+itWuE.xMneunJe3iAv3NFG3mUD0uSik4KyhpYYBn0HpN\",\n        \"baseUrl\": \"string\",\n        \"adminUrl\": \"string\",\n        \"surrogateAuthRequired\": true,\n        \"redirectUris\": [\n          \"string\",\n          \"string\"\n        ],\n        \"webOrigins\": [\n          \"string\",\n          \"string\"\n        ],\n        \"bearerOnly\": true,\n        \"consentRequired\": true,\n        \"standardFlowEnabled\": true,\n        \"implicitFlowEnabled\": false,\n        \"directAccessGrantsEnabled\": true,\n        \"serviceAccountsEnabled\": true,\n        \"publicClient\": true,\n        \"frontchannelLogout\": false,\n        \"protocol\": \"saml\",\n        \"attributes\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        },\n        \"fullScopeAllowed\": true,\n        \"defaultClientScopes\": [\n          \"string\",\n          \"string\"\n        ],\n        \"optionalClientScopes\": [\n          \"string\",\n          \"string\"\n        ],\n        \"authorizationServicesEnabled\": false\n      },\n      {\n        \"id\": \"aec8b70b-f7e3-dfdd-5553-ec7e5e4e2b6e\",\n        \"clientId\": \"string\",\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"enabled\": false,\n        \"clientAuthenticatorType\": \"string\",\n        \"rootUrl\": \"http://kTGALINJOaArtyVccEfZ.xuQPrLFNsbwh.xYz\",\n        \"baseUrl\": \"string\",\n        \"adminUrl\": \"string\",\n        \"surrogateAuthRequired\": false,\n        \"redirectUris\": [\n          \"string\",\n          \"string\"\n        ],\n        \"webOrigins\": [\n          \"string\",\n          \"string\"\n        ],\n        \"bearerOnly\": false,\n        \"consentRequired\": false,\n        \"standardFlowEnabled\": true,\n        \"implicitFlowEnabled\": false,\n        \"directAccessGrantsEnabled\": false,\n        \"serviceAccountsEnabled\": true,\n        \"publicClient\": true,\n        \"frontchannelLogout\": true,\n        \"protocol\": \"saml\",\n        \"attributes\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        },\n        \"fullScopeAllowed\": true,\n        \"defaultClientScopes\": [\n          \"string\",\n          \"string\"\n        ],\n        \"optionalClientScopes\": [\n          \"string\",\n          \"string\"\n        ],\n        \"authorizationServicesEnabled\": false\n      }\n    ],\n    \"groups\": [\n      {\n        \"id\": \"e10d2468-9fb9-345f-2e54-37284f17e4ed\",\n        \"name\": \"string\",\n        \"path\": \"string\",\n        \"subGroups\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n          }\n        ],\n        \"attributes\": {\n          \"key_0\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_1\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_2\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"realmRoles\": [\n          \"string\",\n          \"string\"\n        ],\n        \"clientRoles\": {\n          \"key_0\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      },\n      {\n        \"id\": \"1abe7085-3804-d7c2-73fb-d3d56ee83a83\",\n        \"name\": \"string\",\n        \"path\": \"string\",\n        \"subGroups\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n          }\n        ],\n        \"attributes\": {\n          \"key_0\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_1\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"realmRoles\": [\n          \"string\",\n          \"string\"\n        ],\n        \"clientRoles\": {\n          \"key_0\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_1\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_2\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_3\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      }\n    ],\n    \"roles\": {\n      \"realm\": [\n        {\n          \"id\": \"c1244b2e-0405-d01f-2913-c773163f1677\",\n          \"name\": \"string\",\n          \"description\": \"string\",\n          \"composite\": false,\n          \"composites\": {\n            \"realm\": [\n              \"string\",\n              \"string\"\n            ],\n            \"client\": {\n              \"key_0\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ]\n            }\n          },\n          \"clientRole\": false,\n          \"containerId\": \"string\",\n          \"attributes\": {\n            \"key_0\": [\n              \"string\",\n              \"string\"\n            ],\n            \"key_1\": [\n              \"string\",\n              \"string\"\n            ],\n            \"key_2\": [\n              \"string\",\n              \"string\"\n            ]\n          }\n        },\n        {\n          \"id\": \"4e42ee6d-1d58-cf79-1978-331497f9cbe3\",\n          \"name\": \"string\",\n          \"description\": \"string\",\n          \"composite\": false,\n          \"composites\": {\n            \"realm\": [\n              \"string\",\n              \"string\"\n            ],\n            \"client\": {\n              \"key_0\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"key_1\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ]\n            }\n          },\n          \"clientRole\": true,\n          \"containerId\": \"string\",\n          \"attributes\": {\n            \"key_0\": [\n              \"string\",\n              \"string\"\n            ],\n            \"key_1\": [\n              \"string\",\n              \"string\"\n            ],\n            \"key_2\": [\n              \"string\",\n              \"string\"\n            ]\n          }\n        }\n      ]\n    },\n    \"identityProviders\": [\n      {\n        \"alias\": \"string\",\n        \"displayName\": \"string\",\n        \"internalId\": \"string\",\n        \"providerId\": \"string\",\n        \"enabled\": false,\n        \"trustEmail\": false,\n        \"storeToken\": false,\n        \"addReadTokenRoleOnCreate\": false,\n        \"authenticateByDefault\": true,\n        \"linkOnly\": true,\n        \"firstBrokerLoginFlowAlias\": \"string\",\n        \"postBrokerLoginFlowAlias\": \"string\",\n        \"config\": {\n          \"key_0\": \"string\"\n        }\n      },\n      {\n        \"alias\": \"string\",\n        \"displayName\": \"string\",\n        \"internalId\": \"string\",\n        \"providerId\": \"string\",\n        \"enabled\": true,\n        \"trustEmail\": true,\n        \"storeToken\": true,\n        \"addReadTokenRoleOnCreate\": true,\n        \"authenticateByDefault\": false,\n        \"linkOnly\": false,\n        \"firstBrokerLoginFlowAlias\": \"string\",\n        \"postBrokerLoginFlowAlias\": \"string\",\n        \"config\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        }\n      }\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d2e0d3e1-0b34-4bca-9fcb-d25d8dcb5ca3",
+          "name": "Keycloak Get a realm",
+          "request": {
+            "name": "Keycloak Get a realm",
+            "description": {
+              "content": "Returns the representation of a specific realm.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":realm"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a635ef50-72d9-4ee6-af1b-a64d367bda2e",
+              "name": "A realm representation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"realm\": \"string\",\n  \"displayName\": \"string\",\n  \"displayNameHtml\": \"string\",\n  \"enabled\": false,\n  \"sslRequired\": \"all\",\n  \"registrationAllowed\": true,\n  \"registrationEmailAsUsername\": false,\n  \"rememberMe\": false,\n  \"verifyEmail\": false,\n  \"loginWithEmailAllowed\": true,\n  \"duplicateEmailsAllowed\": false,\n  \"resetPasswordAllowed\": false,\n  \"editUsernameAllowed\": true,\n  \"bruteForceProtected\": true,\n  \"permanentLockout\": false,\n  \"maxFailureWaitSeconds\": 9790,\n  \"minimumQuickLoginWaitSeconds\": 9939,\n  \"waitIncrementSeconds\": 6458,\n  \"quickLoginCheckMilliSeconds\": 2383,\n  \"maxDeltaTimeSeconds\": 5305,\n  \"failureFactor\": 5878,\n  \"defaultRoles\": [\n    \"string\",\n    \"string\"\n  ],\n  \"requiredCredentials\": [\n    \"string\",\n    \"string\"\n  ],\n  \"passwordPolicy\": \"string\",\n  \"otpPolicyType\": \"string\",\n  \"otpPolicyAlgorithm\": \"string\",\n  \"otpPolicyDigits\": 3265,\n  \"otpPolicyPeriod\": 7448,\n  \"otpPolicyInitialCounter\": 1048,\n  \"browserSecurityHeaders\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\",\n    \"key_2\": \"string\",\n    \"key_3\": \"string\"\n  },\n  \"smtpServer\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  },\n  \"eventsEnabled\": false,\n  \"eventsExpiration\": 9210,\n  \"eventsListeners\": [\n    \"string\",\n    \"string\"\n  ],\n  \"adminEventsEnabled\": false,\n  \"adminEventsDetailsEnabled\": true,\n  \"internationalizationEnabled\": true,\n  \"supportedLocales\": [\n    \"string\",\n    \"string\"\n  ],\n  \"defaultLocale\": \"string\",\n  \"accessTokenLifespan\": 4615,\n  \"accessTokenLifespanForImplicitFlow\": 4888,\n  \"ssoSessionIdleTimeout\": 2650,\n  \"ssoSessionMaxLifespan\": 5079,\n  \"offlineSessionIdleTimeout\": 1593,\n  \"accessCodeLifespan\": 266,\n  \"accessCodeLifespanUserAction\": 8124,\n  \"accessCodeLifespanLogin\": 1455,\n  \"actionTokenGeneratedByAdminLifespan\": 9452,\n  \"actionTokenGeneratedByUserLifespan\": 1854,\n  \"users\": [\n    {\n      \"id\": \"636aaab8-9d53-03f1-6c7a-36f746819b34\",\n      \"username\": \"string\",\n      \"firstName\": \"string\",\n      \"lastName\": \"string\",\n      \"email\": \"q6PRG@GkvXGGhpMiKEmMqAnZCLT.szez\",\n      \"emailVerified\": false,\n      \"enabled\": false,\n      \"createdTimestamp\": 5453,\n      \"attributes\": {\n        \"key_0\": [\n          \"string\",\n          \"string\"\n        ],\n        \"key_1\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"requiredActions\": [\n        \"string\",\n        \"string\"\n      ],\n      \"federatedIdentities\": [\n        {\n          \"identityProvider\": \"string\",\n          \"userId\": \"string\",\n          \"userName\": \"string\"\n        },\n        {\n          \"identityProvider\": \"string\",\n          \"userId\": \"string\",\n          \"userName\": \"string\"\n        }\n      ],\n      \"realmRoles\": [\n        \"string\",\n        \"string\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"string\",\n          \"string\"\n        ],\n        \"key_1\": [\n          \"string\",\n          \"string\"\n        ],\n        \"key_2\": [\n          \"string\",\n          \"string\"\n        ],\n        \"key_3\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"groups\": [\n        \"string\",\n        \"string\"\n      ],\n      \"totp\": true,\n      \"federationLink\": \"string\",\n      \"serviceAccountClientId\": \"string\",\n      \"notBefore\": 1937\n    },\n    {\n      \"id\": \"4c5f6341-7fd0-d481-24a8-701204b9ac75\",\n      \"username\": \"string\",\n      \"firstName\": \"string\",\n      \"lastName\": \"string\",\n      \"email\": \"l4hja0SmVTtINhC@fGZfwZeJnECBBDCnGg.pbig\",\n      \"emailVerified\": false,\n      \"enabled\": true,\n      \"createdTimestamp\": 3668,\n      \"attributes\": {\n        \"key_0\": [\n          \"string\",\n          \"string\"\n        ],\n        \"key_1\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"requiredActions\": [\n        \"string\",\n        \"string\"\n      ],\n      \"federatedIdentities\": [\n        {\n          \"identityProvider\": \"string\",\n          \"userId\": \"string\",\n          \"userName\": \"string\"\n        },\n        {\n          \"identityProvider\": \"string\",\n          \"userId\": \"string\",\n          \"userName\": \"string\"\n        }\n      ],\n      \"realmRoles\": [\n        \"string\",\n        \"string\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"string\",\n          \"string\"\n        ],\n        \"key_1\": [\n          \"string\",\n          \"string\"\n        ],\n        \"key_2\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"groups\": [\n        \"string\",\n        \"string\"\n      ],\n      \"totp\": true,\n      \"federationLink\": \"string\",\n      \"serviceAccountClientId\": \"string\",\n      \"notBefore\": 2382\n    }\n  ],\n  \"clients\": [\n    {\n      \"id\": \"245fcfc0-6662-6f1d-57f6-8472f13a2396\",\n      \"clientId\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"enabled\": true,\n      \"clientAuthenticatorType\": \"string\",\n      \"rootUrl\": \"https://pSFxyNVMjmGRjfCdZXmZDA.jdM6llF-jHz-ns-7ielCUOnrQozLyy3FlPNA8Atp9dq4eFCca017jF.EZu\",\n      \"baseUrl\": \"string\",\n      \"adminUrl\": \"string\",\n      \"surrogateAuthRequired\": true,\n      \"redirectUris\": [\n        \"string\",\n        \"string\"\n      ],\n      \"webOrigins\": [\n        \"string\",\n        \"string\"\n      ],\n      \"bearerOnly\": true,\n      \"consentRequired\": false,\n      \"standardFlowEnabled\": false,\n      \"implicitFlowEnabled\": false,\n      \"directAccessGrantsEnabled\": false,\n      \"serviceAccountsEnabled\": false,\n      \"publicClient\": false,\n      \"frontchannelLogout\": true,\n      \"protocol\": \"saml\",\n      \"attributes\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\"\n      },\n      \"fullScopeAllowed\": false,\n      \"defaultClientScopes\": [\n        \"string\",\n        \"string\"\n      ],\n      \"optionalClientScopes\": [\n        \"string\",\n        \"string\"\n      ],\n      \"authorizationServicesEnabled\": true\n    },\n    {\n      \"id\": \"54abe507-0295-c8a2-a267-6ebe9a57be5d\",\n      \"clientId\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"enabled\": true,\n      \"clientAuthenticatorType\": \"string\",\n      \"rootUrl\": \"https://WkfkhbVZqRUEOPmw.negaB5gw4ZT7NHtWJ3u,NjWt6m8cKQcU\",\n      \"baseUrl\": \"string\",\n      \"adminUrl\": \"string\",\n      \"surrogateAuthRequired\": true,\n      \"redirectUris\": [\n        \"string\",\n        \"string\"\n      ],\n      \"webOrigins\": [\n        \"string\",\n        \"string\"\n      ],\n      \"bearerOnly\": false,\n      \"consentRequired\": true,\n      \"standardFlowEnabled\": true,\n      \"implicitFlowEnabled\": true,\n      \"directAccessGrantsEnabled\": false,\n      \"serviceAccountsEnabled\": false,\n      \"publicClient\": false,\n      \"frontchannelLogout\": true,\n      \"protocol\": \"saml\",\n      \"attributes\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\"\n      },\n      \"fullScopeAllowed\": false,\n      \"defaultClientScopes\": [\n        \"string\",\n        \"string\"\n      ],\n      \"optionalClientScopes\": [\n        \"string\",\n        \"string\"\n      ],\n      \"authorizationServicesEnabled\": true\n    }\n  ],\n  \"groups\": [\n    {\n      \"id\": \"5dfa3d9d-b95d-7e51-b934-88636d79c925\",\n      \"name\": \"string\",\n      \"path\": \"string\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"string\",\n          \"string\"\n        ],\n        \"key_1\": [\n          \"string\",\n          \"string\"\n        ],\n        \"key_2\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"realmRoles\": [\n        \"string\",\n        \"string\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"string\",\n          \"string\"\n        ],\n        \"key_1\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    },\n    {\n      \"id\": \"5e60d925-90b9-eeec-31b5-8e3de7ccb937\",\n      \"name\": \"string\",\n      \"path\": \"string\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"realmRoles\": [\n        \"string\",\n        \"string\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"string\",\n          \"string\"\n        ],\n        \"key_1\": [\n          \"string\",\n          \"string\"\n        ],\n        \"key_2\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    }\n  ],\n  \"roles\": {\n    \"realm\": [\n      {\n        \"id\": \"c6b740b3-4363-63fb-c505-d92a0a13845b\",\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"composite\": false,\n        \"composites\": {\n          \"realm\": [\n            \"string\",\n            \"string\"\n          ],\n          \"client\": {\n            \"key_0\": [\n              \"string\",\n              \"string\"\n            ],\n            \"key_1\": [\n              \"string\",\n              \"string\"\n            ],\n            \"key_2\": [\n              \"string\",\n              \"string\"\n            ]\n          }\n        },\n        \"clientRole\": false,\n        \"containerId\": \"string\",\n        \"attributes\": {\n          \"key_0\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_1\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_2\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_3\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      },\n      {\n        \"id\": \"7aabb64c-05be-40a1-951b-54795ed1f0bd\",\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"composite\": false,\n        \"composites\": {\n          \"realm\": [\n            \"string\",\n            \"string\"\n          ],\n          \"client\": {\n            \"key_0\": [\n              \"string\",\n              \"string\"\n            ],\n            \"key_1\": [\n              \"string\",\n              \"string\"\n            ],\n            \"key_2\": [\n              \"string\",\n              \"string\"\n            ]\n          }\n        },\n        \"clientRole\": false,\n        \"containerId\": \"string\",\n        \"attributes\": {\n          \"key_0\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_1\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_2\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_3\": [\n            \"string\",\n            \"string\"\n          ],\n          \"key_4\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      }\n    ]\n  },\n  \"identityProviders\": [\n    {\n      \"alias\": \"string\",\n      \"displayName\": \"string\",\n      \"internalId\": \"string\",\n      \"providerId\": \"string\",\n      \"enabled\": true,\n      \"trustEmail\": false,\n      \"storeToken\": false,\n      \"addReadTokenRoleOnCreate\": true,\n      \"authenticateByDefault\": false,\n      \"linkOnly\": false,\n      \"firstBrokerLoginFlowAlias\": \"string\",\n      \"postBrokerLoginFlowAlias\": \"string\",\n      \"config\": {\n        \"key_0\": \"string\"\n      }\n    },\n    {\n      \"alias\": \"string\",\n      \"displayName\": \"string\",\n      \"internalId\": \"string\",\n      \"providerId\": \"string\",\n      \"enabled\": false,\n      \"trustEmail\": false,\n      \"storeToken\": false,\n      \"addReadTokenRoleOnCreate\": true,\n      \"authenticateByDefault\": false,\n      \"linkOnly\": false,\n      \"firstBrokerLoginFlowAlias\": \"string\",\n      \"postBrokerLoginFlowAlias\": \"string\",\n      \"config\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4ce67fe8-8cc9-4060-af7c-cd968e72cb5a",
+              "name": "Realm not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "972cfce0-54d9-4d45-b517-4bf4650f0176",
+          "name": "Keycloak Update a realm",
+          "request": {
+            "name": "Keycloak Update a realm",
+            "description": {
+              "content": "Updates the configuration of an existing realm.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":realm"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"realm\": \"<string>\",\n  \"displayName\": \"<string>\",\n  \"displayNameHtml\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"sslRequired\": \"<string>\",\n  \"registrationAllowed\": \"<boolean>\",\n  \"registrationEmailAsUsername\": \"<boolean>\",\n  \"rememberMe\": \"<boolean>\",\n  \"verifyEmail\": \"<boolean>\",\n  \"loginWithEmailAllowed\": \"<boolean>\",\n  \"duplicateEmailsAllowed\": \"<boolean>\",\n  \"resetPasswordAllowed\": \"<boolean>\",\n  \"editUsernameAllowed\": \"<boolean>\",\n  \"bruteForceProtected\": \"<boolean>\",\n  \"permanentLockout\": \"<boolean>\",\n  \"maxFailureWaitSeconds\": \"<integer>\",\n  \"minimumQuickLoginWaitSeconds\": \"<integer>\",\n  \"waitIncrementSeconds\": \"<integer>\",\n  \"quickLoginCheckMilliSeconds\": \"<integer>\",\n  \"maxDeltaTimeSeconds\": \"<integer>\",\n  \"failureFactor\": \"<integer>\",\n  \"defaultRoles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"requiredCredentials\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"passwordPolicy\": \"<string>\",\n  \"otpPolicyType\": \"<string>\",\n  \"otpPolicyAlgorithm\": \"<string>\",\n  \"otpPolicyDigits\": \"<integer>\",\n  \"otpPolicyPeriod\": \"<integer>\",\n  \"otpPolicyInitialCounter\": \"<integer>\",\n  \"browserSecurityHeaders\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"smtpServer\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\",\n    \"key_3\": \"<string>\"\n  },\n  \"eventsEnabled\": \"<boolean>\",\n  \"eventsExpiration\": \"<integer>\",\n  \"eventsListeners\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"adminEventsEnabled\": \"<boolean>\",\n  \"adminEventsDetailsEnabled\": \"<boolean>\",\n  \"internationalizationEnabled\": \"<boolean>\",\n  \"supportedLocales\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"defaultLocale\": \"<string>\",\n  \"accessTokenLifespan\": \"<integer>\",\n  \"accessTokenLifespanForImplicitFlow\": \"<integer>\",\n  \"ssoSessionIdleTimeout\": \"<integer>\",\n  \"ssoSessionMaxLifespan\": \"<integer>\",\n  \"offlineSessionIdleTimeout\": \"<integer>\",\n  \"accessCodeLifespan\": \"<integer>\",\n  \"accessCodeLifespanUserAction\": \"<integer>\",\n  \"accessCodeLifespanLogin\": \"<integer>\",\n  \"actionTokenGeneratedByAdminLifespan\": \"<integer>\",\n  \"actionTokenGeneratedByUserLifespan\": \"<integer>\",\n  \"users\": [\n    {\n      \"username\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<email>\",\n      \"emailVerified\": \"<boolean>\",\n      \"enabled\": \"<boolean>\",\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"credentials\": [\n        {\n          \"id\": \"<string>\",\n          \"type\": \"<string>\",\n          \"value\": \"<string>\",\n          \"temporary\": \"<boolean>\",\n          \"createdDate\": \"<long>\",\n          \"userLabel\": \"<string>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"type\": \"<string>\",\n          \"value\": \"<string>\",\n          \"temporary\": \"<boolean>\",\n          \"createdDate\": \"<long>\",\n          \"userLabel\": \"<string>\"\n        }\n      ],\n      \"requiredActions\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"federatedIdentities\": [\n        {\n          \"identityProvider\": \"<string>\",\n          \"userId\": \"<string>\",\n          \"userName\": \"<string>\"\n        },\n        {\n          \"identityProvider\": \"<string>\",\n          \"userId\": \"<string>\",\n          \"userName\": \"<string>\"\n        }\n      ],\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"groups\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"totp\": \"<boolean>\",\n      \"federationLink\": \"<string>\",\n      \"serviceAccountClientId\": \"<string>\",\n      \"notBefore\": \"<integer>\"\n    },\n    {\n      \"username\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<email>\",\n      \"emailVerified\": \"<boolean>\",\n      \"enabled\": \"<boolean>\",\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"credentials\": [\n        {\n          \"id\": \"<string>\",\n          \"type\": \"<string>\",\n          \"value\": \"<string>\",\n          \"temporary\": \"<boolean>\",\n          \"createdDate\": \"<long>\",\n          \"userLabel\": \"<string>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"type\": \"<string>\",\n          \"value\": \"<string>\",\n          \"temporary\": \"<boolean>\",\n          \"createdDate\": \"<long>\",\n          \"userLabel\": \"<string>\"\n        }\n      ],\n      \"requiredActions\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"federatedIdentities\": [\n        {\n          \"identityProvider\": \"<string>\",\n          \"userId\": \"<string>\",\n          \"userName\": \"<string>\"\n        },\n        {\n          \"identityProvider\": \"<string>\",\n          \"userId\": \"<string>\",\n          \"userName\": \"<string>\"\n        }\n      ],\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"groups\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"totp\": \"<boolean>\",\n      \"federationLink\": \"<string>\",\n      \"serviceAccountClientId\": \"<string>\",\n      \"notBefore\": \"<integer>\"\n    }\n  ],\n  \"clients\": [\n    {\n      \"clientId\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"enabled\": \"<boolean>\",\n      \"clientAuthenticatorType\": \"<string>\",\n      \"secret\": \"<string>\",\n      \"rootUrl\": \"<uri>\",\n      \"baseUrl\": \"<string>\",\n      \"adminUrl\": \"<string>\",\n      \"surrogateAuthRequired\": \"<boolean>\",\n      \"redirectUris\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"webOrigins\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"bearerOnly\": \"<boolean>\",\n      \"consentRequired\": \"<boolean>\",\n      \"standardFlowEnabled\": \"<boolean>\",\n      \"implicitFlowEnabled\": \"<boolean>\",\n      \"directAccessGrantsEnabled\": \"<boolean>\",\n      \"serviceAccountsEnabled\": \"<boolean>\",\n      \"publicClient\": \"<boolean>\",\n      \"frontchannelLogout\": \"<boolean>\",\n      \"protocol\": \"<string>\",\n      \"attributes\": {\n        \"key_0\": \"<string>\"\n      },\n      \"fullScopeAllowed\": \"<boolean>\",\n      \"defaultClientScopes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"optionalClientScopes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"authorizationServicesEnabled\": \"<boolean>\"\n    },\n    {\n      \"clientId\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"enabled\": \"<boolean>\",\n      \"clientAuthenticatorType\": \"<string>\",\n      \"secret\": \"<string>\",\n      \"rootUrl\": \"<uri>\",\n      \"baseUrl\": \"<string>\",\n      \"adminUrl\": \"<string>\",\n      \"surrogateAuthRequired\": \"<boolean>\",\n      \"redirectUris\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"webOrigins\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"bearerOnly\": \"<boolean>\",\n      \"consentRequired\": \"<boolean>\",\n      \"standardFlowEnabled\": \"<boolean>\",\n      \"implicitFlowEnabled\": \"<boolean>\",\n      \"directAccessGrantsEnabled\": \"<boolean>\",\n      \"serviceAccountsEnabled\": \"<boolean>\",\n      \"publicClient\": \"<boolean>\",\n      \"frontchannelLogout\": \"<boolean>\",\n      \"protocol\": \"<string>\",\n      \"attributes\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\",\n        \"key_3\": \"<string>\"\n      },\n      \"fullScopeAllowed\": \"<boolean>\",\n      \"defaultClientScopes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"optionalClientScopes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"authorizationServicesEnabled\": \"<boolean>\"\n    }\n  ],\n  \"groups\": [\n    {\n      \"name\": \"<string>\",\n      \"path\": \"<string>\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_2\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"path\": \"<string>\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_2\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_3\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    }\n  ],\n  \"roles\": {\n    \"realm\": [\n      {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"composite\": \"<boolean>\",\n        \"composites\": {\n          \"realm\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"client\": {\n            \"key_0\": [\n              \"<string>\",\n              \"<string>\"\n            ]\n          }\n        },\n        \"clientRole\": \"<boolean>\",\n        \"containerId\": \"<string>\",\n        \"attributes\": {\n          \"key_0\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"key_1\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"key_2\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"key_3\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      },\n      {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"composite\": \"<boolean>\",\n        \"composites\": {\n          \"realm\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"client\": {\n            \"key_0\": [\n              \"<string>\",\n              \"<string>\"\n            ],\n            \"key_1\": [\n              \"<string>\",\n              \"<string>\"\n            ]\n          }\n        },\n        \"clientRole\": \"<boolean>\",\n        \"containerId\": \"<string>\",\n        \"attributes\": {\n          \"key_0\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      }\n    ]\n  },\n  \"identityProviders\": [\n    {\n      \"alias\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"providerId\": \"<string>\",\n      \"enabled\": \"<boolean>\",\n      \"trustEmail\": \"<boolean>\",\n      \"storeToken\": \"<boolean>\",\n      \"addReadTokenRoleOnCreate\": \"<boolean>\",\n      \"authenticateByDefault\": \"<boolean>\",\n      \"linkOnly\": \"<boolean>\",\n      \"firstBrokerLoginFlowAlias\": \"<string>\",\n      \"postBrokerLoginFlowAlias\": \"<string>\",\n      \"config\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      }\n    },\n    {\n      \"alias\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"providerId\": \"<string>\",\n      \"enabled\": \"<boolean>\",\n      \"trustEmail\": \"<boolean>\",\n      \"storeToken\": \"<boolean>\",\n      \"addReadTokenRoleOnCreate\": \"<boolean>\",\n      \"authenticateByDefault\": \"<boolean>\",\n      \"linkOnly\": \"<boolean>\",\n      \"firstBrokerLoginFlowAlias\": \"<string>\",\n      \"postBrokerLoginFlowAlias\": \"<string>\",\n      \"config\": {\n        \"key_0\": \"<string>\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "636ea0b8-521c-4aad-84f1-d6408922fc90",
+              "name": "Realm updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"realm\": \"<string>\",\n  \"displayName\": \"<string>\",\n  \"displayNameHtml\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"sslRequired\": \"<string>\",\n  \"registrationAllowed\": \"<boolean>\",\n  \"registrationEmailAsUsername\": \"<boolean>\",\n  \"rememberMe\": \"<boolean>\",\n  \"verifyEmail\": \"<boolean>\",\n  \"loginWithEmailAllowed\": \"<boolean>\",\n  \"duplicateEmailsAllowed\": \"<boolean>\",\n  \"resetPasswordAllowed\": \"<boolean>\",\n  \"editUsernameAllowed\": \"<boolean>\",\n  \"bruteForceProtected\": \"<boolean>\",\n  \"permanentLockout\": \"<boolean>\",\n  \"maxFailureWaitSeconds\": \"<integer>\",\n  \"minimumQuickLoginWaitSeconds\": \"<integer>\",\n  \"waitIncrementSeconds\": \"<integer>\",\n  \"quickLoginCheckMilliSeconds\": \"<integer>\",\n  \"maxDeltaTimeSeconds\": \"<integer>\",\n  \"failureFactor\": \"<integer>\",\n  \"defaultRoles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"requiredCredentials\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"passwordPolicy\": \"<string>\",\n  \"otpPolicyType\": \"<string>\",\n  \"otpPolicyAlgorithm\": \"<string>\",\n  \"otpPolicyDigits\": \"<integer>\",\n  \"otpPolicyPeriod\": \"<integer>\",\n  \"otpPolicyInitialCounter\": \"<integer>\",\n  \"browserSecurityHeaders\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\",\n    \"key_3\": \"<string>\"\n  },\n  \"smtpServer\": {\n    \"key_0\": \"<string>\"\n  },\n  \"eventsEnabled\": \"<boolean>\",\n  \"eventsExpiration\": \"<integer>\",\n  \"eventsListeners\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"adminEventsEnabled\": \"<boolean>\",\n  \"adminEventsDetailsEnabled\": \"<boolean>\",\n  \"internationalizationEnabled\": \"<boolean>\",\n  \"supportedLocales\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"defaultLocale\": \"<string>\",\n  \"accessTokenLifespan\": \"<integer>\",\n  \"accessTokenLifespanForImplicitFlow\": \"<integer>\",\n  \"ssoSessionIdleTimeout\": \"<integer>\",\n  \"ssoSessionMaxLifespan\": \"<integer>\",\n  \"offlineSessionIdleTimeout\": \"<integer>\",\n  \"accessCodeLifespan\": \"<integer>\",\n  \"accessCodeLifespanUserAction\": \"<integer>\",\n  \"accessCodeLifespanLogin\": \"<integer>\",\n  \"actionTokenGeneratedByAdminLifespan\": \"<integer>\",\n  \"actionTokenGeneratedByUserLifespan\": \"<integer>\",\n  \"users\": [\n    {\n      \"username\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<email>\",\n      \"emailVerified\": \"<boolean>\",\n      \"enabled\": \"<boolean>\",\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"credentials\": [\n        {\n          \"id\": \"<string>\",\n          \"type\": \"<string>\",\n          \"value\": \"<string>\",\n          \"temporary\": \"<boolean>\",\n          \"createdDate\": \"<long>\",\n          \"userLabel\": \"<string>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"type\": \"<string>\",\n          \"value\": \"<string>\",\n          \"temporary\": \"<boolean>\",\n          \"createdDate\": \"<long>\",\n          \"userLabel\": \"<string>\"\n        }\n      ],\n      \"requiredActions\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"federatedIdentities\": [\n        {\n          \"identityProvider\": \"<string>\",\n          \"userId\": \"<string>\",\n          \"userName\": \"<string>\"\n        },\n        {\n          \"identityProvider\": \"<string>\",\n          \"userId\": \"<string>\",\n          \"userName\": \"<string>\"\n        }\n      ],\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"groups\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"totp\": \"<boolean>\",\n      \"federationLink\": \"<string>\",\n      \"serviceAccountClientId\": \"<string>\",\n      \"notBefore\": \"<integer>\"\n    },\n    {\n      \"username\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<email>\",\n      \"emailVerified\": \"<boolean>\",\n      \"enabled\": \"<boolean>\",\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"credentials\": [\n        {\n          \"id\": \"<string>\",\n          \"type\": \"<string>\",\n          \"value\": \"<string>\",\n          \"temporary\": \"<boolean>\",\n          \"createdDate\": \"<long>\",\n          \"userLabel\": \"<string>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"type\": \"<string>\",\n          \"value\": \"<string>\",\n          \"temporary\": \"<boolean>\",\n          \"createdDate\": \"<long>\",\n          \"userLabel\": \"<string>\"\n        }\n      ],\n      \"requiredActions\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"federatedIdentities\": [\n        {\n          \"identityProvider\": \"<string>\",\n          \"userId\": \"<string>\",\n          \"userName\": \"<string>\"\n        },\n        {\n          \"identityProvider\": \"<string>\",\n          \"userId\": \"<string>\",\n          \"userName\": \"<string>\"\n        }\n      ],\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"groups\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"totp\": \"<boolean>\",\n      \"federationLink\": \"<string>\",\n      \"serviceAccountClientId\": \"<string>\",\n      \"notBefore\": \"<integer>\"\n    }\n  ],\n  \"clients\": [\n    {\n      \"clientId\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"enabled\": \"<boolean>\",\n      \"clientAuthenticatorType\": \"<string>\",\n      \"secret\": \"<string>\",\n      \"rootUrl\": \"<uri>\",\n      \"baseUrl\": \"<string>\",\n      \"adminUrl\": \"<string>\",\n      \"surrogateAuthRequired\": \"<boolean>\",\n      \"redirectUris\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"webOrigins\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"bearerOnly\": \"<boolean>\",\n      \"consentRequired\": \"<boolean>\",\n      \"standardFlowEnabled\": \"<boolean>\",\n      \"implicitFlowEnabled\": \"<boolean>\",\n      \"directAccessGrantsEnabled\": \"<boolean>\",\n      \"serviceAccountsEnabled\": \"<boolean>\",\n      \"publicClient\": \"<boolean>\",\n      \"frontchannelLogout\": \"<boolean>\",\n      \"protocol\": \"<string>\",\n      \"attributes\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"fullScopeAllowed\": \"<boolean>\",\n      \"defaultClientScopes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"optionalClientScopes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"authorizationServicesEnabled\": \"<boolean>\"\n    },\n    {\n      \"clientId\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"enabled\": \"<boolean>\",\n      \"clientAuthenticatorType\": \"<string>\",\n      \"secret\": \"<string>\",\n      \"rootUrl\": \"<uri>\",\n      \"baseUrl\": \"<string>\",\n      \"adminUrl\": \"<string>\",\n      \"surrogateAuthRequired\": \"<boolean>\",\n      \"redirectUris\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"webOrigins\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"bearerOnly\": \"<boolean>\",\n      \"consentRequired\": \"<boolean>\",\n      \"standardFlowEnabled\": \"<boolean>\",\n      \"implicitFlowEnabled\": \"<boolean>\",\n      \"directAccessGrantsEnabled\": \"<boolean>\",\n      \"serviceAccountsEnabled\": \"<boolean>\",\n      \"publicClient\": \"<boolean>\",\n      \"frontchannelLogout\": \"<boolean>\",\n      \"protocol\": \"<string>\",\n      \"attributes\": {\n        \"key_0\": \"<string>\"\n      },\n      \"fullScopeAllowed\": \"<boolean>\",\n      \"defaultClientScopes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"optionalClientScopes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"authorizationServicesEnabled\": \"<boolean>\"\n    }\n  ],\n  \"groups\": [\n    {\n      \"name\": \"<string>\",\n      \"path\": \"<string>\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_2\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_3\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"path\": \"<string>\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_2\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    }\n  ],\n  \"roles\": {\n    \"realm\": [\n      {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"composite\": \"<boolean>\",\n        \"composites\": {\n          \"realm\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"client\": {\n            \"key_0\": [\n              \"<string>\",\n              \"<string>\"\n            ]\n          }\n        },\n        \"clientRole\": \"<boolean>\",\n        \"containerId\": \"<string>\",\n        \"attributes\": {\n          \"key_0\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      },\n      {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"composite\": \"<boolean>\",\n        \"composites\": {\n          \"realm\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"client\": {\n            \"key_0\": [\n              \"<string>\",\n              \"<string>\"\n            ]\n          }\n        },\n        \"clientRole\": \"<boolean>\",\n        \"containerId\": \"<string>\",\n        \"attributes\": {\n          \"key_0\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"key_1\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      }\n    ]\n  },\n  \"identityProviders\": [\n    {\n      \"alias\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"providerId\": \"<string>\",\n      \"enabled\": \"<boolean>\",\n      \"trustEmail\": \"<boolean>\",\n      \"storeToken\": \"<boolean>\",\n      \"addReadTokenRoleOnCreate\": \"<boolean>\",\n      \"authenticateByDefault\": \"<boolean>\",\n      \"linkOnly\": \"<boolean>\",\n      \"firstBrokerLoginFlowAlias\": \"<string>\",\n      \"postBrokerLoginFlowAlias\": \"<string>\",\n      \"config\": {\n        \"key_0\": \"<string>\"\n      }\n    },\n    {\n      \"alias\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"providerId\": \"<string>\",\n      \"enabled\": \"<boolean>\",\n      \"trustEmail\": \"<boolean>\",\n      \"storeToken\": \"<boolean>\",\n      \"addReadTokenRoleOnCreate\": \"<boolean>\",\n      \"authenticateByDefault\": \"<boolean>\",\n      \"linkOnly\": \"<boolean>\",\n      \"firstBrokerLoginFlowAlias\": \"<string>\",\n      \"postBrokerLoginFlowAlias\": \"<string>\",\n      \"config\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6e48a7a0-a706-4d96-8244-73aaa16977c6",
+              "name": "Realm not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"realm\": \"<string>\",\n  \"displayName\": \"<string>\",\n  \"displayNameHtml\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"sslRequired\": \"<string>\",\n  \"registrationAllowed\": \"<boolean>\",\n  \"registrationEmailAsUsername\": \"<boolean>\",\n  \"rememberMe\": \"<boolean>\",\n  \"verifyEmail\": \"<boolean>\",\n  \"loginWithEmailAllowed\": \"<boolean>\",\n  \"duplicateEmailsAllowed\": \"<boolean>\",\n  \"resetPasswordAllowed\": \"<boolean>\",\n  \"editUsernameAllowed\": \"<boolean>\",\n  \"bruteForceProtected\": \"<boolean>\",\n  \"permanentLockout\": \"<boolean>\",\n  \"maxFailureWaitSeconds\": \"<integer>\",\n  \"minimumQuickLoginWaitSeconds\": \"<integer>\",\n  \"waitIncrementSeconds\": \"<integer>\",\n  \"quickLoginCheckMilliSeconds\": \"<integer>\",\n  \"maxDeltaTimeSeconds\": \"<integer>\",\n  \"failureFactor\": \"<integer>\",\n  \"defaultRoles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"requiredCredentials\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"passwordPolicy\": \"<string>\",\n  \"otpPolicyType\": \"<string>\",\n  \"otpPolicyAlgorithm\": \"<string>\",\n  \"otpPolicyDigits\": \"<integer>\",\n  \"otpPolicyPeriod\": \"<integer>\",\n  \"otpPolicyInitialCounter\": \"<integer>\",\n  \"browserSecurityHeaders\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\",\n    \"key_3\": \"<string>\"\n  },\n  \"smtpServer\": {\n    \"key_0\": \"<string>\"\n  },\n  \"eventsEnabled\": \"<boolean>\",\n  \"eventsExpiration\": \"<integer>\",\n  \"eventsListeners\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"adminEventsEnabled\": \"<boolean>\",\n  \"adminEventsDetailsEnabled\": \"<boolean>\",\n  \"internationalizationEnabled\": \"<boolean>\",\n  \"supportedLocales\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"defaultLocale\": \"<string>\",\n  \"accessTokenLifespan\": \"<integer>\",\n  \"accessTokenLifespanForImplicitFlow\": \"<integer>\",\n  \"ssoSessionIdleTimeout\": \"<integer>\",\n  \"ssoSessionMaxLifespan\": \"<integer>\",\n  \"offlineSessionIdleTimeout\": \"<integer>\",\n  \"accessCodeLifespan\": \"<integer>\",\n  \"accessCodeLifespanUserAction\": \"<integer>\",\n  \"accessCodeLifespanLogin\": \"<integer>\",\n  \"actionTokenGeneratedByAdminLifespan\": \"<integer>\",\n  \"actionTokenGeneratedByUserLifespan\": \"<integer>\",\n  \"users\": [\n    {\n      \"username\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<email>\",\n      \"emailVerified\": \"<boolean>\",\n      \"enabled\": \"<boolean>\",\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"credentials\": [\n        {\n          \"id\": \"<string>\",\n          \"type\": \"<string>\",\n          \"value\": \"<string>\",\n          \"temporary\": \"<boolean>\",\n          \"createdDate\": \"<long>\",\n          \"userLabel\": \"<string>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"type\": \"<string>\",\n          \"value\": \"<string>\",\n          \"temporary\": \"<boolean>\",\n          \"createdDate\": \"<long>\",\n          \"userLabel\": \"<string>\"\n        }\n      ],\n      \"requiredActions\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"federatedIdentities\": [\n        {\n          \"identityProvider\": \"<string>\",\n          \"userId\": \"<string>\",\n          \"userName\": \"<string>\"\n        },\n        {\n          \"identityProvider\": \"<string>\",\n          \"userId\": \"<string>\",\n          \"userName\": \"<string>\"\n        }\n      ],\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"groups\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"totp\": \"<boolean>\",\n      \"federationLink\": \"<string>\",\n      \"serviceAccountClientId\": \"<string>\",\n      \"notBefore\": \"<integer>\"\n    },\n    {\n      \"username\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<email>\",\n      \"emailVerified\": \"<boolean>\",\n      \"enabled\": \"<boolean>\",\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"credentials\": [\n        {\n          \"id\": \"<string>\",\n          \"type\": \"<string>\",\n          \"value\": \"<string>\",\n          \"temporary\": \"<boolean>\",\n          \"createdDate\": \"<long>\",\n          \"userLabel\": \"<string>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"type\": \"<string>\",\n          \"value\": \"<string>\",\n          \"temporary\": \"<boolean>\",\n          \"createdDate\": \"<long>\",\n          \"userLabel\": \"<string>\"\n        }\n      ],\n      \"requiredActions\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"federatedIdentities\": [\n        {\n          \"identityProvider\": \"<string>\",\n          \"userId\": \"<string>\",\n          \"userName\": \"<string>\"\n        },\n        {\n          \"identityProvider\": \"<string>\",\n          \"userId\": \"<string>\",\n          \"userName\": \"<string>\"\n        }\n      ],\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"groups\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"totp\": \"<boolean>\",\n      \"federationLink\": \"<string>\",\n      \"serviceAccountClientId\": \"<string>\",\n      \"notBefore\": \"<integer>\"\n    }\n  ],\n  \"clients\": [\n    {\n      \"clientId\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"enabled\": \"<boolean>\",\n      \"clientAuthenticatorType\": \"<string>\",\n      \"secret\": \"<string>\",\n      \"rootUrl\": \"<uri>\",\n      \"baseUrl\": \"<string>\",\n      \"adminUrl\": \"<string>\",\n      \"surrogateAuthRequired\": \"<boolean>\",\n      \"redirectUris\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"webOrigins\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"bearerOnly\": \"<boolean>\",\n      \"consentRequired\": \"<boolean>\",\n      \"standardFlowEnabled\": \"<boolean>\",\n      \"implicitFlowEnabled\": \"<boolean>\",\n      \"directAccessGrantsEnabled\": \"<boolean>\",\n      \"serviceAccountsEnabled\": \"<boolean>\",\n      \"publicClient\": \"<boolean>\",\n      \"frontchannelLogout\": \"<boolean>\",\n      \"protocol\": \"<string>\",\n      \"attributes\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"fullScopeAllowed\": \"<boolean>\",\n      \"defaultClientScopes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"optionalClientScopes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"authorizationServicesEnabled\": \"<boolean>\"\n    },\n    {\n      \"clientId\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"enabled\": \"<boolean>\",\n      \"clientAuthenticatorType\": \"<string>\",\n      \"secret\": \"<string>\",\n      \"rootUrl\": \"<uri>\",\n      \"baseUrl\": \"<string>\",\n      \"adminUrl\": \"<string>\",\n      \"surrogateAuthRequired\": \"<boolean>\",\n      \"redirectUris\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"webOrigins\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"bearerOnly\": \"<boolean>\",\n      \"consentRequired\": \"<boolean>\",\n      \"standardFlowEnabled\": \"<boolean>\",\n      \"implicitFlowEnabled\": \"<boolean>\",\n      \"directAccessGrantsEnabled\": \"<boolean>\",\n      \"serviceAccountsEnabled\": \"<boolean>\",\n      \"publicClient\": \"<boolean>\",\n      \"frontchannelLogout\": \"<boolean>\",\n      \"protocol\": \"<string>\",\n      \"attributes\": {\n        \"key_0\": \"<string>\"\n      },\n      \"fullScopeAllowed\": \"<boolean>\",\n      \"defaultClientScopes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"optionalClientScopes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"authorizationServicesEnabled\": \"<boolean>\"\n    }\n  ],\n  \"groups\": [\n    {\n      \"name\": \"<string>\",\n      \"path\": \"<string>\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_2\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_3\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"path\": \"<string>\",\n      \"subGroups\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/GroupRepresentation detected>\"\n        }\n      ],\n      \"attributes\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"realmRoles\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clientRoles\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_1\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"key_2\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    }\n  ],\n  \"roles\": {\n    \"realm\": [\n      {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"composite\": \"<boolean>\",\n        \"composites\": {\n          \"realm\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"client\": {\n            \"key_0\": [\n              \"<string>\",\n              \"<string>\"\n            ]\n          }\n        },\n        \"clientRole\": \"<boolean>\",\n        \"containerId\": \"<string>\",\n        \"attributes\": {\n          \"key_0\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      },\n      {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"composite\": \"<boolean>\",\n        \"composites\": {\n          \"realm\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"client\": {\n            \"key_0\": [\n              \"<string>\",\n              \"<string>\"\n            ]\n          }\n        },\n        \"clientRole\": \"<boolean>\",\n        \"containerId\": \"<string>\",\n        \"attributes\": {\n          \"key_0\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"key_1\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      }\n    ]\n  },\n  \"identityProviders\": [\n    {\n      \"alias\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"providerId\": \"<string>\",\n      \"enabled\": \"<boolean>\",\n      \"trustEmail\": \"<boolean>\",\n      \"storeToken\": \"<boolean>\",\n      \"addReadTokenRoleOnCreate\": \"<boolean>\",\n      \"authenticateByDefault\": \"<boolean>\",\n      \"linkOnly\": \"<boolean>\",\n      \"firstBrokerLoginFlowAlias\": \"<string>\",\n      \"postBrokerLoginFlowAlias\": \"<string>\",\n      \"config\": {\n        \"key_0\": \"<string>\"\n      }\n    },\n    {\n      \"alias\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"providerId\": \"<string>\",\n      \"enabled\": \"<boolean>\",\n      \"trustEmail\": \"<boolean>\",\n      \"storeToken\": \"<boolean>\",\n      \"addReadTokenRoleOnCreate\": \"<boolean>\",\n      \"authenticateByDefault\": \"<boolean>\",\n      \"linkOnly\": \"<boolean>\",\n      \"firstBrokerLoginFlowAlias\": \"<string>\",\n      \"postBrokerLoginFlowAlias\": \"<string>\",\n      \"config\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "31fc6579-a200-480d-8478-ffcb8b827fd0",
+          "name": "Keycloak Delete a realm",
+          "request": {
+            "name": "Keycloak Delete a realm",
+            "description": {
+              "content": "Permanently deletes a realm and all its data.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":realm"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "realm",
+                  "description": "(Required) The name of the realm"
+                },
+                {
+                  "description": "Keycloak server host and port",
+                  "type": "any",
+                  "value": "{{host}}",
+                  "key": "host"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "17a645ae-c000-421b-b459-64ed48a6715e",
+              "name": "Realm deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "01aa606a-c515-4c64-b5dc-a340cd414fb0",
+              "name": "Realm not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":realm"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "realm",
+                      "description": "(Required) The name of the realm"
+                    },
+                    {
+                      "description": "Keycloak server host and port",
+                      "type": "any",
+                      "value": "{{host}}",
+                      "key": "host"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Keycloak server host and port",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "localhost:8080",
+      "key": "host"
+    },
+    {
+      "type": "string",
+      "value": "https://{{host}}/admin/realms",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "083f015a-a340-4c28-b76a-0f6c1313eaac",
+    "name": "Keycloak Admin REST Clients Realms API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Keycloak Admin REST API provides endpoints for managing all aspects of a Keycloak deployment, including realms, users, clients, roles, groups, and identity providers. All endpoints require authentication via a bearer token obtained from the Keycloak token endpoint.\n\nContact Support:\n Name: Keycloak",
+      "type": "text/plain"
+    }
+  }
+}

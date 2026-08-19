@@ -1,0 +1,145 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Keycloak Admin REST Clients Identity Providers API",
+    "version": "26.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Identity Providers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Keycloak List identity providers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{host}/admin/realms/:realm/identity-provider/instances",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              }
+            ]
+          },
+          "docs": "Returns a list of identity providers configured in the realm."
+        },
+        {
+          "info": {
+            "name": "Keycloak Create an identity provider",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{host}/admin/realms/:realm/identity-provider/instances",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Keycloak Create an identity provider"
+        },
+        {
+          "info": {
+            "name": "Keycloak Get an identity provider",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{host}/admin/realms/:realm/identity-provider/instances/:alias",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "alias",
+                "value": "",
+                "type": "path",
+                "description": "The alias of the identity provider"
+              }
+            ]
+          },
+          "docs": "Keycloak Get an identity provider"
+        },
+        {
+          "info": {
+            "name": "Keycloak Update an identity provider",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{host}/admin/realms/:realm/identity-provider/instances/:alias",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "alias",
+                "value": "",
+                "type": "path",
+                "description": "The alias of the identity provider"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Keycloak Update an identity provider"
+        },
+        {
+          "info": {
+            "name": "Keycloak Delete an identity provider",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{host}/admin/realms/:realm/identity-provider/instances/:alias",
+            "params": [
+              {
+                "name": "realm",
+                "value": "",
+                "type": "path",
+                "description": "The name of the realm"
+              },
+              {
+                "name": "alias",
+                "value": "",
+                "type": "path",
+                "description": "The alias of the identity provider"
+              }
+            ]
+          },
+          "docs": "Keycloak Delete an identity provider"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -2,132 +2,136 @@ generated: '2026-06-20'
 method: derived
 status: candidate
 source: openapi/keycloak-admin-rest-api-openapi.yml
-notes: >-
-  No official first-party hosted MCP server was found for Keycloak as of this
-  round. This is a DERIVED candidate tool list — one tool per Admin REST API
-  operation — to seed an MCP server that fronts a Keycloak deployment. Every
-  source_operation exists verbatim in the referenced OpenAPI.
+notes: No official first-party hosted MCP server was found for Keycloak as of this round. This is a DERIVED
+  candidate tool list — one tool per Admin REST API operation — to seed an MCP server that fronts a Keycloak
+  deployment. Every source_operation exists verbatim in the referenced OpenAPI.
 server:
   name: keycloak-admin
   transport: http
 tools:
-  - name: list_realms
-    description: List all realms accessible to the authenticated user.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getRealms
-  - name: get_realm
-    description: Get a single realm representation.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getRealm
-  - name: update_realm
-    description: Update a realm.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#updateRealm
-  - name: delete_realm
-    description: Delete a realm.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#deleteRealm
-  - name: list_users
-    description: List users within a realm.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getUsers
-  - name: create_user
-    description: Create a user in a realm.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#createUser
-  - name: get_user
-    description: Get a user by id.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getUser
-  - name: update_user
-    description: Update a user.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#updateUser
-  - name: delete_user
-    description: Delete a user.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#deleteUser
-  - name: get_user_realm_role_mappings
-    description: Get a user's realm role mappings.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getUserRealmRoleMappings
-  - name: add_user_realm_role_mappings
-    description: Add realm role mappings to a user.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#addUserRealmRoleMappings
-  - name: delete_user_realm_role_mappings
-    description: Remove realm role mappings from a user.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#deleteUserRealmRoleMappings
-  - name: get_user_groups
-    description: Get the groups a user belongs to.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getUserGroups
-  - name: add_user_to_group
-    description: Add a user to a group.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#addUserToGroup
-  - name: remove_user_from_group
-    description: Remove a user from a group.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#removeUserFromGroup
-  - name: reset_user_password
-    description: Reset a user's password.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#resetUserPassword
-  - name: list_clients
-    description: List clients within a realm.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getClients
-  - name: create_client
-    description: Create a client in a realm.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#createClient
-  - name: get_client
-    description: Get a client by id.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getClient
-  - name: update_client
-    description: Update a client.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#updateClient
-  - name: delete_client
-    description: Delete a client.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#deleteClient
-  - name: get_client_secret
-    description: Get a client's secret.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getClientSecret
-  - name: regenerate_client_secret
-    description: Regenerate a client's secret.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#regenerateClientSecret
-  - name: list_roles
-    description: List realm roles.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getRoles
-  - name: create_role
-    description: Create a realm role.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#createRole
-  - name: get_role
-    description: Get a realm role by name.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getRole
-  - name: update_role
-    description: Update a realm role.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#updateRole
-  - name: delete_role
-    description: Delete a realm role.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#deleteRole
-  - name: list_groups
-    description: List groups within a realm.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getGroups
-  - name: create_group
-    description: Create a group.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#createGroup
-  - name: get_group
-    description: Get a group by id.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getGroup
-  - name: update_group
-    description: Update a group.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#updateGroup
-  - name: delete_group
-    description: Delete a group.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#deleteGroup
-  - name: create_child_group
-    description: Create a child group under a parent group.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#createChildGroup
-  - name: get_group_members
-    description: Get members of a group.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getGroupMembers
-  - name: list_identity_providers
-    description: List identity providers in a realm.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getIdentityProviders
-  - name: create_identity_provider
-    description: Create an identity provider.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#createIdentityProvider
-  - name: get_identity_provider
-    description: Get an identity provider by alias.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getIdentityProvider
-  - name: update_identity_provider
-    description: Update an identity provider.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#updateIdentityProvider
-  - name: delete_identity_provider
-    description: Delete an identity provider.
-    source_operation: openapi/keycloak-admin-rest-api-openapi.yml#deleteIdentityProvider
+- name: list_realms
+  description: List all realms accessible to the authenticated user.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getRealms
+- name: get_realm
+  description: Get a single realm representation.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getRealm
+- name: update_realm
+  description: Update a realm.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#updateRealm
+- name: delete_realm
+  description: Delete a realm.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#deleteRealm
+- name: list_users
+  description: List users within a realm.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getUsers
+- name: create_user
+  description: Create a user in a realm.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#createUser
+- name: get_user
+  description: Get a user by id.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getUser
+- name: update_user
+  description: Update a user.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#updateUser
+- name: delete_user
+  description: Delete a user.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#deleteUser
+- name: get_user_realm_role_mappings
+  description: Get a user's realm role mappings.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getUserRealmRoleMappings
+- name: add_user_realm_role_mappings
+  description: Add realm role mappings to a user.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#addUserRealmRoleMappings
+- name: delete_user_realm_role_mappings
+  description: Remove realm role mappings from a user.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#deleteUserRealmRoleMappings
+- name: get_user_groups
+  description: Get the groups a user belongs to.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getUserGroups
+- name: add_user_to_group
+  description: Add a user to a group.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#addUserToGroup
+- name: remove_user_from_group
+  description: Remove a user from a group.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#removeUserFromGroup
+- name: reset_user_password
+  description: Reset a user's password.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#resetUserPassword
+- name: list_clients
+  description: List clients within a realm.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getClients
+- name: create_client
+  description: Create a client in a realm.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#createClient
+- name: get_client
+  description: Get a client by id.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getClient
+- name: update_client
+  description: Update a client.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#updateClient
+- name: delete_client
+  description: Delete a client.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#deleteClient
+- name: get_client_secret
+  description: Get a client's secret.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getClientSecret
+- name: regenerate_client_secret
+  description: Regenerate a client's secret.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#regenerateClientSecret
+- name: list_roles
+  description: List realm roles.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getRoles
+- name: create_role
+  description: Create a realm role.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#createRole
+- name: get_role
+  description: Get a realm role by name.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getRole
+- name: update_role
+  description: Update a realm role.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#updateRole
+- name: delete_role
+  description: Delete a realm role.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#deleteRole
+- name: list_groups
+  description: List groups within a realm.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getGroups
+- name: create_group
+  description: Create a group.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#createGroup
+- name: get_group
+  description: Get a group by id.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getGroup
+- name: update_group
+  description: Update a group.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#updateGroup
+- name: delete_group
+  description: Delete a group.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#deleteGroup
+- name: create_child_group
+  description: Create a child group under a parent group.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#createChildGroup
+- name: get_group_members
+  description: Get members of a group.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getGroupMembers
+- name: list_identity_providers
+  description: List identity providers in a realm.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getIdentityProviders
+- name: create_identity_provider
+  description: Create an identity provider.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#createIdentityProvider
+- name: get_identity_provider
+  description: Get an identity provider by alias.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#getIdentityProvider
+- name: update_identity_provider
+  description: Update an identity provider.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#updateIdentityProvider
+- name: delete_identity_provider
+  description: Delete an identity provider.
+  source_operation: openapi/keycloak-admin-rest-api-openapi.yml#deleteIdentityProvider
+deployment:
+  mode: none
+  verified: derived
+  tools: 40
+  checked: '2026-08-12'
+  source: catalog MCP census
