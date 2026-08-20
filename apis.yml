@@ -23,6 +23,13 @@ tags:
   - Authentication
   - Authorization
   - Identity Management
+  - OpenID Connect
+  - Security
+  - SSO
+tags_raw:
+  - Authentication
+  - Authorization
+  - Identity Management
   - OAuth
   - OpenID Connect
   - Security
@@ -62,6 +69,8 @@ apis:
   description: Manage user groups within a realm
   humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
   tags:
+  - Group
+  tags_raw:
   - Groups
   properties:
   - type: OpenAPI
@@ -162,6 +171,8 @@ apis:
   description: Manage users within a realm
   humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
