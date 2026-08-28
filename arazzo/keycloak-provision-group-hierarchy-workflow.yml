@@ -14,8 +14,8 @@ info:
     underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: keycloakAdminApi
-  url: ../openapi/keycloak-admin-rest-api-openapi.yml
+- name: groupsApi
+  url: ../openapi/keycloak-groups-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: provision-group-hierarchy

@@ -14,8 +14,8 @@ info:
     without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: keycloakAdminApi
-  url: ../openapi/keycloak-admin-rest-api-openapi.yml
+- name: clientsApi
+  url: ../openapi/keycloak-clients-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: decommission-client

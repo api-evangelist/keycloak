@@ -15,8 +15,20 @@ info:
     underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: keycloakAdminApi
-  url: ../openapi/keycloak-admin-rest-api-openapi.yml
+- name: clientsApi
+  url: ../openapi/keycloak-clients-api-openapi.yml
+  type: openapi
+- name: groupsApi
+  url: ../openapi/keycloak-groups-api-openapi.yml
+  type: openapi
+- name: identityProvidersApi
+  url: ../openapi/keycloak-identity-providers-api-openapi.yml
+  type: openapi
+- name: realmsApi
+  url: ../openapi/keycloak-realms-api-openapi.yml
+  type: openapi
+- name: rolesApi
+  url: ../openapi/keycloak-roles-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: inventory-realm

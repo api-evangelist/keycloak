@@ -15,8 +15,8 @@ info:
     read and executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: keycloakAdminApi
-  url: ../openapi/keycloak-admin-rest-api-openapi.yml
+- name: realmsApi
+  url: ../openapi/keycloak-realms-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: harden-realm
