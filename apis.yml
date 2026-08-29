@@ -5,6 +5,17 @@ description: >-
   single sign-on, identity brokering, user federation, and fine-grained authorization using OAuth 2.0 and OpenID
   Connect.
 type: Index
+deliveryModel:
+  model: library
+  open_source: false
+  commercial: false
+  callable_host: false
+  label: Library · distributed through package registries, no callable service
+  confidence: low
+  source:
+  - openapi
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
