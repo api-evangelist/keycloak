@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Keycloak Admin REST Clients Realms API
+  title: Keycloak Admin REST Realms API
   description: The Keycloak Admin REST API provides endpoints for managing all aspects of a Keycloak deployment, including realms, users, clients, roles, groups, and identity providers. All endpoints require authentication via a bearer token obtained from the Keycloak token endpoint.
   version: 26.0.0
   contact:
@@ -91,15 +91,122 @@ paths:
         '404':
           description: Realm not found
 components:
-  parameters:
-    realm:
-      name: realm
-      in: path
-      required: true
-      description: The name of the realm
-      schema:
-        type: string
   schemas:
+    ClientRepresentation:
+      type: object
+      description: Representation of an OAuth/OIDC client registered in Keycloak
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        clientId:
+          type: string
+          description: The client identifier used in OAuth/OIDC flows
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        clientAuthenticatorType:
+          type: string
+          description: The authenticator type for confidential clients
+        secret:
+          type: string
+          writeOnly: true
+        rootUrl:
+          type: string
+          format: uri
+        baseUrl:
+          type: string
+        adminUrl:
+          type: string
+        surrogateAuthRequired:
+          type: boolean
+        redirectUris:
+          type: array
+          items:
+            type: string
+        webOrigins:
+          type: array
+          items:
+            type: string
+        bearerOnly:
+          type: boolean
+        consentRequired:
+          type: boolean
+        standardFlowEnabled:
+          type: boolean
+          description: Enable Authorization Code Flow
+        implicitFlowEnabled:
+          type: boolean
+          description: Enable Implicit Flow
+        directAccessGrantsEnabled:
+          type: boolean
+          description: Enable Resource Owner Password Credentials Grant
+        serviceAccountsEnabled:
+          type: boolean
+          description: Enable Client Credentials Grant
+        publicClient:
+          type: boolean
+          description: Whether the client is public (no client secret) or confidential
+        frontchannelLogout:
+          type: boolean
+        protocol:
+          type: string
+          enum:
+          - openid-connect
+          - saml
+        attributes:
+          type: object
+          additionalProperties:
+            type: string
+        fullScopeAllowed:
+          type: boolean
+        defaultClientScopes:
+          type: array
+          items:
+            type: string
+        optionalClientScopes:
+          type: array
+          items:
+            type: string
+        authorizationServicesEnabled:
+          type: boolean
+    GroupRepresentation:
+      type: object
+      description: Representation of a user group in Keycloak
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+        path:
+          type: string
+          description: Full path of the group including parent groups
+        subGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupRepresentation'
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        realmRoles:
+          type: array
+          items:
+            type: string
+        clientRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
     UserRepresentation:
       type: object
       description: Representation of a Keycloak user
@@ -173,6 +280,26 @@ components:
           type: string
         notBefore:
           type: integer
+    CredentialRepresentation:
+      type: object
+      description: Representation of a user credential
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          description: The credential type (e.g., password, otp)
+        value:
+          type: string
+          writeOnly: true
+        temporary:
+          type: boolean
+          description: If true, user must change the credential on next login
+        createdDate:
+          type: integer
+          format: int64
+        userLabel:
+          type: string
     RealmRepresentation:
       type: object
       description: Representation of a Keycloak realm
@@ -317,6 +444,42 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/IdentityProviderRepresentation'
+    IdentityProviderRepresentation:
+      type: object
+      description: Representation of a federated identity provider
+      properties:
+        alias:
+          type: string
+          description: Unique alias for the identity provider
+        displayName:
+          type: string
+        internalId:
+          type: string
+          readOnly: true
+        providerId:
+          type: string
+          description: The identity provider type (e.g., oidc, saml, google, github, facebook)
+        enabled:
+          type: boolean
+        trustEmail:
+          type: boolean
+        storeToken:
+          type: boolean
+        addReadTokenRoleOnCreate:
+          type: boolean
+        authenticateByDefault:
+          type: boolean
+        linkOnly:
+          type: boolean
+        firstBrokerLoginFlowAlias:
+          type: string
+        postBrokerLoginFlowAlias:
+          type: string
+        config:
+          type: object
+          additionalProperties:
+            type: string
+          description: Provider-specific configuration (e.g., clientId, clientSecret, authorizationUrl, tokenUrl for OIDC providers)
     RoleRepresentation:
       type: object
       description: Representation of a role in Keycloak
@@ -355,177 +518,14 @@ components:
             type: array
             items:
               type: string
-    CredentialRepresentation:
-      type: object
-      description: Representation of a user credential
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-          description: The credential type (e.g., password, otp)
-        value:
-          type: string
-          writeOnly: true
-        temporary:
-          type: boolean
-          description: If true, user must change the credential on next login
-        createdDate:
-          type: integer
-          format: int64
-        userLabel:
-          type: string
-    ClientRepresentation:
-      type: object
-      description: Representation of an OAuth/OIDC client registered in Keycloak
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        clientId:
-          type: string
-          description: The client identifier used in OAuth/OIDC flows
-        name:
-          type: string
-        description:
-          type: string
-        enabled:
-          type: boolean
-        clientAuthenticatorType:
-          type: string
-          description: The authenticator type for confidential clients
-        secret:
-          type: string
-          writeOnly: true
-        rootUrl:
-          type: string
-          format: uri
-        baseUrl:
-          type: string
-        adminUrl:
-          type: string
-        surrogateAuthRequired:
-          type: boolean
-        redirectUris:
-          type: array
-          items:
-            type: string
-        webOrigins:
-          type: array
-          items:
-            type: string
-        bearerOnly:
-          type: boolean
-        consentRequired:
-          type: boolean
-        standardFlowEnabled:
-          type: boolean
-          description: Enable Authorization Code Flow
-        implicitFlowEnabled:
-          type: boolean
-          description: Enable Implicit Flow
-        directAccessGrantsEnabled:
-          type: boolean
-          description: Enable Resource Owner Password Credentials Grant
-        serviceAccountsEnabled:
-          type: boolean
-          description: Enable Client Credentials Grant
-        publicClient:
-          type: boolean
-          description: Whether the client is public (no client secret) or confidential
-        frontchannelLogout:
-          type: boolean
-        protocol:
-          type: string
-          enum:
-          - openid-connect
-          - saml
-        attributes:
-          type: object
-          additionalProperties:
-            type: string
-        fullScopeAllowed:
-          type: boolean
-        defaultClientScopes:
-          type: array
-          items:
-            type: string
-        optionalClientScopes:
-          type: array
-          items:
-            type: string
-        authorizationServicesEnabled:
-          type: boolean
-    IdentityProviderRepresentation:
-      type: object
-      description: Representation of a federated identity provider
-      properties:
-        alias:
-          type: string
-          description: Unique alias for the identity provider
-        displayName:
-          type: string
-        internalId:
-          type: string
-          readOnly: true
-        providerId:
-          type: string
-          description: The identity provider type (e.g., oidc, saml, google, github, facebook)
-        enabled:
-          type: boolean
-        trustEmail:
-          type: boolean
-        storeToken:
-          type: boolean
-        addReadTokenRoleOnCreate:
-          type: boolean
-        authenticateByDefault:
-          type: boolean
-        linkOnly:
-          type: boolean
-        firstBrokerLoginFlowAlias:
-          type: string
-        postBrokerLoginFlowAlias:
-          type: string
-        config:
-          type: object
-          additionalProperties:
-            type: string
-          description: Provider-specific configuration (e.g., clientId, clientSecret, authorizationUrl, tokenUrl for OIDC providers)
-    GroupRepresentation:
-      type: object
-      description: Representation of a user group in Keycloak
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        name:
-          type: string
-        path:
-          type: string
-          description: Full path of the group including parent groups
-        subGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/GroupRepresentation'
-        attributes:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
-        realmRoles:
-          type: array
-          items:
-            type: string
-        clientRoles:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
+  parameters:
+    realm:
+      name: realm
+      in: path
+      required: true
+      description: The name of the realm
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

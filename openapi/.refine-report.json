@@ -1,12 +1,7 @@
 {
   "provider": "keycloak",
   "sources": [
-    "keycloak-clients-api-openapi.yml",
-    "keycloak-groups-api-openapi.yml",
-    "keycloak-identity-providers-api-openapi.yml",
-    "keycloak-realms-api-openapi.yml",
-    "keycloak-roles-api-openapi.yml",
-    "keycloak-users-api-openapi.yml"
+    "_original/keycloak-admin-rest-api-openapi.yml"
   ],
   "outputs": [
     "keycloak-clients-api-openapi.yml",
@@ -19,6 +14,17 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "keycloak-admin-rest-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "keycloak-clients-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "keycloak-groups-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "keycloak-identity-providers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "keycloak-realms-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "keycloak-roles-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "keycloak-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

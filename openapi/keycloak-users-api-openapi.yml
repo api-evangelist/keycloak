@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Keycloak Admin REST Clients Users API
+  title: Keycloak Admin REST Users API
   description: The Keycloak Admin REST API provides endpoints for managing all aspects of a Keycloak deployment, including realms, users, clients, roles, groups, and identity providers. All endpoints require authentication via a bearer token obtained from the Keycloak token endpoint.
   version: 26.0.0
   contact:
@@ -287,31 +287,60 @@ paths:
                 items:
                   $ref: '#/components/schemas/UserRepresentation'
 components:
-  parameters:
-    realm:
-      name: realm
-      in: path
-      required: true
-      description: The name of the realm
-      schema:
-        type: string
-    groupId:
-      name: groupId
-      in: path
-      required: true
-      description: The UUID of the group
-      schema:
-        type: string
-        format: uuid
-    userId:
-      name: userId
-      in: path
-      required: true
-      description: The UUID of the user
-      schema:
-        type: string
-        format: uuid
   schemas:
+    GroupRepresentation:
+      type: object
+      description: Representation of a user group in Keycloak
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+        path:
+          type: string
+          description: Full path of the group including parent groups
+        subGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupRepresentation'
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        realmRoles:
+          type: array
+          items:
+            type: string
+        clientRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    CredentialRepresentation:
+      type: object
+      description: Representation of a user credential
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          description: The credential type (e.g., password, otp)
+        value:
+          type: string
+          writeOnly: true
+        temporary:
+          type: boolean
+          description: If true, user must change the credential on next login
+        createdDate:
+          type: integer
+          format: int64
+        userLabel:
+          type: string
     UserRepresentation:
       type: object
       description: Representation of a Keycloak user
@@ -423,59 +452,30 @@ components:
             type: array
             items:
               type: string
-    CredentialRepresentation:
-      type: object
-      description: Representation of a user credential
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-          description: The credential type (e.g., password, otp)
-        value:
-          type: string
-          writeOnly: true
-        temporary:
-          type: boolean
-          description: If true, user must change the credential on next login
-        createdDate:
-          type: integer
-          format: int64
-        userLabel:
-          type: string
-    GroupRepresentation:
-      type: object
-      description: Representation of a user group in Keycloak
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        name:
-          type: string
-        path:
-          type: string
-          description: Full path of the group including parent groups
-        subGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/GroupRepresentation'
-        attributes:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
-        realmRoles:
-          type: array
-          items:
-            type: string
-        clientRoles:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
+  parameters:
+    userId:
+      name: userId
+      in: path
+      required: true
+      description: The UUID of the user
+      schema:
+        type: string
+        format: uuid
+    groupId:
+      name: groupId
+      in: path
+      required: true
+      description: The UUID of the group
+      schema:
+        type: string
+        format: uuid
+    realm:
+      name: realm
+      in: path
+      required: true
+      description: The name of the realm
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

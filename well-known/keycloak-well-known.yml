@@ -2,13 +2,13 @@ generated: '2026-06-20'
 method: searched
 source: https://www.keycloak.org/.well-known/
 host: https://www.keycloak.org
-notes: >-
-  Probed the Keycloak project website host. The OpenID Connect / OAuth discovery
-  documents (openid-configuration, oauth-authorization-server) are not served at
-  the project website root — they are served per-realm by a running Keycloak
-  server at /realms/{realm}/.well-known/openid-configuration, which requires a
-  live deployment and is not a fixed public host.
-documents:
+notes: Probed the Keycloak project website host. The OpenID Connect / OAuth discovery documents (openid-configuration,
+  oauth-authorization-server) are not served at the project website root — they are served per-realm by
+  a running Keycloak server at /realms/{realm}/.well-known/openid-configuration, which requires a live
+  deployment and is not a fixed public host.
+hosts:
+- host: https://www.keycloak.org
+  documents:
   - path: /.well-known/security.txt
     status: 200
     file: keycloak-security.txt
@@ -20,3 +20,8 @@ documents:
     status: 404
   - path: /.well-known/ai-plugin.json
     status: 404
+x-shape-fix:
+  converted: '2026-08-20'
+  from: documents
+  note: Rewritten into hosts[] -> documents[], the only shape well_known_docs() in score.rb reads. A served
+    .well-known surface recorded in any other shape scores as absent.

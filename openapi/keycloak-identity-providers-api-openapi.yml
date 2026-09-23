@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Keycloak Admin REST Clients Identity Providers API
+  title: Keycloak Admin REST Identity Providers API
   description: The Keycloak Admin REST API provides endpoints for managing all aspects of a Keycloak deployment, including realms, users, clients, roles, groups, and identity providers. All endpoints require authentication via a bearer token obtained from the Keycloak token endpoint.
   version: 26.0.0
   contact:
