@@ -38,6 +38,7 @@ tags:
   - OpenID Connect
   - Security
   - SSO
+  - Identity Federation
 tags_raw:
   - Authentication
   - Authorization
@@ -46,6 +47,7 @@ tags_raw:
   - OpenID Connect
   - Security
   - SSO
+  - Identity Federation
 url: https://raw.githubusercontent.com/api-evangelist/keycloak/refs/heads/main/apis.yml
 created: '2025-01-01'
 modified: '2026-06-20'

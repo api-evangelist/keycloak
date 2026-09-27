@@ -167,22 +167,6 @@ paths:
         '204':
           description: Role deleted successfully
 components:
-  parameters:
-    realm:
-      name: realm
-      in: path
-      required: true
-      description: The name of the realm
-      schema:
-        type: string
-    userId:
-      name: userId
-      in: path
-      required: true
-      description: The UUID of the user
-      schema:
-        type: string
-        format: uuid
   schemas:
     RoleRepresentation:
       type: object
@@ -222,6 +206,22 @@ components:
             type: array
             items:
               type: string
+  parameters:
+    realm:
+      name: realm
+      in: path
+      required: true
+      description: The name of the realm
+      schema:
+        type: string
+    userId:
+      name: userId
+      in: path
+      required: true
+      description: The UUID of the user
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     bearerAuth:
       type: http
