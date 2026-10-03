@@ -199,6 +199,59 @@ paths:
                   $ref: '#/components/schemas/UserRepresentation'
 components:
   schemas:
+    GroupRepresentation:
+      type: object
+      description: Representation of a user group in Keycloak
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+        path:
+          type: string
+          description: Full path of the group including parent groups
+        subGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupRepresentation'
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        realmRoles:
+          type: array
+          items:
+            type: string
+        clientRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    CredentialRepresentation:
+      type: object
+      description: Representation of a user credential
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          description: The credential type (e.g., password, otp)
+        value:
+          type: string
+          writeOnly: true
+        temporary:
+          type: boolean
+          description: If true, user must change the credential on next login
+        createdDate:
+          type: integer
+          format: int64
+        userLabel:
+          type: string
     UserRepresentation:
       type: object
       description: Representation of a Keycloak user
@@ -272,75 +325,7 @@ components:
           type: string
         notBefore:
           type: integer
-    CredentialRepresentation:
-      type: object
-      description: Representation of a user credential
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-          description: The credential type (e.g., password, otp)
-        value:
-          type: string
-          writeOnly: true
-        temporary:
-          type: boolean
-          description: If true, user must change the credential on next login
-        createdDate:
-          type: integer
-          format: int64
-        userLabel:
-          type: string
-    GroupRepresentation:
-      type: object
-      description: Representation of a user group in Keycloak
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        name:
-          type: string
-        path:
-          type: string
-          description: Full path of the group including parent groups
-        subGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/GroupRepresentation'
-        attributes:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
-        realmRoles:
-          type: array
-          items:
-            type: string
-        clientRoles:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
   parameters:
-    realm:
-      name: realm
-      in: path
-      required: true
-      description: The name of the realm
-      schema:
-        type: string
-    userId:
-      name: userId
-      in: path
-      required: true
-      description: The UUID of the user
-      schema:
-        type: string
-        format: uuid
     groupId:
       name: groupId
       in: path
@@ -349,6 +334,21 @@ components:
       schema:
         type: string
         format: uuid
+    userId:
+      name: userId
+      in: path
+      required: true
+      description: The UUID of the user
+      schema:
+        type: string
+        format: uuid
+    realm:
+      name: realm
+      in: path
+      required: true
+      description: The name of the realm
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

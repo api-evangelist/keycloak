@@ -207,13 +207,6 @@ components:
             items:
               type: string
   parameters:
-    realm:
-      name: realm
-      in: path
-      required: true
-      description: The name of the realm
-      schema:
-        type: string
     userId:
       name: userId
       in: path
@@ -222,6 +215,13 @@ components:
       schema:
         type: string
         format: uuid
+    realm:
+      name: realm
+      in: path
+      required: true
+      description: The name of the realm
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http
