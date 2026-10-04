@@ -453,19 +453,19 @@ components:
         notBefore:
           type: integer
   parameters:
-    groupId:
-      name: groupId
-      in: path
-      required: true
-      description: The UUID of the group
-      schema:
-        type: string
-        format: uuid
     userId:
       name: userId
       in: path
       required: true
       description: The UUID of the user
+      schema:
+        type: string
+        format: uuid
+    groupId:
+      name: groupId
+      in: path
+      required: true
+      description: The UUID of the group
       schema:
         type: string
         format: uuid
