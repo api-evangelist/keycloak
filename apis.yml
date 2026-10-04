@@ -208,6 +208,9 @@ apis:
   - type: DataModel
     url: data-model/keycloak-data-model.yml
 common:
+  - type: CapabilityMap
+    url: capabilities/keycloak-capability-edges.yml
+    name: Keycloak Business Capability Map
   - type: VendorFacets
     url: vendor-facets/keycloak-vendor-facets.yml
   - type: X-MCPServerCandidate

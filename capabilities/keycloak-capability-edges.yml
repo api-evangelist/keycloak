@@ -1,0 +1,77 @@
+slug: keycloak
+provider: Keycloak
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 6
+edges:
+- tag: Identity Providers
+  spec_file: keycloak-identity-providers-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.9
+  evidence: '"Keycloak Create an identity provider", schema IdentityProviderRepresentation; vendor provides
+    "single sign-on, identity brokering, user federation"'
+  reason: Configuring external identity providers is federation, explicitly named in the Identity & Access
+    Management capability.
+- tag: Roles
+  spec_file: keycloak-roles-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.9
+  evidence: '"Keycloak Add realm-level role mappings to a user", "Keycloak Create a realm-level role",
+    schema RoleRepresentation'
+  reason: Creating roles and mapping them to users is access rights administration, the core of Identity
+    & Access Management.
+- tag: Users
+  spec_file: keycloak-users-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.9
+  evidence: '"Keycloak Create a new user", "Keycloak Reset a user''s password", schemas UserRepresentation,
+    CredentialRepresentation'
+  reason: User account lifecycle and credential reset in an identity provider is identity and access management,
+    not HR employee records.
+- tag: Groups
+  spec_file: keycloak-groups-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: '"Keycloak Add a user to a group", "Keycloak Get members of a group", schemas GroupRepresentation,
+    UserRepresentation'
+  reason: Group hierarchy and user-to-group membership administration in an IAM product is directly identity
+    and access management (joiners-movers-leavers, authorization grouping).
+- tag: Clients
+  spec_file: keycloak-clients-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: '"Keycloak Create a new client", "Keycloak Regenerate the client secret", schema ClientRepresentation;
+    vendor is "an open source identity and access management solution ... using OAuth 2.0 and OpenID Connect"'
+  reason: Registering OAuth/OIDC client applications and managing their secrets is identity and access
+    management. Some ambiguity with developer credential management, but the vendor is an IAM platform,
+    so IAM is the honest mapping.
+- tag: Realms
+  spec_file: keycloak-realms-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.7
+  evidence: '"Keycloak List all realms", "Keycloak Update a realm", schemas RealmRepresentation, ClientRepresentation,
+    UserRepresentation'
+  reason: Realms are the security-domain containers that scope users, clients and roles in this IAM product,
+    so the L1 cybersecurity mapping is sound; it is configuration of the identity domain rather than a
+    specific sub-capability, so no L2 is asserted.
