@@ -208,6 +208,12 @@ apis:
   - type: DataModel
     url: data-model/keycloak-data-model.yml
 common:
+  - type: Plans
+    url: plans/keycloak-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/keycloak-rate-limits.yml
+  - type: FinOps
+    url: finops/keycloak-finops.yml
   - type: CapabilityMap
     url: capabilities/keycloak-capability-edges.yml
     name: Keycloak Business Capability Map
