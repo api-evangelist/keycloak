@@ -1,5 +1,5 @@
 generated: '2026-10-12'
-method: none
+method: searched
 source:
 - https://zapier.com/apps/keycloak/integrations
 - https://n8n.io/integrations/keycloak/
@@ -7,10 +7,91 @@ source:
 - https://monid.ai/tools/keycloak
 checked:
 - https://composio.dev/toolkits/keycloak
+- https://github.com/open-telemetry/opentelemetry.io/blob/main/data/ecosystem/vendors.yaml
+- https://github.com/open-telemetry/opentelemetry.io/blob/main/data/registry/
 - https://monid.ai/tools/keycloak
 - https://n8n.io/integrations/keycloak/
+- https://openid.net/developers/certified-openid-connect-implementations/
 - https://zapier.com/apps/keycloak/integrations
 summary: null
 marketplace_apps: []
-edges: []
+edges:
+- partner_name: OpenID Foundation certification
+  partner: null
+  partner_match: domain
+  type: contract
+  channel: network-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://openid.net/developers/certified-openid-connect-implementations/
+  contract_reference:
+    register: OpenID Foundation certified implementations
+    spec_file: null
+    role: certified-op,certified-rp
+    registered_name: Red Hat
+    products:
+    - Keycloak 15.0.2
+    - Keycloak 18.0.0
+    matched_domain: keycloak.org
+    api_families:
+    - AU-CDR Adv. OP w/ Private Key
+    - AU-CDR Adv. OP w/ Private Key, PAR
+    - BR-OB Adv. OP w/ MTLS
+    - BR-OB Adv. OP w/ MTLS, JARM
+    - BR-OB Adv. OP w/ MTLS, PAR
+    - BR-OB Adv. OP w/ MTLS, PAR, JARM
+    - BR-OB Adv. OP w/ Private Key
+    - BR-OB Adv. OP w/ Private Key, JARM
+    - BR-OB Adv. OP w/ Private Key, PAR
+    - BR-OB Adv. OP w/ Private Key, PAR, JARM
+    - Back-Channel OP
+    - FAPI Adv. OP w/ MTLS
+    - FAPI Adv. OP w/ MTLS, JARM
+    - FAPI Adv. OP w/ MTLS, PAR
+    - FAPI Adv. OP w/ MTLS, PAR, JARM
+    - FAPI Adv. OP w/ Private Key
+    - FAPI Adv. OP w/ Private Key, JARM
+    - FAPI Adv. OP w/ Private Key, PAR
+    - FAPI Adv. OP w/ Private Key, PAR, JARM
+    - FAPI-CIBA with ping oauth-mtls
+    - Front-Channel OP
+    - RP-Initiated OP
+    - Session OP
+    - fapi-ciba-openid-providers-profiles
+    - fapi1-adv-openid-providers-profiles
+    - fapi1-op-australia-cdr
+    - fapi1-op-brazil-open-banking
+    - openid-providers-for-logout-profiles
+    - openid-providers-profiles
+    - openid-relying-parties-logout-profiles
+    - ping private_key_jwt
+    - poll oauth-mtls
+    - poll private_key_jwt
+    api_families_basis: conformance profiles / certification levels passed
+    detected_by: sweep-identity.py
+    detected: '2026-10-13'
+  detected_by: sweep-identity.py
+  detected: '2026-10-13'
+- partner_name: OpenTelemetry
+  partner: null
+  type: contract
+  channel: network-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://github.com/open-telemetry/opentelemetry.io/blob/main/data/registry/application-integration-java-keycloak.yml
+  contract_reference:
+    register: OpenTelemetry ecosystem + registry (opentelemetry.io data/)
+    spec_file: null
+    role: participant
+    registered_name: Keycloak Contributors
+    matched_domain: keycloak.org
+    partner_match: domain
+    api_families:
+    - registry:application integration
+    records:
+    - registry: application-integration-java-keycloak.yml
+    detected_by: sweep-observability.py
+    detected: '2026-10-13'
+  detected_by: sweep-observability.py
+  detected: '2026-10-13'
 templates: []
