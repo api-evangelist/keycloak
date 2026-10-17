@@ -167,6 +167,22 @@ paths:
                   value:
                     type: string
 components:
+  parameters:
+    realm:
+      name: realm
+      in: path
+      required: true
+      description: The name of the realm
+      schema:
+        type: string
+    clientUuid:
+      name: clientUuid
+      in: path
+      required: true
+      description: The internal UUID of the client (not the clientId)
+      schema:
+        type: string
+        format: uuid
   schemas:
     ClientRepresentation:
       type: object
@@ -250,22 +266,6 @@ components:
             type: string
         authorizationServicesEnabled:
           type: boolean
-  parameters:
-    clientUuid:
-      name: clientUuid
-      in: path
-      required: true
-      description: The internal UUID of the client (not the clientId)
-      schema:
-        type: string
-        format: uuid
-    realm:
-      name: realm
-      in: path
-      required: true
-      description: The name of the realm
-      schema:
-        type: string
   securitySchemes:
     bearerAuth:
       type: http
