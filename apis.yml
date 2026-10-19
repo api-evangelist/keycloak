@@ -130,31 +130,6 @@ apis:
     url: errors/keycloak-problem-types.yml
   - type: DataModel
     url: data-model/keycloak-data-model.yml
-- aid: keycloak:keycloak-realms-api
-  name: Keycloak Realms API
-  description: Manage Keycloak realms
-  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
-  tags:
-  - Realms
-  properties:
-  - type: OpenAPI
-    url: openapi/keycloak-realms-api-openapi.yml
-  - type: Documentation
-    url: https://www.keycloak.org/docs-api/latest/rest-api/
-  - type: Reference
-    url: https://www.keycloak.org/docs/latest/server_admin/
-  - type: JSONSchema
-    url: json-schema/realm.yml
-  - type: JSONSchema
-    url: json-schema/client.yml
-  - type: JSONSchema
-    url: json-schema/user.yml
-  - type: JSONLD
-    url: json-ld/keycloak-context.yml
-  - type: ErrorCatalog
-    url: errors/keycloak-problem-types.yml
-  - type: DataModel
-    url: data-model/keycloak-data-model.yml
 - aid: keycloak:keycloak-roles-api
   name: Keycloak Roles API
   description: Manage realm-level and client-level roles
@@ -191,6 +166,434 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/keycloak-users-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-admin-api
+  name: Keycloak Admin API
+  description: The Admin API from Keycloak — 22 operation(s) for admin.
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Admin
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-admin-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-attack-detection-api
+  name: Keycloak Attack Detection API
+  description: The Attack Detection API from Keycloak — 2 operation(s) for attack detection.
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Attack Detection
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-attack-detection-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-authentication-management-api
+  name: Keycloak Authentication Management API
+  description: >-
+    The Authentication Management API from Keycloak — 28 operation(s) for authentication management.
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Authentication Management
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-authentication-management-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-client-attribute-certificate-api
+  name: Keycloak Client Attribute Certificate API
+  description: >-
+    The Client Attribute Certificate API from Keycloak — 7 operation(s) for client attribute certificate.
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Client Attribute Certificate
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-client-attribute-certificate-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-client-initial-access-api
+  name: Keycloak Client Initial Access API
+  description: The Client Initial Access API from Keycloak — 2 operation(s) for client initial access.
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Client Initial Access
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-client-initial-access-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-client-registration-policy-api
+  name: Keycloak Client Registration Policy API
+  description: >-
+    The Client Registration Policy API from Keycloak — 1 operation(s) for client registration policy.
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Client Registration Policy
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-client-registration-policy-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-client-role-mappings-api
+  name: Keycloak Client Role Mappings API
+  description: The Client Role Mappings API from Keycloak — 9 operation(s) for client role mappings.
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Client Role Mappings
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-client-role-mappings-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-client-scopes-api
+  name: Keycloak Client Scopes API
+  description: The Client Scopes API from Keycloak — 4 operation(s) for client scopes.
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Client Scopes
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-client-scopes-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-component-api
+  name: Keycloak Component API
+  description: The Component API from Keycloak — 3 operation(s) for component.
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Component
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-component-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-key-api
+  name: Keycloak Key API
+  description: The Key API from Keycloak — 1 operation(s) for key.
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Key
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-key-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-organizations-api
+  name: Keycloak Organizations API
+  description: The Organizations API from Keycloak — 24 operation(s) for organizations.
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Organizations
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-organizations-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-protocol-mappers-api
+  name: Keycloak Protocol Mappers API
+  description: The Protocol Mappers API from Keycloak — 12 operation(s) for protocol mappers.
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Protocol Mappers
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-protocol-mappers-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-realms-admin-api
+  name: Keycloak Realms Admin API
+  description: The Realms Admin API from Keycloak — 28 operation(s) for realms admin.
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Realms Admin
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-realms-admin-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-role-mapper-api
+  name: Keycloak Role Mapper API
+  description: The Role Mapper API from Keycloak — 12 operation(s) for role mapper.
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Role Mapper
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-role-mapper-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-roles-by-id-api
+  name: Keycloak Roles (by ID) API
+  description: The Roles (by ID) API from Keycloak — 5 operation(s) for roles (by id).
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Roles (by ID)
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-roles-by-id-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-scope-mappings-api
+  name: Keycloak Scope Mappings API
+  description: The Scope Mappings API from Keycloak — 21 operation(s) for scope mappings.
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Scope Mappings
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-scope-mappings-api-openapi.yml
+  - type: Documentation
+    url: https://www.keycloak.org/docs-api/latest/rest-api/
+  - type: Reference
+    url: https://www.keycloak.org/docs/latest/server_admin/
+  - type: JSONSchema
+    url: json-schema/realm.yml
+  - type: JSONSchema
+    url: json-schema/client.yml
+  - type: JSONSchema
+    url: json-schema/user.yml
+  - type: JSONLD
+    url: json-ld/keycloak-context.yml
+  - type: ErrorCatalog
+    url: errors/keycloak-problem-types.yml
+  - type: DataModel
+    url: data-model/keycloak-data-model.yml
+- aid: keycloak:keycloak-workflows-api
+  name: Keycloak Workflows API
+  description: The Workflows API from Keycloak — 6 operation(s) for workflows.
+  humanURL: https://www.keycloak.org/docs-api/latest/rest-api/
+  tags:
+  - Workflows
+  properties:
+  - type: OpenAPI
+    url: openapi/keycloak-workflows-api-openapi.yml
   - type: Documentation
     url: https://www.keycloak.org/docs-api/latest/rest-api/
   - type: Reference

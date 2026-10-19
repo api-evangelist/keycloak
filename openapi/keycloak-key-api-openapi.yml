@@ -1,0 +1,74 @@
+openapi: 3.2.0
+info:
+  title: Keycloak Admin REST Key API
+  description: This is a REST API reference for the Keycloak Admin REST API.
+  version: '1.0'
+tags:
+- name: Key
+paths:
+  /admin/realms/{realm}/keys:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Key
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeysMetadataRepresentation'
+      summary: Get admin realms by realm keys
+      x-summary-source: derived
+      operationId: getAdminRealmsByRealmKeys
+      x-operation-id-source: derived
+components:
+  schemas:
+    KeyUse:
+      enum:
+      - SIG
+      - ENC
+      - JWT_SVID
+      type: string
+    KeyMetadataRepresentation:
+      type: object
+      properties:
+        providerId:
+          type: string
+        providerPriority:
+          format: int64
+          type: integer
+        kid:
+          type: string
+        status:
+          type: string
+        type:
+          type: string
+        algorithm:
+          type: string
+        publicKey:
+          type: string
+        certificate:
+          type: string
+        use:
+          $ref: '#/components/schemas/KeyUse'
+        validTo:
+          format: int64
+          type: integer
+    KeysMetadataRepresentation:
+      type: object
+      properties:
+        active:
+          type: object
+          additionalProperties:
+            type: string
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeyMetadataRepresentation'

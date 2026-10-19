@@ -1,0 +1,618 @@
+openapi: 3.2.0
+info:
+  title: Keycloak Admin REST Role Mapper API
+  description: This is a REST API reference for the Keycloak Admin REST API.
+  version: '1.0'
+tags:
+- name: Role Mapper
+paths:
+  /admin/realms/{realm}/groups/{group-id}/role-mappings:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: group-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Role Mapper
+      summary: Get role mappings
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MappingsRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmGroupsByGroupIdRoleMappings
+      x-operation-id-source: derived
+  /admin/realms/{realm}/groups/{group-id}/role-mappings/realm:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: group-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Role Mapper
+      summary: Get realm-level role mappings
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmGroupsByGroupIdRoleMappingsRealm
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Role Mapper
+      summary: Add realm-level role mappings to the user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: postAdminRealmsByRealmGroupsByGroupIdRoleMappingsRealm
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Role Mapper
+      summary: Delete realm-level role mappings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: deleteAdminRealmsByRealmGroupsByGroupIdRoleMappingsRealm
+      x-operation-id-source: derived
+  /admin/realms/{realm}/groups/{group-id}/role-mappings/realm/available:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: group-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Role Mapper
+      summary: Get realm-level roles that can be mapped
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmGroupsByGroupIdRoleMappingsRealmAvailable
+      x-operation-id-source: derived
+  /admin/realms/{realm}/groups/{group-id}/role-mappings/realm/composite:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: group-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Role Mapper
+      summary: Get effective realm-level role mappings This will recurse all composite roles…
+      parameters:
+      - name: briefRepresentation
+        in: query
+        description: if false, return roles with their attributes
+        schema:
+          default: true
+          type: boolean
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmGroupsByGroupIdRoleMappingsRealmComposite
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/groups/{group-id}/role-mappings:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: group-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Role Mapper
+      summary: Get role mappings
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MappingsRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdGroupsByGroupIdRoleMappings
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/groups/{group-id}/role-mappings/realm:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: group-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Role Mapper
+      summary: Get realm-level role mappings
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdGroupsByGroupIdRoleMappingsRealm
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Role Mapper
+      summary: Add realm-level role mappings to the user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: postAdminRealmsByRealmOrganizationsByOrgIdGroupsByGroupIdRoleMappingsRealm
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Role Mapper
+      summary: Delete realm-level role mappings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: deleteAdminRealmsByRealmOrganizationsByOrgIdGroupsByGroupIdRoleMappingsRealm
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/groups/{group-id}/role-mappings/realm/available:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: group-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Role Mapper
+      summary: Get realm-level roles that can be mapped
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdGroupsByGroupIdRoleMappingsRealmAvailable
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/groups/{group-id}/role-mappings/realm/composite:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: group-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Role Mapper
+      summary: Get effective realm-level role mappings This will recurse all composite roles…
+      parameters:
+      - name: briefRepresentation
+        in: query
+        description: if false, return roles with their attributes
+        schema:
+          default: true
+          type: boolean
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdGroupsByGroupIdRoleMappingsRealmComposite
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/role-mappings:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Role Mapper
+      summary: Get role mappings
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MappingsRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmUsersByUserIdRoleMappings
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/role-mappings/realm:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Role Mapper
+      summary: Get realm-level role mappings
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmUsersByUserIdRoleMappingsRealm
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Role Mapper
+      summary: Add realm-level role mappings to the user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: postAdminRealmsByRealmUsersByUserIdRoleMappingsRealm
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Role Mapper
+      summary: Delete realm-level role mappings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: deleteAdminRealmsByRealmUsersByUserIdRoleMappingsRealm
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/role-mappings/realm/available:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Role Mapper
+      summary: Get realm-level roles that can be mapped
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmUsersByUserIdRoleMappingsRealmAvailable
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/role-mappings/realm/composite:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Role Mapper
+      summary: Get effective realm-level role mappings This will recurse all composite roles…
+      parameters:
+      - name: briefRepresentation
+        in: query
+        description: if false, return roles with their attributes
+        schema:
+          default: true
+          type: boolean
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmUsersByUserIdRoleMappingsRealmComposite
+      x-operation-id-source: derived
+components:
+  schemas:
+    RoleRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        scopeParamRequired:
+          type: boolean
+          deprecated: true
+        composite:
+          type: boolean
+        composites:
+          $ref: '#/components/schemas/Composites'
+        clientRole:
+          type: boolean
+        containerId:
+          type: string
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    Composites:
+      type: object
+      properties:
+        realm:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        client:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        application:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          deprecated: true
+    MappingsRepresentation:
+      type: object
+      properties:
+        realmMappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleRepresentation'
+        clientMappings:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ClientMappingsRepresentation'
+    ClientMappingsRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        client:
+          type: string
+        mappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleRepresentation'

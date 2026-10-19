@@ -1,0 +1,12 @@
+{
+ "url": "https://www.keycloak.org/docs-api/latest/rest-api/openapi.json",
+ "final": "https://www.keycloak.org/docs-api/latest/rest-api/openapi.json",
+ "status": 200,
+ "content_type": "application/json; charset=utf-8",
+ "bytes": 566837,
+ "sha256": "a1210e0a9eb8fad34db9b57e13086d3c3295109bda523f991add0188649ebbe9",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "re-archived: the provider's current document replaced a stale archive (roadmap#793); the old files are in openapi/_superseded/2026-10-19-stale"
+}

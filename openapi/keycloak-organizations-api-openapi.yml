@@ -1,0 +1,1918 @@
+openapi: 3.2.0
+info:
+  title: Keycloak Admin REST Organizations API
+  description: This is a REST API reference for the Keycloak Admin REST API.
+  version: '1.0'
+tags:
+- name: Organizations
+  x-smallrye-profile-admin: ''
+paths:
+  /admin/realms/{realm}/organizations:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Organizations
+      summary: Returns a paginated list of organizations filtered according to the specified…
+      parameters:
+      - name: briefRepresentation
+        in: query
+        description: if false, return the full representation. Otherwise, only the basic fields are returned.
+        schema:
+          default: true
+          type: boolean
+      - name: exact
+        in: query
+        description: Boolean which defines whether the param 'search' must match exactly or not
+        schema:
+          type: boolean
+      - name: first
+        in: query
+        description: The position of the first result to be processed (pagination offset)
+        schema:
+          format: int32
+          default: '0'
+          type: integer
+      - name: identityProvider
+        in: query
+        description: The alias of an identity provider, to only return the organizations linked to it. Cannot be combined with 'q'
+        schema:
+          type: string
+      - name: max
+        in: query
+        description: The maximum number of results to be returned - defaults to 10
+        schema:
+          format: int32
+          default: '10'
+          type: integer
+      - name: q
+        in: query
+        description: A query to search for custom attributes, in the format 'key1:value2 key2:value2'
+        schema:
+          type: string
+      - name: search
+        in: query
+        description: A String representing either an organization name or domain
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrganizationRepresentation'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmOrganizations
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Organizations
+      summary: Creates a new organization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationRepresentation'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+      operationId: postAdminRealmsByRealmOrganizations
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/count:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Organizations
+      summary: Returns the organizations counts
+      parameters:
+      - name: exact
+        in: query
+        description: Boolean which defines whether the param 'search' must match exactly or not
+        schema:
+          type: boolean
+      - name: identityProvider
+        in: query
+        description: The alias of an identity provider, to only count the organizations linked to it. Cannot be combined with 'q'
+        schema:
+          type: string
+      - name: q
+        in: query
+        description: A query to search for custom attributes, in the format 'key1:value2 key2:value2'
+        schema:
+          type: string
+      - name: search
+        in: query
+        description: A String representing either an organization name or domain
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                format: int64
+                type: integer
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmOrganizationsCount
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/members/{member-id}/organizations:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Organizations
+      summary: Returns the organizations associated with the user that has the specified id
+      parameters:
+      - name: member-id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: briefRepresentation
+        in: query
+        description: if false, return the full representation. Otherwise, only the basic fields are returned.
+        schema:
+          default: true
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrganizationRepresentation'
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmOrganizationsMembersByMemberIdOrganizations
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Organizations
+      summary: Returns the organization representation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmOrganizationsByOrgId
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Organizations
+      summary: Updates the organization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+      operationId: putAdminRealmsByRealmOrganizationsByOrgId
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Organizations
+      summary: Deletes the organization
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+      operationId: deleteAdminRealmsByRealmOrganizationsByOrgId
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/groups:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Organizations
+      summary: Get organization groups
+      description: Returns organization groups. When `search` parameter is provided, groups are searched by name. When `q` parameter is provided, groups are searched by attributes. If neither parameter is provided, top-level groups are returned.
+      parameters:
+      - name: briefRepresentation
+        in: query
+        schema:
+          default: true
+          type: boolean
+      - name: exact
+        in: query
+        schema:
+          default: 'false'
+          type: boolean
+      - name: first
+        in: query
+        schema:
+          format: int32
+          type: integer
+      - name: max
+        in: query
+        schema:
+          format: int32
+          type: integer
+      - name: populateHierarchy
+        in: query
+        schema:
+          default: false
+          type: boolean
+      - name: q
+        in: query
+        schema:
+          type: string
+      - name: search
+        in: query
+        schema:
+          type: string
+      - name: subGroupsCount
+        in: query
+        schema:
+          default: false
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdGroups
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Organizations
+      summary: Creates a new top-level group or moves an existing group to top-level
+      description: Creates a new top-level group in the organization. If the group representation includes an ID, moves the existing organization group to be a top-level group. If no ID is provided, creates a new top-level group.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupRepresentation'
+      responses:
+        '201':
+          description: Created
+        '204':
+          description: No Content - Group moved to top-level
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found - Group does not exist
+        '409':
+          description: Conflict
+      operationId: postAdminRealmsByRealmOrganizationsByOrgIdGroups
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/groups/group-by-path/{path}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Organizations
+      summary: Get organization group by path
+      description: Returns the organization group with the specified path
+      parameters:
+      - name: path
+        in: path
+        required: true
+        schema:
+          pattern: .*
+          type: string
+      - name: briefRepresentation
+        in: query
+        description: 'Whether to return a brief representation (default: true)'
+        schema:
+          default: true
+          type: boolean
+      - name: subGroupsCount
+        in: query
+        description: 'Whether to return the count of subgroups (default: false)'
+        schema:
+          default: false
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupRepresentation'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdGroupsGroupByPathByPath
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/groups/{group-id}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: group-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Organizations
+      summary: Get organization group representation
+      parameters:
+      - name: subGroupsCount
+        in: query
+        description: 'Whether to return the count of subgroups (default: false)'
+        schema:
+          default: false
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdGroupsByGroupId
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Organizations
+      summary: Update organization group
+      description: Updates the organization group's name, description, and attributes. Subgroups are not affected.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+      operationId: putAdminRealmsByRealmOrganizationsByOrgIdGroupsByGroupId
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Organizations
+      summary: Delete the organization group
+      description: Deletes the organization group and all its subgroups
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: deleteAdminRealmsByRealmOrganizationsByOrgIdGroupsByGroupId
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/groups/{group-id}/children:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: group-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Organizations
+      summary: Get subgroups of this organization group
+      description: Returns a paginated stream of subgroups that belong to this organization group
+      parameters:
+      - name: exact
+        in: query
+        description: Boolean which defines whether the params "search" must match exactly or not
+        schema:
+          type: boolean
+      - name: first
+        in: query
+        description: The position of the first result to be returned (pagination offset).
+        schema:
+          format: int32
+          default: '0'
+          type: integer
+      - name: max
+        in: query
+        description: The maximum number of results that are to be returned. Defaults to 10
+        schema:
+          format: int32
+          default: '10'
+          type: integer
+      - name: search
+        in: query
+        description: A String representing either an exact group name or a partial name
+        schema:
+          type: string
+      - name: subGroupsCount
+        in: query
+        description: 'Whether to return the count of subgroups (default: false)'
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdGroupsByGroupIdChildren
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Organizations
+      summary: Create or move a subgroup
+      description: Creates a new subgroup under this organization group. If the group representation includes an ID, moves the existing group to be a child of this group. If no ID is provided, creates a new subgroup.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupRepresentation'
+      responses:
+        '201':
+          description: Created
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '409':
+          description: Conflict
+      operationId: postAdminRealmsByRealmOrganizationsByOrgIdGroupsByGroupIdChildren
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/groups/{group-id}/members:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: group-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Organizations
+      summary: Get members of this organization group
+      description: Returns a paginated list of organization members that belong to this group
+      parameters:
+      - name: briefRepresentation
+        in: query
+        description: Only return basic information (only guaranteed to return id, username, created, first and last name, email, enabled state, email verification state, federation link, and access. Note that it means that namely user attributes, required actions, and not before are not returned.)
+        schema:
+          type: boolean
+      - name: first
+        in: query
+        description: Pagination offset
+        schema:
+          format: int32
+          type: integer
+      - name: max
+        in: query
+        description: Maximum results size (defaults to 100)
+        schema:
+          format: int32
+          type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MemberRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdGroupsByGroupIdMembers
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/groups/{group-id}/members/{userId}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: group-id
+      in: path
+      required: true
+      schema:
+        type: string
+    put:
+      tags:
+      - Organizations
+      summary: Add a user to this organization group
+      description: Adds an organization member to this group. The user must be a member of the organization.
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request - User is not a member of the organization
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found - User does not exist
+        '409':
+          description: Conflict - User is already a member of the group
+      operationId: putAdminRealmsByRealmOrganizationsByOrgIdGroupsByGroupIdMembersByUserId
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Organizations
+      summary: Remove a user from this organization group
+      description: Removes a user from this organization group. The user remains a member of the organization.
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found - User does not exist
+      operationId: deleteAdminRealmsByRealmOrganizationsByOrgIdGroupsByGroupIdMembersByUserId
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/identity-providers:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Organizations
+      summary: Returns all identity providers associated with the organization
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IdentityProviderRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdIdentityProviders
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Organizations
+      summary: Adds the identity provider with the specified id to the organization
+      description: Adds, or associates, an existing identity provider with the organization. If no identity provider is found, or if it is already associated with the organization, an error response is returned
+      requestBody:
+        description: Payload should contain only id or alias of the identity provider to be associated with the organization (id or alias with or without quotes). Surrounding whitespace characters will be trimmed.
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+      operationId: postAdminRealmsByRealmOrganizationsByOrgIdIdentityProviders
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/identity-providers/{alias}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Organizations
+      summary: Returns the identity provider associated with the organization that has the…
+      description: Searches for an identity provider with the given alias. If one is found and is associated with the organization, it is returned. Otherwise, an error response with status NOT_FOUND is returned
+      parameters:
+      - name: alias
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityProviderRepresentation'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdIdentityProvidersByAlias
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Organizations
+      summary: Updates the per-association config for the identity provider linked to the…
+      description: Updates the autoMembership and membershipType settings for the link between the organization and the identity provider with the given alias. If the provider is not linked to the organization, a NOT_FOUND error is returned
+      parameters:
+      - name: alias
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationIdentityProviderLinkRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: putAdminRealmsByRealmOrganizationsByOrgIdIdentityProvidersByAlias
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Organizations
+      summary: Removes the identity provider with the specified alias from the organization
+      description: Breaks the association between the identity provider and the organization. The provider itself is not deleted. If no provider is found, or if it is not currently associated with the org, an error response is returned
+      parameters:
+      - name: alias
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: deleteAdminRealmsByRealmOrganizationsByOrgIdIdentityProvidersByAlias
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/identity-providers/{alias}/groups:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Organizations
+      summary: Returns organization groups for the identity provider
+      description: Returns organization groups that can be used in identity provider mappers. Only returns groups if the identity provider is associated with the organization.
+      parameters:
+      - name: alias
+        in: path
+        description: The alias of the identity provider
+        required: true
+        schema:
+          type: string
+      - name: briefRepresentation
+        in: query
+        description: If true, return brief representation; otherwise return full representation
+        schema:
+          default: true
+          type: boolean
+      - name: exact
+        in: query
+        description: If true, perform exact match on the search parameter
+        schema:
+          default: 'false'
+          type: boolean
+      - name: first
+        in: query
+        description: The position of the first result (pagination offset)
+        schema:
+          format: int32
+          type: integer
+      - name: max
+        in: query
+        description: The maximum number of results to return
+        schema:
+          format: int32
+          type: integer
+      - name: q
+        in: query
+        description: A query to search for group attributes, in the format 'key1:value1 key2:value2'
+        schema:
+          type: string
+      - name: search
+        in: query
+        description: A string to search for in group names
+        schema:
+          type: string
+      - name: subGroupsCount
+        in: query
+        description: If true, include subgroups count in the response
+        schema:
+          default: false
+          type: boolean
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupRepresentation'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdIdentityProvidersByAliasGroups
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/invitations:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Organizations
+      summary: Get invitations for the organization
+      parameters:
+      - name: email
+        in: query
+        schema:
+          type: string
+      - name: first
+        in: query
+        schema:
+          format: int32
+          type: integer
+      - name: firstName
+        in: query
+        schema:
+          type: string
+      - name: lastName
+        in: query
+        schema:
+          type: string
+      - name: max
+        in: query
+        schema:
+          format: int32
+          type: integer
+      - name: search
+        in: query
+        schema:
+          type: string
+      - name: status
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrganizationInvitationRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdInvitations
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/invitations/{id}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Organizations
+      summary: Get invitation by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationInvitationRepresentation'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdInvitationsById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Organizations
+      summary: Delete an invitation
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: deleteAdminRealmsByRealmOrganizationsByOrgIdInvitationsById
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/invitations/{id}/resend:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Organizations
+      summary: Resend an invitation
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: postAdminRealmsByRealmOrganizationsByOrgIdInvitationsByIdResend
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/members:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Organizations
+      summary: Returns a paginated list of organization members filtered according to the…
+      parameters:
+      - name: briefRepresentation
+        in: query
+        description: Boolean to return either a brief or a full user representation. If not specified, the brief representation is returned by default.
+        schema:
+          default: true
+          type: boolean
+      - name: exact
+        in: query
+        description: Boolean which defines whether the param 'search' must match exactly or not
+        schema:
+          type: boolean
+      - name: first
+        in: query
+        description: The position of the first result to be processed (pagination offset)
+        schema:
+          format: int32
+          default: '0'
+          type: integer
+      - name: max
+        in: query
+        description: The maximum number of results to be returned. Defaults to 10
+        schema:
+          format: int32
+          default: '10'
+          type: integer
+      - name: membershipType
+        in: query
+        description: The membership type
+        schema:
+          type: string
+      - name: search
+        in: query
+        description: A String representing either a member's username, e-mail, first name, or last name.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MemberRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdMembers
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Organizations
+      summary: Adds the user with the specified id as a member of the organization
+      description: Adds, or associates, an existing user with the organization. If no user is found, or if it is already associated with the organization, an error response is returned
+      requestBody:
+        description: Payload should contain only id of the user to be added to the organization (UUID with or without quotes). Surrounding whitespace characters will be trimmed.
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+      operationId: postAdminRealmsByRealmOrganizationsByOrgIdMembers
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/members/count:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Organizations
+      summary: Returns number of members in the organization
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                format: int64
+                type: integer
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdMembersCount
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/members/invite-existing-user:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Organizations
+      summary: Invites an existing user to the organization, using the specified user id
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      operationId: postAdminRealmsByRealmOrganizationsByOrgIdMembersInviteExistingUser
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/members/invite-user:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Organizations
+      summary: Invites an existing user or sends a registration link to a new user, based on…
+      description: If the user with the given e-mail address exists, it sends an invitation link, otherwise it sends a registration link. The client_id query parameter is optional. If no client_id is provided, the account client is used. After accepting the invitation the user is redirected to the selected client's home URL; for the account client the organization redirect URL is used instead when configured.
+      parameters:
+      - name: client_id
+        in: query
+        description: Client id
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+        '500':
+          description: Internal Server Error
+      operationId: postAdminRealmsByRealmOrganizationsByOrgIdMembersInviteUser
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/members/{member-id}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Organizations
+      summary: Returns the member of the organization with the specified id
+      description: Searches for auser with the given id. If one is found, and is currently a member of the organization, returns it. Otherwise,an error response with status NOT_FOUND is returned
+      parameters:
+      - name: member-id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberRepresentation'
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdMembersByMemberId
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Organizations
+      summary: Removes the user with the specified id from the organization
+      description: Breaks the association between the user and organization. The user itself is deleted in case the membership is managed, otherwise the user is not deleted. If no user is found, or if they are not a member of the organization, an error response is returned
+      parameters:
+      - name: member-id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+      operationId: deleteAdminRealmsByRealmOrganizationsByOrgIdMembersByMemberId
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/members/{member-id}/groups:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Organizations
+      summary: Returns the organization group memberships for a member with the specified id
+      description: Searches for auser with the given id. If one is found, and is currently a member of the organization, returns the groups from the organizationwhere the user is member of. Otherwise, an error response with status NOT_FOUND is returned
+      parameters:
+      - name: member-id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: briefRepresentation
+        in: query
+        schema:
+          default: true
+          type: boolean
+      - name: first
+        in: query
+        schema:
+          format: int32
+          type: integer
+      - name: max
+        in: query
+        schema:
+          format: int32
+          type: integer
+      - name: search
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupRepresentation'
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdMembersByMemberIdGroups
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/members/{member-id}/membership-type:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    put:
+      tags:
+      - Organizations
+      summary: Updates the membership type of the member with the specified id
+      parameters:
+      - name: member-id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MembershipType'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: putAdminRealmsByRealmOrganizationsByOrgIdMembersByMemberIdMembershipType
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/members/{member-id}/organizations:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Organizations
+      summary: Returns the organizations associated with the user that has the specified id
+      parameters:
+      - name: member-id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: briefRepresentation
+        in: query
+        description: if false, return the full representation. Otherwise, only the basic fields are returned.
+        schema:
+          default: true
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrganizationRepresentation'
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdMembersByMemberIdOrganizations
+      x-operation-id-source: derived
+components:
+  schemas:
+    MultivaluedHashMapStringString:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    UserProfileAttributeMetadata:
+      type: object
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        required:
+          type: boolean
+        readOnly:
+          type: boolean
+        annotations:
+          type: object
+          additionalProperties: {}
+        validators:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties: {}
+        group:
+          type: string
+        multivalued:
+          type: boolean
+        defaultValue:
+          type: string
+    MemberRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        emailVerified:
+          type: boolean
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        userProfileMetadata:
+          $ref: '#/components/schemas/UserProfileMetadata'
+        enabled:
+          type: boolean
+        self:
+          type: string
+        origin:
+          type: string
+        createdTimestamp:
+          format: int64
+          type: integer
+        totp:
+          type: boolean
+        federationLink:
+          type: string
+        serviceAccountClientId:
+          type: string
+        credentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialRepresentation'
+        disableableCredentialTypes:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        requiredActions:
+          type: array
+          items:
+            type: string
+        federatedIdentities:
+          type: array
+          items:
+            $ref: '#/components/schemas/FederatedIdentityRepresentation'
+        realmRoles:
+          type: array
+          items:
+            type: string
+        clientRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        clientConsents:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserConsentRepresentation'
+        notBefore:
+          format: int32
+          type: integer
+        verifiableCredentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserVerifiableCredentialRepresentation'
+        issuedVerifiableCredentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/IssuedVerifiableCredentialRepresentation'
+        applicationRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          deprecated: true
+        socialLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/SocialLinkRepresentation'
+          deprecated: true
+        groups:
+          type: array
+          items:
+            type: string
+        access:
+          type: object
+          additionalProperties:
+            type: boolean
+        membershipType:
+          $ref: '#/components/schemas/MembershipType'
+    OrganizationDomainRepresentation:
+      type: object
+      properties:
+        name:
+          type: string
+        verified:
+          type: boolean
+        identityProviderAlias:
+          type: string
+        autoRedirect:
+          type: boolean
+    CredentialRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        userLabel:
+          type: string
+        createdDate:
+          format: int64
+          type: integer
+        secretData:
+          type: string
+        credentialData:
+          type: string
+        priority:
+          format: int32
+          type: integer
+        value:
+          type: string
+        temporary:
+          type: boolean
+        device:
+          type: string
+          deprecated: true
+        hashedSaltedValue:
+          type: string
+          deprecated: true
+        salt:
+          type: string
+          deprecated: true
+        hashIterations:
+          format: int32
+          type: integer
+          deprecated: true
+        counter:
+          format: int32
+          type: integer
+          deprecated: true
+        algorithm:
+          type: string
+          deprecated: true
+        digits:
+          format: int32
+          type: integer
+          deprecated: true
+        period:
+          format: int32
+          type: integer
+          deprecated: true
+        config:
+          type: object
+          allOf:
+          - $ref: '#/components/schemas/MultivaluedHashMapStringString'
+          deprecated: true
+        federationLink:
+          type: string
+    GroupRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        path:
+          type: string
+        parentId:
+          type: string
+        subGroupCount:
+          format: int64
+          type: integer
+        subGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupRepresentation'
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        realmRoles:
+          type: array
+          items:
+            type: string
+        clientRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        access:
+          type: object
+          additionalProperties:
+            type: boolean
+    IdentityProviderRepresentation:
+      type: object
+      properties:
+        alias:
+          type: string
+        displayName:
+          type: string
+        internalId:
+          type: string
+        providerId:
+          type: string
+        enabled:
+          type: boolean
+        updateProfileFirstLoginMode:
+          type: string
+          deprecated: true
+        trustEmail:
+          type: boolean
+        storeToken:
+          type: boolean
+        addReadTokenRoleOnCreate:
+          type: boolean
+        authenticateByDefault:
+          type: boolean
+        linkOnly:
+          type: boolean
+        hideOnLogin:
+          type: boolean
+        firstBrokerLoginFlowAlias:
+          type: string
+        postBrokerLoginFlowAlias:
+          type: string
+        organizationLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationIdentityProviderLinkRepresentation'
+        config:
+          type: object
+          additionalProperties:
+            type: string
+        types:
+          type: array
+          items:
+            type: string
+        updateProfileFirstLogin:
+          type: boolean
+          deprecated: true
+        organizationId:
+          type: string
+          writeOnly: true
+          deprecated: true
+    Status:
+      enum:
+      - PENDING
+      - EXPIRED
+      type: string
+    UserVerifiableCredentialRepresentation:
+      type: object
+      properties:
+        credentialScopeName:
+          type: string
+        credentialConfigurationId:
+          type: string
+        revision:
+          type: string
+        createdDate:
+          format: int64
+          type: integer
+        updatedDate:
+          format: int64
+          type: integer
+        userAttributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    MembershipType:
+      enum:
+      - UNMANAGED
+      - MANAGED
+      type: string
+    OrganizationRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        alias:
+          type: string
+        enabled:
+          type: boolean
+        description:
+          type: string
+        redirectUrl:
+          type: string
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        domains:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationDomainRepresentation'
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemberRepresentation'
+        identityProviders:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdentityProviderRepresentation'
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupRepresentation'
+    OrganizationInvitationRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        organizationId:
+          type: string
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        sentDate:
+          format: int32
+          type: integer
+        expiresAt:
+          format: int32
+          type: integer
+        status:
+          $ref: '#/components/schemas/Status'
+        inviteLink:
+          type: string
+          deprecated: true
+    OrganizationIdentityProviderLinkRepresentation:
+      type: object
+      properties:
+        organizationId:
+          type: string
+        autoMembership:
+          type: boolean
+        membershipType:
+          type: string
+    FederatedIdentityRepresentation:
+      type: object
+      properties:
+        identityProvider:
+          type: string
+        userId:
+          type: string
+        userName:
+          type: string
+    UserProfileMetadata:
+      type: object
+      properties:
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfileAttributeMetadata'
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfileAttributeGroupMetadata'
+    IssuedVerifiableCredentialRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        credentialType:
+          type: string
+        issuedAt:
+          format: int64
+          type: integer
+        expiresAt:
+          format: int64
+          type: integer
+        clientId:
+          type: string
+        clientName:
+          type: string
+        clientBaseUrl:
+          type: string
+        revision:
+          type: string
+    UserConsentRepresentation:
+      type: object
+      properties:
+        clientId:
+          type: string
+        grantedClientScopes:
+          type: array
+          items:
+            type: string
+        createdDate:
+          format: int64
+          type: integer
+        lastUpdatedDate:
+          format: int64
+          type: integer
+        grantedRealmRoles:
+          type: array
+          items:
+            type: string
+          deprecated: true
+    UserProfileAttributeGroupMetadata:
+      type: object
+      properties:
+        name:
+          type: string
+        displayHeader:
+          type: string
+        displayDescription:
+          type: string
+        annotations:
+          type: object
+          additionalProperties: {}
+    SocialLinkRepresentation:
+      type: object
+      properties:
+        socialProvider:
+          type: string
+        socialUserId:
+          type: string
+        socialUsername:
+          type: string

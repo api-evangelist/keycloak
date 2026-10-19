@@ -1,0 +1,262 @@
+openapi: 3.2.0
+info:
+  title: Keycloak Admin REST Client Scopes API
+  description: This is a REST API reference for the Keycloak Admin REST API.
+  version: '1.0'
+tags:
+- name: Client Scopes
+paths:
+  /admin/realms/{realm}/client-scopes:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Client Scopes
+      summary: Get client scopes belonging to the realm Returns a list of client scopes…
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientScopeRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmClientScopes
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Client Scopes
+      summary: Create a new client scope Client Scope’s name must be unique!
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientScopeRepresentation'
+      responses:
+        '201':
+          description: Created
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+      operationId: postAdminRealmsByRealmClientScopes
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-scopes/{client-scope-id}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Client Scopes
+      summary: Get representation of the client scope
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientScopeRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmClientScopesByClientScopeId
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Client Scopes
+      summary: Update the client scope
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientScopeRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+      operationId: putAdminRealmsByRealmClientScopesByClientScopeId
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Client Scopes
+      summary: Delete the client scope
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      operationId: deleteAdminRealmsByRealmClientScopesByClientScopeId
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-templates:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Client Scopes
+      summary: Get client scopes belonging to the realm Returns a list of client scopes…
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientScopeRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmClientTemplates
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Client Scopes
+      summary: Create a new client scope Client Scope’s name must be unique!
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientScopeRepresentation'
+      responses:
+        '201':
+          description: Created
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+      operationId: postAdminRealmsByRealmClientTemplates
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-templates/{client-scope-id}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Client Scopes
+      summary: Get representation of the client scope
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientScopeRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmClientTemplatesByClientScopeId
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Client Scopes
+      summary: Update the client scope
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientScopeRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+      operationId: putAdminRealmsByRealmClientTemplatesByClientScopeId
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Client Scopes
+      summary: Delete the client scope
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      operationId: deleteAdminRealmsByRealmClientTemplatesByClientScopeId
+      x-operation-id-source: derived
+components:
+  schemas:
+    ClientScopeRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        protocol:
+          type: string
+        attributes:
+          type: object
+          additionalProperties:
+            type: string
+        protocolMappers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProtocolMapperRepresentation'
+    ProtocolMapperRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        protocol:
+          type: string
+        protocolMapper:
+          type: string
+        consentRequired:
+          type: boolean
+          deprecated: true
+        consentText:
+          type: string
+          deprecated: true
+        config:
+          type: object
+          additionalProperties:
+            type: string

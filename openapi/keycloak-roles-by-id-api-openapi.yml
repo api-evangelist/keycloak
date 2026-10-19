@@ -1,0 +1,361 @@
+openapi: 3.2.0
+info:
+  title: Keycloak Admin REST Roles (by ID) API
+  description: This is a REST API reference for the Keycloak Admin REST API.
+  version: '1.0'
+tags:
+- name: Roles (by ID)
+paths:
+  /admin/realms/{realm}/roles-by-id/{role-id}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Roles (by ID)
+      summary: Get a specific role's representation
+      parameters:
+      - name: role-id
+        in: path
+        description: id of role
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmRolesByIdByRoleId
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Roles (by ID)
+      summary: Update the role
+      parameters:
+      - name: role-id
+        in: path
+        description: id of role
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+      operationId: putAdminRealmsByRealmRolesByIdByRoleId
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Roles (by ID)
+      summary: Delete the role
+      parameters:
+      - name: role-id
+        in: path
+        description: id of role
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+      operationId: deleteAdminRealmsByRealmRolesByIdByRoleId
+      x-operation-id-source: derived
+  /admin/realms/{realm}/roles-by-id/{role-id}/composites:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Roles (by ID)
+      summary: Get role's children Returns a set of role's children provided the role is a…
+      parameters:
+      - name: role-id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: first
+        in: query
+        schema:
+          format: int32
+          type: integer
+      - name: max
+        in: query
+        schema:
+          format: int32
+          type: integer
+      - name: search
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmRolesByIdByRoleIdComposites
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Roles (by ID)
+      summary: Make the role a composite role by associating some child roles
+      parameters:
+      - name: role-id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+      operationId: postAdminRealmsByRealmRolesByIdByRoleIdComposites
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Roles (by ID)
+      summary: Remove a set of roles from the role's composite
+      parameters:
+      - name: role-id
+        in: path
+        description: Role id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+      operationId: deleteAdminRealmsByRealmRolesByIdByRoleIdComposites
+      x-operation-id-source: derived
+  /admin/realms/{realm}/roles-by-id/{role-id}/composites/clients/{clientUuid}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Roles (by ID)
+      summary: Get client-level roles for the client that are in the role's composite
+      parameters:
+      - name: clientUuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: role-id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmRolesByIdByRoleIdCompositesClientsByClientUuid
+      x-operation-id-source: derived
+  /admin/realms/{realm}/roles-by-id/{role-id}/composites/realm:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Roles (by ID)
+      summary: Get realm-level roles that are in the role's composite
+      parameters:
+      - name: role-id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmRolesByIdByRoleIdCompositesRealm
+      x-operation-id-source: derived
+  /admin/realms/{realm}/roles-by-id/{role-id}/management/permissions:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Roles (by ID)
+      summary: Return object stating whether role Authorization permissions have been…
+      parameters:
+      - name: role-id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagementPermissionReference'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmRolesByIdByRoleIdManagementPermissions
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Roles (by ID)
+      summary: Return object stating whether role Authorization permissions have been…
+      parameters:
+      - name: role-id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManagementPermissionReference'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagementPermissionReference'
+        '403':
+          description: Forbidden
+      operationId: putAdminRealmsByRealmRolesByIdByRoleIdManagementPermissions
+      x-operation-id-source: derived
+components:
+  schemas:
+    RoleRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        scopeParamRequired:
+          type: boolean
+          deprecated: true
+        composite:
+          type: boolean
+        composites:
+          $ref: '#/components/schemas/Composites'
+        clientRole:
+          type: boolean
+        containerId:
+          type: string
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    Composites:
+      type: object
+      properties:
+        realm:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        client:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        application:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          deprecated: true
+    ManagementPermissionReference:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        resource:
+          type: string
+        scopePermissions:
+          type: object
+          additionalProperties:
+            type: string

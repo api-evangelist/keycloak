@@ -1,0 +1,566 @@
+openapi: 3.2.0
+info:
+  title: Keycloak Admin REST Protocol Mappers API
+  description: This is a REST API reference for the Keycloak Admin REST API.
+  version: '1.0'
+tags:
+- name: Protocol Mappers
+paths:
+  /admin/realms/{realm}/client-scopes/{client-scope-id}/protocol-mappers/add-models:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Protocol Mappers
+      summary: Create multiple mappers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProtocolMapperRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: postAdminRealmsByRealmClientScopesByClientScopeIdProtocolMappersAddModels
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-scopes/{client-scope-id}/protocol-mappers/models:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Protocol Mappers
+      summary: Get mappers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProtocolMapperRepresentation'
+      operationId: getAdminRealmsByRealmClientScopesByClientScopeIdProtocolMappersModels
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Protocol Mappers
+      summary: Create a mapper
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProtocolMapperRepresentation'
+      responses:
+        '201':
+          description: Created
+        '409':
+          description: Conflict
+      operationId: postAdminRealmsByRealmClientScopesByClientScopeIdProtocolMappersModels
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-scopes/{client-scope-id}/protocol-mappers/models/{id}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Protocol Mappers
+      summary: Get mapper by id
+      parameters:
+      - name: id
+        in: path
+        description: Mapper id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProtocolMapperRepresentation'
+      operationId: getAdminRealmsByRealmClientScopesByClientScopeIdProtocolMappersModelsById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Protocol Mappers
+      summary: Update the mapper
+      parameters:
+      - name: id
+        in: path
+        description: Mapper id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProtocolMapperRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: putAdminRealmsByRealmClientScopesByClientScopeIdProtocolMappersModelsById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Protocol Mappers
+      summary: Delete the mapper
+      parameters:
+      - name: id
+        in: path
+        description: Mapper id
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      operationId: deleteAdminRealmsByRealmClientScopesByClientScopeIdProtocolMappersModelsById
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-scopes/{client-scope-id}/protocol-mappers/protocol/{protocol}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Protocol Mappers
+      summary: Get mappers by name for a specific protocol
+      parameters:
+      - name: protocol
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProtocolMapperRepresentation'
+      operationId: getAdminRealmsByRealmClientScopesByClientScopeIdProtocolMappersProtocolByProtocol
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-templates/{client-scope-id}/protocol-mappers/add-models:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Protocol Mappers
+      summary: Create multiple mappers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProtocolMapperRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: postAdminRealmsByRealmClientTemplatesByClientScopeIdProtocolMappersAddModels
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-templates/{client-scope-id}/protocol-mappers/models:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Protocol Mappers
+      summary: Get mappers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProtocolMapperRepresentation'
+      operationId: getAdminRealmsByRealmClientTemplatesByClientScopeIdProtocolMappersModels
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Protocol Mappers
+      summary: Create a mapper
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProtocolMapperRepresentation'
+      responses:
+        '201':
+          description: Created
+        '409':
+          description: Conflict
+      operationId: postAdminRealmsByRealmClientTemplatesByClientScopeIdProtocolMappersModels
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-templates/{client-scope-id}/protocol-mappers/models/{id}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Protocol Mappers
+      summary: Get mapper by id
+      parameters:
+      - name: id
+        in: path
+        description: Mapper id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProtocolMapperRepresentation'
+      operationId: getAdminRealmsByRealmClientTemplatesByClientScopeIdProtocolMappersModelsById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Protocol Mappers
+      summary: Update the mapper
+      parameters:
+      - name: id
+        in: path
+        description: Mapper id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProtocolMapperRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: putAdminRealmsByRealmClientTemplatesByClientScopeIdProtocolMappersModelsById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Protocol Mappers
+      summary: Delete the mapper
+      parameters:
+      - name: id
+        in: path
+        description: Mapper id
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      operationId: deleteAdminRealmsByRealmClientTemplatesByClientScopeIdProtocolMappersModelsById
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-templates/{client-scope-id}/protocol-mappers/protocol/{protocol}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Protocol Mappers
+      summary: Get mappers by name for a specific protocol
+      parameters:
+      - name: protocol
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProtocolMapperRepresentation'
+      operationId: getAdminRealmsByRealmClientTemplatesByClientScopeIdProtocolMappersProtocolByProtocol
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/protocol-mappers/add-models:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Protocol Mappers
+      summary: Create multiple mappers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProtocolMapperRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: postAdminRealmsByRealmClientsByClientUuidProtocolMappersAddModels
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/protocol-mappers/models:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Protocol Mappers
+      summary: Get mappers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProtocolMapperRepresentation'
+      operationId: getAdminRealmsByRealmClientsByClientUuidProtocolMappersModels
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Protocol Mappers
+      summary: Create a mapper
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProtocolMapperRepresentation'
+      responses:
+        '201':
+          description: Created
+        '409':
+          description: Conflict
+      operationId: postAdminRealmsByRealmClientsByClientUuidProtocolMappersModels
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/protocol-mappers/models/{id}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Protocol Mappers
+      summary: Get mapper by id
+      parameters:
+      - name: id
+        in: path
+        description: Mapper id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProtocolMapperRepresentation'
+      operationId: getAdminRealmsByRealmClientsByClientUuidProtocolMappersModelsById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Protocol Mappers
+      summary: Update the mapper
+      parameters:
+      - name: id
+        in: path
+        description: Mapper id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProtocolMapperRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: putAdminRealmsByRealmClientsByClientUuidProtocolMappersModelsById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Protocol Mappers
+      summary: Delete the mapper
+      parameters:
+      - name: id
+        in: path
+        description: Mapper id
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      operationId: deleteAdminRealmsByRealmClientsByClientUuidProtocolMappersModelsById
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/protocol-mappers/protocol/{protocol}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Protocol Mappers
+      summary: Get mappers by name for a specific protocol
+      parameters:
+      - name: protocol
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProtocolMapperRepresentation'
+      operationId: getAdminRealmsByRealmClientsByClientUuidProtocolMappersProtocolByProtocol
+      x-operation-id-source: derived
+components:
+  schemas:
+    ProtocolMapperRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        protocol:
+          type: string
+        protocolMapper:
+          type: string
+        consentRequired:
+          type: boolean
+          deprecated: true
+        consentText:
+          type: string
+          deprecated: true
+        config:
+          type: object
+          additionalProperties:
+            type: string

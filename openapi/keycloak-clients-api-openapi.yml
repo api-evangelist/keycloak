@@ -1,221 +1,1417 @@
 openapi: 3.2.0
 info:
   title: Keycloak Admin REST Clients API
-  description: The Keycloak Admin REST API provides endpoints for managing all aspects of a Keycloak deployment, including realms, users, clients, roles, groups, and identity providers. All endpoints require authentication via a bearer token obtained from the Keycloak token endpoint.
-  version: 26.0.0
-  contact:
-    name: Keycloak
-    url: https://www.keycloak.org/
-  license:
-    name: Apache 2.0
-    url: https://www.apache.org/licenses/LICENSE-2.0
-servers:
-- url: https://{host}/admin/realms
-  description: Keycloak Admin REST API
-  variables:
-    host:
-      default: localhost:8080
-      description: Keycloak server host and port
-security:
-- bearerAuth: []
+  description: This is a REST API reference for the Keycloak Admin REST API.
+  version: '1.0'
 tags:
 - name: Clients
-  description: Manage OAuth/OIDC clients within a realm
 paths:
-  /{realm}/clients:
+  /admin/realms/{realm}/clients:
     parameters:
-    - $ref: '#/components/parameters/realm'
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
     get:
-      operationId: getClients
-      summary: Keycloak List clients
-      description: Returns a list of clients registered in the realm.
       tags:
       - Clients
+      summary: Get clients belonging to the realm
+      description: If a client can’t be retrieved from the storage due to a problem with the underlying storage, it is silently removed from the returned list. This ensures that concurrent modifications to the list don’t prevent callers from retrieving this list.
       parameters:
       - name: clientId
         in: query
-        description: Filter by clientId
+        description: filter by clientId
+        schema:
+          type: string
+      - name: first
+        in: query
+        description: the first result
+        schema:
+          format: int32
+          type: integer
+      - name: max
+        in: query
+        description: the max results to return
+        schema:
+          format: int32
+          type: integer
+      - name: q
+        in: query
         schema:
           type: string
       - name: search
         in: query
+        description: whether this is a search query or a getClientById query
         schema:
-          type: boolean
           default: false
-      - name: first
-        in: query
-        schema:
-          type: integer
-      - name: max
-        in: query
-        schema:
-          type: integer
-          default: 100
+          type: boolean
       - name: viewableOnly
         in: query
+        description: filter clients that cannot be viewed in full by admin
         schema:
-          type: boolean
           default: false
+          type: boolean
       responses:
         '200':
-          description: A list of client representations
+          description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/ClientRepresentation'
+      operationId: getAdminRealmsByRealmClients
+      x-operation-id-source: derived
     post:
-      operationId: createClient
-      summary: Keycloak Create a new client
-      description: Registers a new client in the realm.
       tags:
       - Clients
+      summary: Create a new client Client’s client_id must be unique!
       requestBody:
-        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ClientRepresentation'
       responses:
         '201':
-          description: Client created successfully
-          headers:
-            Location:
-              description: URI of the created client
-              schema:
-                type: string
-  /{realm}/clients/{clientUuid}:
+          description: Created
+        '409':
+          description: Conflict
+      operationId: postAdminRealmsByRealmClients
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}:
     parameters:
-    - $ref: '#/components/parameters/realm'
-    - $ref: '#/components/parameters/clientUuid'
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
     get:
-      operationId: getClient
-      summary: Keycloak Get a client
-      description: Returns the representation of a specific client.
       tags:
       - Clients
+      summary: Get representation of the client
       responses:
         '200':
-          description: A client representation
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ClientRepresentation'
-        '404':
-          description: Client not found
+      operationId: getAdminRealmsByRealmClientsByClientUuid
+      x-operation-id-source: derived
     put:
-      operationId: updateClient
-      summary: Keycloak Update a client
-      description: Updates the configuration of an existing client.
       tags:
       - Clients
+      summary: Update the client
       requestBody:
-        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ClientRepresentation'
       responses:
         '204':
-          description: Client updated successfully
+          description: No Content
+        '400':
+          description: Bad Request
+        '409':
+          description: Conflict
+      operationId: putAdminRealmsByRealmClientsByClientUuid
+      x-operation-id-source: derived
     delete:
-      operationId: deleteClient
-      summary: Keycloak Delete a client
-      description: Removes a client registration from the realm.
       tags:
       - Clients
+      summary: Delete the client
       responses:
         '204':
-          description: Client deleted successfully
-  /{realm}/clients/{clientUuid}/client-secret:
+          description: No Content
+      operationId: deleteAdminRealmsByRealmClientsByClientUuid
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/client-secret:
     parameters:
-    - $ref: '#/components/parameters/realm'
-    - $ref: '#/components/parameters/clientUuid'
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
     get:
-      operationId: getClientSecret
-      summary: Keycloak Get the client secret
       tags:
       - Clients
+      summary: Get the client secret
       responses:
         '200':
-          description: The client secret
+          description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  type:
-                    type: string
-                  value:
-                    type: string
+                $ref: '#/components/schemas/CredentialRepresentation'
+      operationId: getAdminRealmsByRealmClientsByClientUuidClientSecret
+      x-operation-id-source: derived
     post:
-      operationId: regenerateClientSecret
-      summary: Keycloak Regenerate the client secret
       tags:
       - Clients
+      summary: Generate a new secret for the client
       responses:
         '200':
-          description: The new client secret
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CredentialRepresentation'
+      operationId: postAdminRealmsByRealmClientsByClientUuidClientSecret
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/client-secret/rotated:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Clients
+      summary: Get the rotated client secret
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CredentialRepresentation'
+      operationId: getAdminRealmsByRealmClientsByClientUuidClientSecretRotated
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Clients
+      summary: Invalidate the rotated secret for the client
+      responses:
+        '200':
+          description: OK
+      operationId: deleteAdminRealmsByRealmClientsByClientUuidClientSecretRotated
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/default-client-scopes:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Clients
+      summary: Get default client scopes. Only name and ids are returned
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientScopeRepresentation'
+      operationId: getAdminRealmsByRealmClientsByClientUuidDefaultClientScopes
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/default-client-scopes/{clientScopeId}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    put:
+      tags:
+      - Clients
+      parameters:
+      - name: clientScopeId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      summary: Replace admin realms by realm clients by client uuid default client scopes by…
+      x-summary-source: derived
+      operationId: putAdminRealmsByRealmClientsByClientUuidDefaultClientScopesByClientScopeId
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Clients
+      parameters:
+      - name: clientScopeId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      summary: Delete admin realms by realm clients by client uuid default client scopes by…
+      x-summary-source: derived
+      operationId: deleteAdminRealmsByRealmClientsByClientUuidDefaultClientScopesByClientScopeId
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/evaluate-scopes/generate-example-access-token:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Clients
+      summary: Create JSON with payload of example access token
+      parameters:
+      - name: audience
+        in: query
+        schema:
+          type: string
+      - name: scope
+        in: query
+        schema:
+          type: string
+      - name: userId
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessToken'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmClientsByClientUuidEvaluateScopesGenerateExampleAccessToken
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/evaluate-scopes/generate-example-id-token:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Clients
+      summary: Create JSON with payload of example id token
+      parameters:
+      - name: audience
+        in: query
+        schema:
+          type: string
+      - name: scope
+        in: query
+        schema:
+          type: string
+      - name: userId
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDToken'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmClientsByClientUuidEvaluateScopesGenerateExampleIdToken
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/evaluate-scopes/generate-example-saml-response:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Clients
+      summary: Create JSON with an example SAML response as payload
+      parameters:
+      - name: audience
+        in: query
+        schema:
+          type: string
+      - name: scope
+        in: query
+        schema:
+          type: string
+      - name: userId
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SamlExampleResponse'
+      operationId: getAdminRealmsByRealmClientsByClientUuidEvaluateScopesGenerateExampleSamlResponse
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/evaluate-scopes/generate-example-userinfo:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Clients
+      summary: Create JSON with payload of example user info
+      parameters:
+      - name: scope
+        in: query
+        schema:
+          type: string
+      - name: userId
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
           content:
             application/json:
               schema:
                 type: object
-                properties:
-                  type:
-                    type: string
-                  value:
-                    type: string
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmClientsByClientUuidEvaluateScopesGenerateExampleUserinfo
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/evaluate-scopes/protocol-mappers:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Clients
+      summary: Return list of all protocol mappers, which will be used when generating tokens…
+      description: This means protocol mappers assigned to this client directly and protocol mappers assigned to all client scopes of this client.
+      parameters:
+      - name: scope
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProtocolMapperEvaluationRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmClientsByClientUuidEvaluateScopesProtocolMappers
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/evaluate-scopes/scope-mappings/{roleContainerId}/granted:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    - name: roleContainerId
+      in: path
+      description: either realm name OR client UUID
+      required: true
+      schema:
+        type: string
+    - name: scope
+      in: query
+      schema:
+        type: string
+    get:
+      tags:
+      - Clients
+      summary: Get effective scope mapping of all roles of particular role container, which…
+      description: This contains scope mappings, which this client has directly, as well as scope mappings, which are granted to all client scopes, which are linked with this client.
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmClientsByClientUuidEvaluateScopesScopeMappingsByRoleContainerIdGranted
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/evaluate-scopes/scope-mappings/{roleContainerId}/not-granted:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    - name: roleContainerId
+      in: path
+      description: either realm name OR client UUID
+      required: true
+      schema:
+        type: string
+    - name: scope
+      in: query
+      schema:
+        type: string
+    get:
+      tags:
+      - Clients
+      summary: Get roles, which this client doesn't have scope for and can't have them in the…
+      description: 'Defacto all the other roles of particular role container, which are not in {@link #getGrantedScopeMappings()}'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmClientsByClientUuidEvaluateScopesScopeMappingsByRoleContainerIdNotGranted
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/installation/providers/{providerId}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Clients
+      parameters:
+      - name: providerId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+      summary: Get admin realms by realm clients by client uuid installation providers by…
+      x-summary-source: derived
+      operationId: getAdminRealmsByRealmClientsByClientUuidInstallationProvidersByProviderId
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/management/permissions:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Clients
+      summary: Return object stating whether client Authorization permissions have been…
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagementPermissionReference'
+      operationId: getAdminRealmsByRealmClientsByClientUuidManagementPermissions
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Clients
+      summary: Return object stating whether client Authorization permissions have been…
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManagementPermissionReference'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagementPermissionReference'
+      operationId: putAdminRealmsByRealmClientsByClientUuidManagementPermissions
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/nodes:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Clients
+      summary: Register a cluster node with the client Manually register cluster node to this…
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request - node hostname is missing, contains reserved characters, or is rejected by client policy
+      operationId: postAdminRealmsByRealmClientsByClientUuidNodes
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/nodes/{node}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    delete:
+      tags:
+      - Clients
+      summary: Unregister a cluster node from the client
+      parameters:
+      - name: node
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      operationId: deleteAdminRealmsByRealmClientsByClientUuidNodesByNode
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/offline-session-count:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Clients
+      summary: Get application offline session count Returns a number of offline user sessions…
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  format: int64
+                  type: integer
+      operationId: getAdminRealmsByRealmClientsByClientUuidOfflineSessionCount
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/offline-sessions:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Clients
+      summary: Get offline sessions for client.
+      parameters:
+      - name: first
+        in: query
+        description: Paging offset
+        schema:
+          format: int32
+          type: integer
+      - name: max
+        in: query
+        description: Maximum results size.
+        schema:
+          format: int32
+          default: '100'
+          type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserSessionRepresentation'
+      operationId: getAdminRealmsByRealmClientsByClientUuidOfflineSessions
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/optional-client-scopes:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Clients
+      summary: Get optional client scopes. Only name and ids are returned
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientScopeRepresentation'
+      operationId: getAdminRealmsByRealmClientsByClientUuidOptionalClientScopes
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/optional-client-scopes/{clientScopeId}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    put:
+      tags:
+      - Clients
+      parameters:
+      - name: clientScopeId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      summary: Replace admin realms by realm clients by client uuid optional client scopes by…
+      x-summary-source: derived
+      operationId: putAdminRealmsByRealmClientsByClientUuidOptionalClientScopesByClientScopeId
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Clients
+      parameters:
+      - name: clientScopeId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      summary: Delete admin realms by realm clients by client uuid optional client scopes by…
+      x-summary-source: derived
+      operationId: deleteAdminRealmsByRealmClientsByClientUuidOptionalClientScopesByClientScopeId
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/push-revocation:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Clients
+      summary: Push the client's revocation policy to its admin URL If the client has an admin…
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlobalRequestResult'
+      operationId: postAdminRealmsByRealmClientsByClientUuidPushRevocation
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/registration-access-token:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Clients
+      summary: Generate a new registration access token for the client
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientRepresentation'
+      operationId: postAdminRealmsByRealmClientsByClientUuidRegistrationAccessToken
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/service-account-user:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Clients
+      summary: Get a user dedicated to the service account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRepresentation'
+      operationId: getAdminRealmsByRealmClientsByClientUuidServiceAccountUser
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/session-count:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Clients
+      summary: Get application session count Returns a number of user sessions associated with…
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  format: int64
+                  type: integer
+      operationId: getAdminRealmsByRealmClientsByClientUuidSessionCount
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/test-nodes-available:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Clients
+      summary: Test if registered cluster nodes are available Tests availability by sending…
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlobalRequestResult'
+      operationId: getAdminRealmsByRealmClientsByClientUuidTestNodesAvailable
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/user-sessions:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Clients
+      summary: Get user sessions for client.
+      parameters:
+      - name: first
+        in: query
+        description: Paging offset
+        schema:
+          format: int32
+          type: integer
+      - name: max
+        in: query
+        description: Maximum results size.
+        schema:
+          format: int32
+          default: '100'
+          type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserSessionRepresentation'
+      operationId: getAdminRealmsByRealmClientsByClientUuidUserSessions
+      x-operation-id-source: derived
 components:
-  parameters:
-    realm:
-      name: realm
-      in: path
-      required: true
-      description: The name of the realm
-      schema:
-        type: string
-    clientUuid:
-      name: clientUuid
-      in: path
-      required: true
-      description: The internal UUID of the client (not the clientId)
-      schema:
-        type: string
-        format: uuid
   schemas:
-    ClientRepresentation:
+    MultivaluedHashMapStringString:
       type: object
-      description: Representation of an OAuth/OIDC client registered in Keycloak
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    UserProfileAttributeMetadata:
+      type: object
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        required:
+          type: boolean
+        readOnly:
+          type: boolean
+        annotations:
+          type: object
+          additionalProperties: {}
+        validators:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties: {}
+        group:
+          type: string
+        multivalued:
+          type: boolean
+        defaultValue:
+          type: string
+    ScopeRepresentation:
+      type: object
       properties:
         id:
           type: string
-          format: uuid
-          readOnly: true
-        clientId:
+        name:
           type: string
-          description: The client identifier used in OAuth/OIDC flows
+        iconUri:
+          type: string
+        policies:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyRepresentation'
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceRepresentation'
+        displayName:
+          type: string
+    GlobalRequestResult:
+      type: object
+      properties:
+        successRequests:
+          type: array
+          items:
+            type: string
+        failedRequests:
+          type: array
+          items:
+            type: string
+    SamlExampleResponse:
+      type: object
+      properties:
+        samlResponse:
+          type: string
+    Composites:
+      type: object
+      properties:
+        realm:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        client:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        application:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          deprecated: true
+    Permission:
+      type: object
+      properties:
+        rsid:
+          type: string
+        rsname:
+          type: string
+        scopes:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        claims:
+          type: object
+          additionalProperties:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+    CredentialRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        userLabel:
+          type: string
+        createdDate:
+          format: int64
+          type: integer
+        secretData:
+          type: string
+        credentialData:
+          type: string
+        priority:
+          format: int32
+          type: integer
+        value:
+          type: string
+        temporary:
+          type: boolean
+        device:
+          type: string
+          deprecated: true
+        hashedSaltedValue:
+          type: string
+          deprecated: true
+        salt:
+          type: string
+          deprecated: true
+        hashIterations:
+          format: int32
+          type: integer
+          deprecated: true
+        counter:
+          format: int32
+          type: integer
+          deprecated: true
+        algorithm:
+          type: string
+          deprecated: true
+        digits:
+          format: int32
+          type: integer
+          deprecated: true
+        period:
+          format: int32
+          type: integer
+          deprecated: true
+        config:
+          type: object
+          allOf:
+          - $ref: '#/components/schemas/MultivaluedHashMapStringString'
+          deprecated: true
+        federationLink:
+          type: string
+    IDToken:
+      type: object
+      properties:
+        jti:
+          type: string
+        exp:
+          format: int64
+          type: integer
+        nbf:
+          format: int64
+          type: integer
+        iat:
+          format: int64
+          type: integer
+        iss:
+          type: string
+        sub:
+          type: string
+        typ:
+          type: string
+        azp:
+          type: string
+        otherClaims:
+          type: object
+          additionalProperties: {}
+        nonce:
+          type: string
+        auth_time:
+          format: int64
+          type: integer
+        sid:
+          type: string
+        at_hash:
+          type: string
+        c_hash:
+          type: string
+        name:
+          type: string
+        given_name:
+          type: string
+        family_name:
+          type: string
+        middle_name:
+          type: string
+        nickname:
+          type: string
+        preferred_username:
+          type: string
+        profile:
+          type: string
+        picture:
+          type: string
+        website:
+          type: string
+        email:
+          type: string
+        email_verified:
+          type: boolean
+        gender:
+          type: string
+        birthdate:
+          type: string
+        zoneinfo:
+          type: string
+        locale:
+          type: string
+        phone_number:
+          type: string
+        phone_number_verified:
+          type: boolean
+        updated_at:
+          format: int64
+          type: integer
+        claims_locales:
+          type: string
+        acr:
+          type: string
+        s_hash:
+          type: string
+    ProtocolMapperRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        protocol:
+          type: string
+        protocolMapper:
+          type: string
+        consentRequired:
+          type: boolean
+          deprecated: true
+        consentText:
+          type: string
+          deprecated: true
+        config:
+          type: object
+          additionalProperties:
+            type: string
+    RoleRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
         name:
           type: string
         description:
           type: string
-        enabled:
+        scopeParamRequired:
           type: boolean
-        clientAuthenticatorType:
+          deprecated: true
+        composite:
+          type: boolean
+        composites:
+          $ref: '#/components/schemas/Composites'
+        clientRole:
+          type: boolean
+        containerId:
           type: string
-          description: The authenticator type for confidential clients
-        secret:
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    AuthorizationDetailsJSONRepresentation:
+      type: object
+      properties:
+        type:
           type: string
-          writeOnly: true
+        locations:
+          type: array
+          items:
+            type: string
+        actions:
+          type: array
+          items:
+            type: string
+        datatypes:
+          type: array
+          items:
+            type: string
+        identifier:
+          type: string
+        privileges:
+          type: array
+          items:
+            type: string
+        customData:
+          type: object
+          additionalProperties: {}
+    DecisionStrategy:
+      enum:
+      - AFFIRMATIVE
+      - UNANIMOUS
+      - CONSENSUS
+      type: string
+    ProtocolMapperEvaluationRepresentation:
+      type: object
+      properties:
+        mapperId:
+          type: string
+        mapperName:
+          type: string
+        containerId:
+          type: string
+        containerName:
+          type: string
+        containerType:
+          type: string
+        protocolMapper:
+          type: string
+    ClientRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        clientId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
         rootUrl:
-          type: string
-          format: uri
-        baseUrl:
           type: string
         adminUrl:
           type: string
+        baseUrl:
+          type: string
         surrogateAuthRequired:
           type: boolean
+        enabled:
+          type: boolean
+        alwaysDisplayInConsole:
+          type: boolean
+        clientAuthenticatorType:
+          type: string
+        secret:
+          type: string
+        registrationAccessToken:
+          type: string
+        defaultRoles:
+          type: array
+          items:
+            type: string
+          deprecated: true
         redirectUris:
           type: array
           items:
@@ -224,38 +1420,66 @@ components:
           type: array
           items:
             type: string
+        notBefore:
+          format: int32
+          type: integer
         bearerOnly:
           type: boolean
         consentRequired:
           type: boolean
         standardFlowEnabled:
           type: boolean
-          description: Enable Authorization Code Flow
         implicitFlowEnabled:
           type: boolean
-          description: Enable Implicit Flow
         directAccessGrantsEnabled:
           type: boolean
-          description: Enable Resource Owner Password Credentials Grant
         serviceAccountsEnabled:
           type: boolean
-          description: Enable Client Credentials Grant
+        authorizationServicesEnabled:
+          type: boolean
+        directGrantsOnly:
+          type: boolean
+          deprecated: true
         publicClient:
           type: boolean
-          description: Whether the client is public (no client secret) or confidential
         frontchannelLogout:
           type: boolean
         protocol:
           type: string
-          enum:
-          - openid-connect
-          - saml
         attributes:
+          type: object
+          additionalProperties:
+            type: string
+        authenticationFlowBindingOverrides:
           type: object
           additionalProperties:
             type: string
         fullScopeAllowed:
           type: boolean
+        nodeReRegistrationTimeout:
+          format: int32
+          type: integer
+        registeredNodes:
+          type: object
+          additionalProperties:
+            format: int32
+            type: integer
+        protocolMappers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProtocolMapperRepresentation'
+        clientTemplate:
+          type: string
+          deprecated: true
+        useTemplateConfig:
+          type: boolean
+          deprecated: true
+        useTemplateScope:
+          type: boolean
+          deprecated: true
+        useTemplateMappers:
+          type: boolean
+          deprecated: true
         defaultClientScopes:
           type: array
           items:
@@ -264,11 +1488,569 @@ components:
           type: array
           items:
             type: string
-        authorizationServicesEnabled:
+        authorizationSettings:
+          $ref: '#/components/schemas/ResourceServerRepresentation'
+        access:
+          type: object
+          additionalProperties:
+            type: boolean
+        origin:
+          type: string
+    Logic:
+      enum:
+      - POSITIVE
+      - NEGATIVE
+      type: string
+    UserVerifiableCredentialRepresentation:
+      type: object
+      properties:
+        credentialScopeName:
+          type: string
+        credentialConfigurationId:
+          type: string
+        revision:
+          type: string
+        createdDate:
+          format: int64
+          type: integer
+        updatedDate:
+          format: int64
+          type: integer
+        userAttributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    Access:
+      type: object
+      properties:
+        roles:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        verify_caller:
           type: boolean
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: Access token obtained from the Keycloak token endpoint. Use the master realm admin credentials or a service account with appropriate realm-management roles.
+    Confirmation:
+      type: object
+      properties:
+        x5t#S256:
+          type: string
+        jkt:
+          type: string
+        kc-jkt-type:
+          type: string
+    ResourceRepresentation:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        uris:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        type:
+          type: string
+        scopes:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ScopeRepresentation'
+        icon_uri:
+          type: string
+        owner:
+          type: object
+          allOf:
+          - $ref: '#/components/schemas/ResourceOwnerRepresentation'
+          readOnly: true
+        ownerManagedAccess:
+          type: boolean
+        displayName:
+          type: string
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        uri:
+          type: string
+          writeOnly: true
+          deprecated: true
+        scopesUma:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ScopeRepresentation'
+    ResourceType:
+      type: object
+      properties:
+        type:
+          type: string
+        scopes:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        scopeAliases:
+          type: object
+          additionalProperties:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        groupType:
+          type: string
+    FederatedIdentityRepresentation:
+      type: object
+      properties:
+        identityProvider:
+          type: string
+        userId:
+          type: string
+        userName:
+          type: string
+    UserProfileMetadata:
+      type: object
+      properties:
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfileAttributeMetadata'
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfileAttributeGroupMetadata'
+    ClientScopeRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        protocol:
+          type: string
+        attributes:
+          type: object
+          additionalProperties:
+            type: string
+        protocolMappers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProtocolMapperRepresentation'
+    ResourceOwnerRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    AuthorizationSchema:
+      type: object
+      properties:
+        resourceTypes:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ResourceType'
+    ResourceServerRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        clientId:
+          type: string
+        name:
+          type: string
+        allowRemoteResourceManagement:
+          type: boolean
+        policyEnforcementMode:
+          $ref: '#/components/schemas/PolicyEnforcementMode'
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceRepresentation'
+        policies:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyRepresentation'
+        scopes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScopeRepresentation'
+        decisionStrategy:
+          $ref: '#/components/schemas/DecisionStrategy'
+        authorizationSchema:
+          $ref: '#/components/schemas/AuthorizationSchema'
+    IssuedVerifiableCredentialRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        credentialType:
+          type: string
+        issuedAt:
+          format: int64
+          type: integer
+        expiresAt:
+          format: int64
+          type: integer
+        clientId:
+          type: string
+        clientName:
+          type: string
+        clientBaseUrl:
+          type: string
+        revision:
+          type: string
+    UserConsentRepresentation:
+      type: object
+      properties:
+        clientId:
+          type: string
+        grantedClientScopes:
+          type: array
+          items:
+            type: string
+        createdDate:
+          format: int64
+          type: integer
+        lastUpdatedDate:
+          format: int64
+          type: integer
+        grantedRealmRoles:
+          type: array
+          items:
+            type: string
+          deprecated: true
+    PolicyEnforcementMode:
+      enum:
+      - ENFORCING
+      - PERMISSIVE
+      - DISABLED
+      type: string
+    UserProfileAttributeGroupMetadata:
+      type: object
+      properties:
+        name:
+          type: string
+        displayHeader:
+          type: string
+        displayDescription:
+          type: string
+        annotations:
+          type: object
+          additionalProperties: {}
+    AccessToken:
+      type: object
+      properties:
+        jti:
+          type: string
+        exp:
+          format: int64
+          type: integer
+        nbf:
+          format: int64
+          type: integer
+        iat:
+          format: int64
+          type: integer
+        iss:
+          type: string
+        sub:
+          type: string
+        typ:
+          type: string
+        azp:
+          type: string
+        otherClaims:
+          type: object
+          additionalProperties: {}
+        nonce:
+          type: string
+        auth_time:
+          format: int64
+          type: integer
+        sid:
+          type: string
+        at_hash:
+          type: string
+        c_hash:
+          type: string
+        name:
+          type: string
+        given_name:
+          type: string
+        family_name:
+          type: string
+        middle_name:
+          type: string
+        nickname:
+          type: string
+        preferred_username:
+          type: string
+        profile:
+          type: string
+        picture:
+          type: string
+        website:
+          type: string
+        email:
+          type: string
+        email_verified:
+          type: boolean
+        gender:
+          type: string
+        birthdate:
+          type: string
+        zoneinfo:
+          type: string
+        locale:
+          type: string
+        phone_number:
+          type: string
+        phone_number_verified:
+          type: boolean
+        updated_at:
+          format: int64
+          type: integer
+        claims_locales:
+          type: string
+        acr:
+          type: string
+        s_hash:
+          type: string
+        trusted-certs:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        allowed-origins:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        realm_access:
+          $ref: '#/components/schemas/Access'
+        resource_access:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Access'
+          writeOnly: true
+        authorization:
+          $ref: '#/components/schemas/Authorization'
+        cnf:
+          $ref: '#/components/schemas/Confirmation'
+        scope:
+          type: string
+        authorization_details:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthorizationDetailsJSONRepresentation'
+    ManagementPermissionReference:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        resource:
+          type: string
+        scopePermissions:
+          type: object
+          additionalProperties:
+            type: string
+    UserRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        emailVerified:
+          type: boolean
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        userProfileMetadata:
+          $ref: '#/components/schemas/UserProfileMetadata'
+        enabled:
+          type: boolean
+        self:
+          type: string
+        origin:
+          type: string
+        createdTimestamp:
+          format: int64
+          type: integer
+        totp:
+          type: boolean
+        federationLink:
+          type: string
+        serviceAccountClientId:
+          type: string
+        credentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialRepresentation'
+        disableableCredentialTypes:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        requiredActions:
+          type: array
+          items:
+            type: string
+        federatedIdentities:
+          type: array
+          items:
+            $ref: '#/components/schemas/FederatedIdentityRepresentation'
+        realmRoles:
+          type: array
+          items:
+            type: string
+        clientRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        clientConsents:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserConsentRepresentation'
+        notBefore:
+          format: int32
+          type: integer
+        verifiableCredentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserVerifiableCredentialRepresentation'
+        issuedVerifiableCredentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/IssuedVerifiableCredentialRepresentation'
+        applicationRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          deprecated: true
+        socialLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/SocialLinkRepresentation'
+          deprecated: true
+        groups:
+          type: array
+          items:
+            type: string
+        access:
+          type: object
+          additionalProperties:
+            type: boolean
+    UserSessionRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        userId:
+          type: string
+        ipAddress:
+          type: string
+        start:
+          format: int64
+          type: integer
+        lastAccess:
+          format: int64
+          type: integer
+        rememberMe:
+          type: boolean
+        clients:
+          type: object
+          additionalProperties:
+            type: string
+        transientUser:
+          type: boolean
+    SocialLinkRepresentation:
+      type: object
+      properties:
+        socialProvider:
+          type: string
+        socialUserId:
+          type: string
+        socialUsername:
+          type: string
+    Authorization:
+      type: object
+      properties:
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Permission'
+    PolicyRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        policies:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        resources:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        scopes:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        logic:
+          $ref: '#/components/schemas/Logic'
+        decisionStrategy:
+          $ref: '#/components/schemas/DecisionStrategy'
+        owner:
+          type: string
+        resourceType:
+          type: string
+        resourcesData:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceRepresentation'
+        scopesData:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ScopeRepresentation'
+        config:
+          type: object
+          additionalProperties:
+            type: string

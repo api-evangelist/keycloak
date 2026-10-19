@@ -1,0 +1,376 @@
+openapi: 3.2.0
+info:
+  title: Keycloak Admin REST Workflows API
+  description: This is a REST API reference for the Keycloak Admin REST API.
+  version: '1.0'
+tags:
+- name: Workflows
+paths:
+  /admin/realms/{realm}/workflows:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Workflows
+      summary: List workflows
+      description: List workflows filtered by name and paginated using first and max parameters.
+      parameters:
+      - name: exact
+        in: query
+        description: Boolean which defines whether the param 'search' must match exactly or not
+        schema:
+          type: boolean
+      - name: first
+        in: query
+        description: The position of the first result to be processed (pagination offset)
+        schema:
+          format: int32
+          default: '0'
+          type: integer
+      - name: max
+        in: query
+        description: The maximum number of results to be returned - defaults to 10
+        schema:
+          format: int32
+          default: '10'
+          type: integer
+      - name: search
+        in: query
+        description: A String representing the workflow name - either partial or exact
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/WorkflowRepresentation'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowRepresentation'
+        '400':
+          description: Bad Request
+      operationId: getAdminRealmsByRealmWorkflows
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Workflows
+      summary: Create workflow
+      description: Create a new workflow from the provided representation.
+      requestBody:
+        content:
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/WorkflowRepresentation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkflowRepresentation'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+      operationId: postAdminRealmsByRealmWorkflows
+      x-operation-id-source: derived
+  /admin/realms/{realm}/workflows/migrate:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Workflows
+      summary: Migrate scheduled resources from one step to another
+      description: Migrate scheduled resources from one step to another step in the same or in a different workflow.
+      parameters:
+      - name: from
+        in: query
+        description: A String representing the id of the step to migrate from
+        schema:
+          type: string
+      - name: to
+        in: query
+        description: A String representing the id of the step to migrate to
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+      operationId: postAdminRealmsByRealmWorkflowsMigrate
+      x-operation-id-source: derived
+  /admin/realms/{realm}/workflows/scheduled/{resource-id}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Workflows
+      summary: List scheduled workflows for resource
+      description: Return workflows that have scheduled steps for the given resource identifier.
+      parameters:
+      - name: resource-id
+        in: path
+        description: Identifier of the resource associated with the scheduled workflows
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowRepresentation'
+        '400':
+          description: Bad Request
+      operationId: getAdminRealmsByRealmWorkflowsScheduledByResourceId
+      x-operation-id-source: derived
+  /admin/realms/{realm}/workflows/{id}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: Workflow identifier
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Workflows
+      summary: Get workflow
+      description: Get the workflow representation. Optionally exclude the workflow id from the response.
+      parameters:
+      - name: includeId
+        in: query
+        description: Indicates whether the workflow and step ids should be included in the representation or not - defaults to true
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/WorkflowRepresentation'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowRepresentation'
+        '400':
+          description: Bad Request
+      operationId: getAdminRealmsByRealmWorkflowsById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Workflows
+      summary: Update workflow
+      description: Update the workflow configuration. This method does not update the workflow steps.
+      requestBody:
+        content:
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/WorkflowRepresentation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkflowRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+      operationId: putAdminRealmsByRealmWorkflowsById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Workflows
+      summary: Delete workflow
+      description: Delete the workflow and its configuration.
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+      operationId: deleteAdminRealmsByRealmWorkflowsById
+      x-operation-id-source: derived
+  /admin/realms/{realm}/workflows/{id}/activate/{type}/{resourceId}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: Workflow identifier
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Workflows
+      summary: Activate workflow for resource
+      description: Activate the workflow for the given resource type and identifier. Optionally schedule the first step using the notBefore parameter.
+      parameters:
+      - name: resourceId
+        in: path
+        description: Resource identifier
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: path
+        description: Resource type
+        required: true
+        schema:
+          type: object
+      - name: notBefore
+        in: query
+        description: Optional value representing the time to schedule the first workflow step. The value is either an integer representing the seconds from now, an integer followed by 'ms' representing milliseconds from now, or an ISO-8601 date string.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+      operationId: postAdminRealmsByRealmWorkflowsByIdActivateByTypeByResourceId
+      x-operation-id-source: derived
+  /admin/realms/{realm}/workflows/{id}/deactivate/{type}/{resourceId}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: Workflow identifier
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Workflows
+      summary: Deactivate workflow for resource
+      description: Deactivate the workflow for the given resource type and identifier.
+      parameters:
+      - name: resourceId
+        in: path
+        description: Resource identifier
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: path
+        description: Resource type
+        required: true
+        schema:
+          type: object
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+      operationId: postAdminRealmsByRealmWorkflowsByIdDeactivateByTypeByResourceId
+      x-operation-id-source: derived
+components:
+  schemas:
+    MultivaluedHashMapStringString:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    WorkflowRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        enabled:
+          type: boolean
+        'on':
+          type: string
+        schedule:
+          $ref: '#/components/schemas/WorkflowScheduleRepresentation'
+        concurrency:
+          $ref: '#/components/schemas/WorkflowConcurrencyRepresentation'
+        if:
+          type: string
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkflowStepRepresentation'
+        state:
+          $ref: '#/components/schemas/WorkflowStateRepresentation'
+        with:
+          $ref: '#/components/schemas/MultivaluedHashMapStringString'
+        cancelInProgress:
+          type: string
+        restartInProgress:
+          type: string
+    WorkflowConcurrencyRepresentation:
+      type: object
+      properties:
+        cancel-in-progress:
+          type: string
+        restart-in-progress:
+          type: string
+    WorkflowScheduleRepresentation:
+      type: object
+      properties:
+        after:
+          type: string
+        batch-size:
+          format: int32
+          type: integer
+    WorkflowStateRepresentation:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+    StepExecutionStatus:
+      enum:
+      - COMPLETED
+      - PENDING
+      type: string
+    WorkflowStepRepresentation:
+      type: object
+      properties:
+        uses:
+          type: string
+        after:
+          type: string
+        scheduled-at:
+          format: int64
+          type: integer
+        status:
+          $ref: '#/components/schemas/StepExecutionStatus'
+        id:
+          type: string
+        config:
+          $ref: '#/components/schemas/MultivaluedHashMapStringString'

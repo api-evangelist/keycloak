@@ -1,0 +1,273 @@
+openapi: 3.2.0
+info:
+  title: Keycloak Admin REST Client Attribute Certificate API
+  description: This is a REST API reference for the Keycloak Admin REST API.
+  version: '1.0'
+tags:
+- name: Client Attribute Certificate
+paths:
+  /admin/realms/{realm}/clients/{client-uuid}/certificates/{attr}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    - name: attr
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Client Attribute Certificate
+      summary: Get key info
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateRepresentation'
+      operationId: getAdminRealmsByRealmClientsByClientUuidCertificatesByAttr
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/certificates/{attr}/download:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    - name: attr
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Client Attribute Certificate
+      summary: Get a keystore file for the client, containing the public certificate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KeyStoreConfig'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                format: binary
+                type: string
+      deprecated: true
+      operationId: postAdminRealmsByRealmClientsByClientUuidCertificatesByAttrDownload
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/certificates/{attr}/generate:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    - name: attr
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Client Attribute Certificate
+      summary: Generate a new certificate with new key pair
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateRepresentation'
+      deprecated: true
+      operationId: postAdminRealmsByRealmClientsByClientUuidCertificatesByAttrGenerate
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/certificates/{attr}/generate-and-download:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    - name: attr
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Client Attribute Certificate
+      summary: Generate a new keypair and certificate, and get the private key file Generates…
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KeyStoreConfig'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                format: binary
+                type: string
+      deprecated: true
+      operationId: postAdminRealmsByRealmClientsByClientUuidCertificatesByAttrGenerateAndDownload
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/certificates/{attr}/upload:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    - name: attr
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Client Attribute Certificate
+      summary: Upload only certificate, not private key
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateRepresentation'
+      deprecated: true
+      operationId: postAdminRealmsByRealmClientsByClientUuidCertificatesByAttrUpload
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/certificates/{attr}/upload-certificate:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    - name: attr
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Client Attribute Certificate
+      summary: Upload only certificate, not private key
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateRepresentation'
+      operationId: postAdminRealmsByRealmClientsByClientUuidCertificatesByAttrUploadCertificate
+      x-operation-id-source: derived
+  /admin/realms/{realm}/identity-provider/upload-certificate:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Client Attribute Certificate
+      summary: Uploads a certificate, prepares the jwks or public key associated, and returns…
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateRepresentation'
+      operationId: postAdminRealmsByRealmIdentityProviderUploadCertificate
+      x-operation-id-source: derived
+components:
+  schemas:
+    CertificateRepresentation:
+      type: object
+      properties:
+        privateKey:
+          type: string
+        publicKey:
+          type: string
+        certificate:
+          type: string
+        kid:
+          type: string
+        jwks:
+          type: string
+    KeyStoreConfig:
+      type: object
+      properties:
+        realmCertificate:
+          type: boolean
+        storePassword:
+          type: string
+        keyPassword:
+          type: string
+        keyAlias:
+          type: string
+        realmAlias:
+          type: string
+        format:
+          type: string
+        keySize:
+          format: int32
+          type: integer
+        validity:
+          format: int32
+          type: integer

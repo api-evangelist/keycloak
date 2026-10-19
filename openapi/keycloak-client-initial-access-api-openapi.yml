@@ -1,0 +1,108 @@
+openapi: 3.2.0
+info:
+  title: Keycloak Admin REST Client Initial Access API
+  description: This is a REST API reference for the Keycloak Admin REST API.
+  version: '1.0'
+tags:
+- name: Client Initial Access
+paths:
+  /admin/realms/{realm}/clients-initial-access:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Client Initial Access
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientInitialAccessPresentation'
+      summary: Get admin realms by realm clients initial access
+      x-summary-source: derived
+      operationId: getAdminRealmsByRealmClientsInitialAccess
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Client Initial Access
+      summary: Create a new initial access token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientInitialAccessCreatePresentation'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientInitialAccessCreatePresentation'
+      operationId: postAdminRealmsByRealmClientsInitialAccess
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients-initial-access/{id}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    delete:
+      tags:
+      - Client Initial Access
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      summary: Delete admin realms by realm clients initial access by id
+      x-summary-source: derived
+      operationId: deleteAdminRealmsByRealmClientsInitialAccessById
+      x-operation-id-source: derived
+components:
+  schemas:
+    ClientInitialAccessPresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        token:
+          type: string
+        timestamp:
+          format: int32
+          type: integer
+        expiration:
+          format: int32
+          type: integer
+        count:
+          format: int32
+          type: integer
+        remainingCount:
+          format: int32
+          type: integer
+    ClientInitialAccessCreatePresentation:
+      type: object
+      properties:
+        expiration:
+          format: int32
+          type: integer
+        count:
+          format: int32
+          type: integer
+        webOrigins:
+          type: array
+          items:
+            type: string

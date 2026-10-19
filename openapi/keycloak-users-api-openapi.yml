@@ -1,417 +1,1414 @@
 openapi: 3.2.0
 info:
   title: Keycloak Admin REST Users API
-  description: The Keycloak Admin REST API provides endpoints for managing all aspects of a Keycloak deployment, including realms, users, clients, roles, groups, and identity providers. All endpoints require authentication via a bearer token obtained from the Keycloak token endpoint.
-  version: 26.0.0
-  contact:
-    name: Keycloak
-    url: https://www.keycloak.org/
-  license:
-    name: Apache 2.0
-    url: https://www.apache.org/licenses/LICENSE-2.0
-servers:
-- url: https://{host}/admin/realms
-  description: Keycloak Admin REST API
-  variables:
-    host:
-      default: localhost:8080
-      description: Keycloak server host and port
-security:
-- bearerAuth: []
+  description: This is a REST API reference for the Keycloak Admin REST API.
+  version: '1.0'
 tags:
 - name: Users
-  description: Manage users within a realm
 paths:
-  /{realm}/users:
+  /admin/realms/{realm}/users:
     parameters:
-    - $ref: '#/components/parameters/realm'
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
     get:
-      operationId: getUsers
-      summary: Keycloak List users
-      description: Returns a list of users in the realm, filtered by query parameters.
       tags:
       - Users
+      summary: Get users Returns a stream of users, filtered according to query parameters
+      description: Returns a stream of users. Note that the 'credentials' field in the returned UserRepresentation objects is typically not populated for performance reasons. If specific credential metadata is required, use the dedicated 'GET /admin/realms/{realm}/users/{user-id}/credentials' endpoint.
       parameters:
-      - name: search
+      - name: briefRepresentation
         in: query
-        description: Search string for username, first name, last name, or email
+        description: 'Boolean which defines whether brief representations are returned (default: false)'
+        schema:
+          type: boolean
+      - name: createdAfter
+        in: query
+        description: Only return users created after (inclusive) the given date, in ISO-8601 format (yyyy-MM-dd) or epoch milliseconds
         schema:
           type: string
-      - name: username
+      - name: createdBefore
         in: query
+        description: Only return users created before (inclusive) the given date, in ISO-8601 format (yyyy-MM-dd) or epoch milliseconds
         schema:
           type: string
       - name: email
         in: query
+        description: A String contained in email, or the complete email, if param "exact" is true
         schema:
           type: string
-      - name: firstName
+      - name: emailVerified
         in: query
+        description: whether the email has been verified
         schema:
-          type: string
-      - name: lastName
-        in: query
-        schema:
-          type: string
+          type: boolean
       - name: enabled
         in: query
+        description: Boolean representing if user is enabled or not
+        schema:
+          type: boolean
+      - name: exact
+        in: query
+        description: Boolean which defines whether the params "last", "first", "email" and "username" must match exactly
         schema:
           type: boolean
       - name: first
         in: query
         description: Pagination offset
         schema:
+          format: int32
           type: integer
+      - name: firstName
+        in: query
+        description: A String contained in firstName, or the complete firstName, if param "exact" is true
+        schema:
+          type: string
+      - name: idpAlias
+        in: query
+        description: The alias of an Identity Provider linked to the user
+        schema:
+          type: string
+      - name: idpUserId
+        in: query
+        description: The userId at an Identity Provider linked to the user
+        schema:
+          type: string
+      - name: lastName
+        in: query
+        description: A String contained in lastName, or the complete lastName, if param "exact" is true
+        schema:
+          type: string
       - name: max
         in: query
-        description: Maximum results size
+        description: Maximum results size (defaults to 100)
         schema:
+          format: int32
           type: integer
-          default: 100
-      - name: briefRepresentation
+      - name: q
         in: query
+        description: A query to search for custom attributes, in the format 'key1:value2 key2:value2'
         schema:
-          type: boolean
-          default: false
+          type: string
+      - name: search
+        in: query
+        description: A String contained in username, first or last name, or email. Default search behavior is prefix-based (e.g., foo or foo*). Use *foo* for infix search and "foo" for exact search.
+        schema:
+          type: string
+      - name: username
+        in: query
+        description: A String contained in username, or the complete username, if param "exact" is true
+        schema:
+          type: string
       responses:
         '200':
-          description: A list of user representations
+          description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/UserRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmUsers
+      x-operation-id-source: derived
     post:
-      operationId: createUser
-      summary: Keycloak Create a new user
-      description: Creates a new user in the realm.
       tags:
       - Users
+      summary: Create a new user Username must be unique
       requestBody:
-        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UserRepresentation'
       responses:
         '201':
-          description: User created successfully
-          headers:
-            Location:
-              description: URI of the created user
-              schema:
-                type: string
+          description: Created
+        '400':
+          description: Bad Request
+          content: {}
+        '403':
+          description: Forbidden
         '409':
-          description: User already exists
-  /{realm}/users/{userId}:
+          description: Conflict
+          content: {}
+        '500':
+          description: Internal Server Error
+          content: {}
+      operationId: postAdminRealmsByRealmUsers
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/count:
     parameters:
-    - $ref: '#/components/parameters/realm'
-    - $ref: '#/components/parameters/userId'
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
     get:
-      operationId: getUser
-      summary: Keycloak Get a user
-      description: Returns the representation of a specific user.
       tags:
       - Users
+      summary: Returns the number of users that match the given criteria
+      description: 'It can be called in three different ways. 1. Don’t specify any criteria and pass {@code null}. The number of all users within that realm will be returned.
+
+        2. If {@code search} is specified other criteria such as {@code last} will be ignored even though you set them. The {@code search} string will be matched against the first and last name, the username and the email of a user.
+
+        3. If {@code search} is unspecified but any of {@code last}, {@code first}, {@code email} or {@code username} those criteria are matched against their respective fields on a user entity. Combined with a logical and.'
+      parameters:
+      - name: createdAfter
+        in: query
+        description: Only return users created after (inclusive) the given date, in ISO-8601 format (yyyy-MM-dd) or epoch milliseconds
+        schema:
+          type: string
+      - name: createdBefore
+        in: query
+        description: Only return users created before (inclusive) the given date, in ISO-8601 format (yyyy-MM-dd) or epoch milliseconds
+        schema:
+          type: string
+      - name: email
+        in: query
+        description: A String contained in email, or the complete email, if param "exact" is true
+        schema:
+          type: string
+      - name: emailVerified
+        in: query
+        description: whether the email has been verified
+        schema:
+          type: boolean
+      - name: enabled
+        in: query
+        description: Boolean representing if user is enabled or not
+        schema:
+          type: boolean
+      - name: exact
+        in: query
+        description: Boolean which defines whether the params "last", "first", "email" and "username" must match exactly
+        schema:
+          type: boolean
+      - name: firstName
+        in: query
+        description: A String contained in firstName, or the complete firstName, if param "exact" is true
+        schema:
+          type: string
+      - name: idpAlias
+        in: query
+        description: The alias of an Identity Provider linked to the user
+        schema:
+          type: string
+      - name: idpUserId
+        in: query
+        description: The userId at an Identity Provider linked to the user
+        schema:
+          type: string
+      - name: lastName
+        in: query
+        description: A String contained in lastName, or the complete lastName, if param "exact" is true
+        schema:
+          type: string
+      - name: q
+        in: query
+        description: A query to search for custom attributes, in the format 'key1:value2 key2:value2'
+        schema:
+          type: string
+      - name: search
+        in: query
+        description: A String contained in username, first or last name, or email. Default search behavior is prefix-based (e.g., foo or foo*). Use *foo* for infix search and "foo" for exact search.
+        schema:
+          type: string
+      - name: username
+        in: query
+        description: A String contained in username, or the complete username, if param "exact" is true
+        schema:
+          type: string
       responses:
         '200':
-          description: A user representation
+          description: OK
+          content:
+            application/json:
+              schema:
+                format: int32
+                type: integer
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmUsersCount
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/profile:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Users
+      description: Get the configuration for the user profile
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPConfig'
+        '403':
+          description: Forbidden
+      summary: Get admin realms by realm users profile
+      x-summary-source: derived
+      operationId: getAdminRealmsByRealmUsersProfile
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Users
+      description: Set the configuration for the user profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UPConfig'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPConfig'
+        '403':
+          description: Forbidden
+      summary: Replace admin realms by realm users profile
+      x-summary-source: derived
+      operationId: putAdminRealmsByRealmUsersProfile
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/profile/metadata:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Users
+      description: Get the UserProfileMetadata from the configuration
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileMetadata'
+        '403':
+          description: Forbidden
+      summary: Get admin realms by realm users profile metadata
+      x-summary-source: derived
+      operationId: getAdminRealmsByRealmUsersProfileMetadata
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Users
+      summary: Get representation of the user
+      parameters:
+      - name: userProfileMetadata
+        in: query
+        description: Indicates if the user profile metadata should be added to the response
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserRepresentation'
-        '404':
-          description: User not found
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmUsersByUserId
+      x-operation-id-source: derived
     put:
-      operationId: updateUser
-      summary: Keycloak Update a user
-      description: Updates the properties of an existing user.
       tags:
       - Users
+      summary: Update the user
       requestBody:
-        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UserRepresentation'
       responses:
         '204':
-          description: User updated successfully
-        '404':
-          description: User not found
+          description: No Content
+        '400':
+          description: Bad Request
+          content: {}
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+          content: {}
+        '500':
+          description: Internal Server Error
+          content: {}
+      operationId: putAdminRealmsByRealmUsersByUserId
+      x-operation-id-source: derived
     delete:
-      operationId: deleteUser
-      summary: Keycloak Delete a user
-      description: Permanently deletes a user from the realm.
       tags:
       - Users
+      summary: Delete the user
       responses:
         '204':
-          description: User deleted successfully
-        '404':
-          description: User not found
-  /{realm}/users/{userId}/role-mappings/realm:
+          description: No Content
+        '400':
+          description: Bad Request
+          content: {}
+        '403':
+          description: Forbidden
+      operationId: deleteAdminRealmsByRealmUsersByUserId
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/configured-user-storage-credential-types:
     parameters:
-    - $ref: '#/components/parameters/realm'
-    - $ref: '#/components/parameters/userId'
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
     get:
-      operationId: getUserRealmRoleMappings
-      summary: Keycloak Get realm-level role mappings for a user
       tags:
       - Users
+      summary: Return credential types, which are provided by the user storage where user is…
+      description: Returned values can contain for example "password", "otp" etc. This will always return empty list for "local" users, which are not backed by any user storage
       responses:
         '200':
-          description: A list of role representations
+          description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/RoleRepresentation'
-    post:
-      operationId: addUserRealmRoleMappings
-      summary: Keycloak Add realm-level role mappings to a user
-      tags:
-      - Users
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/RoleRepresentation'
-      responses:
-        '204':
-          description: Role mappings added
-    delete:
-      operationId: deleteUserRealmRoleMappings
-      summary: Keycloak Remove realm-level role mappings from a user
-      tags:
-      - Users
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/RoleRepresentation'
-      responses:
-        '204':
-          description: Role mappings removed
-  /{realm}/users/{userId}/groups:
+                  type: string
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmUsersByUserIdConfiguredUserStorageCredentialTypes
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/consents:
     parameters:
-    - $ref: '#/components/parameters/realm'
-    - $ref: '#/components/parameters/userId'
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
     get:
-      operationId: getUserGroups
-      summary: Keycloak Get groups for a user
+      tags:
+      - Users
+      summary: Get consents granted by the user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: {}
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmUsersByUserIdConsents
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/consents/{client}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    delete:
+      tags:
+      - Users
+      summary: Revoke consent and offline tokens for particular client from user
+      parameters:
+      - name: client
+        in: path
+        description: Client id
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: deleteAdminRealmsByRealmUsersByUserIdConsentsByClient
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/credentials:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
       tags:
       - Users
       responses:
         '200':
-          description: A list of group representations
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CredentialRepresentation'
+        '403':
+          description: Forbidden
+      summary: Get admin realms by realm users by user id credentials
+      x-summary-source: derived
+      operationId: getAdminRealmsByRealmUsersByUserIdCredentials
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/credentials/{credentialId}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    delete:
+      tags:
+      - Users
+      summary: Remove a credential for a user
+      parameters:
+      - name: credentialId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: deleteAdminRealmsByRealmUsersByUserIdCredentialsByCredentialId
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/credentials/{credentialId}/moveAfter/{newPreviousCredentialId}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Users
+      summary: Move a credential to a position behind another credential
+      parameters:
+      - name: credentialId
+        in: path
+        description: The credential to move
+        required: true
+        schema:
+          type: string
+      - name: newPreviousCredentialId
+        in: path
+        description: The credential that will be the previous element in the list. If set to null, the moved credential will be the first element in the list.
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: postAdminRealmsByRealmUsersByUserIdCredentialsByCredentialIdMoveAfterByNewPreviousCredentialId
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/credentials/{credentialId}/moveToFirst:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Users
+      summary: Move a credential to a first position in the credentials list of the user
+      parameters:
+      - name: credentialId
+        in: path
+        description: The credential to move
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: postAdminRealmsByRealmUsersByUserIdCredentialsByCredentialIdMoveToFirst
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/credentials/{credentialId}/userLabel:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    put:
+      tags:
+      - Users
+      summary: Update a credential label for a user
+      parameters:
+      - name: credentialId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: putAdminRealmsByRealmUsersByUserIdCredentialsByCredentialIdUserLabel
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/disable-credential-types:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    put:
+      tags:
+      - Users
+      summary: Disable all credentials for a user of a specific type
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+      operationId: putAdminRealmsByRealmUsersByUserIdDisableCredentialTypes
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/execute-actions-email:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    put:
+      tags:
+      - Users
+      summary: Send an email to the user with a link they can click to execute particular…
+      description: An email contains a link the user can click to perform a set of required actions. The redirectUri and clientId parameters are optional. If no redirect is given, then there will be no link back to click after actions have completed. Redirect uri must be a valid uri for the particular clientId.
+      parameters:
+      - name: client_id
+        in: query
+        description: Client id
+        schema:
+          type: string
+      - name: lifespan
+        in: query
+        description: Number of seconds after which the generated token expires
+        schema:
+          format: int32
+          type: integer
+      - name: redirect_uri
+        in: query
+        description: Redirect uri
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content: {}
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content: {}
+      operationId: putAdminRealmsByRealmUsersByUserIdExecuteActionsEmail
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/federated-identity:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Users
+      summary: Get social logins associated with the user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FederatedIdentityRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmUsersByUserIdFederatedIdentity
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/federated-identity/{provider}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Users
+      summary: Add a social login provider to the user
+      parameters:
+      - name: provider
+        in: path
+        description: Social login provider id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FederatedIdentityRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+          content: {}
+      operationId: postAdminRealmsByRealmUsersByUserIdFederatedIdentityByProvider
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Users
+      summary: Remove a social login provider from user
+      parameters:
+      - name: provider
+        in: path
+        description: Social login provider id
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: deleteAdminRealmsByRealmUsersByUserIdFederatedIdentityByProvider
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/groups:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Users
+      parameters:
+      - name: briefRepresentation
+        in: query
+        schema:
+          default: true
+          type: boolean
+      - name: first
+        in: query
+        schema:
+          format: int32
+          type: integer
+      - name: max
+        in: query
+        schema:
+          format: int32
+          type: integer
+      - name: search
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/GroupRepresentation'
-  /{realm}/users/{userId}/groups/{groupId}:
+        '403':
+          description: Forbidden
+      summary: Get admin realms by realm users by user id groups
+      x-summary-source: derived
+      operationId: getAdminRealmsByRealmUsersByUserIdGroups
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/groups/count:
     parameters:
-    - $ref: '#/components/parameters/realm'
-    - $ref: '#/components/parameters/userId'
-    - $ref: '#/components/parameters/groupId'
-    put:
-      operationId: addUserToGroup
-      summary: Keycloak Add a user to a group
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
       tags:
       - Users
+      parameters:
+      - name: search
+        in: query
+        schema:
+          type: string
       responses:
-        '204':
-          description: User added to group
-    delete:
-      operationId: removeUserFromGroup
-      summary: Keycloak Remove a user from a group
-      tags:
-      - Users
-      responses:
-        '204':
-          description: User removed from group
-  /{realm}/users/{userId}/reset-password:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  format: int64
+                  type: integer
+        '403':
+          description: Forbidden
+      summary: Get admin realms by realm users by user id groups count
+      x-summary-source: derived
+      operationId: getAdminRealmsByRealmUsersByUserIdGroupsCount
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/groups/{groupId}:
     parameters:
-    - $ref: '#/components/parameters/realm'
-    - $ref: '#/components/parameters/userId'
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
     put:
-      operationId: resetUserPassword
-      summary: Keycloak Reset a user's password
-      description: Sets a new password for the user. Set temporary to true to require a password change on next login.
       tags:
       - Users
-      requestBody:
+      parameters:
+      - name: groupId
+        in: path
         required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      summary: Replace admin realms by realm users by user id groups by group id
+      x-summary-source: derived
+      operationId: putAdminRealmsByRealmUsersByUserIdGroupsByGroupId
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Users
+      parameters:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content: {}
+      summary: Delete admin realms by realm users by user id groups by group id
+      x-summary-source: derived
+      operationId: deleteAdminRealmsByRealmUsersByUserIdGroupsByGroupId
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/impersonation:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Users
+      summary: Impersonate the user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRepresentation'
+        '403':
+          description: Forbidden
+      operationId: postAdminRealmsByRealmUsersByUserIdImpersonation
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/logout:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Users
+      summary: Remove all user sessions associated with the user Also send notification to all…
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+      operationId: postAdminRealmsByRealmUsersByUserIdLogout
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/offline-sessions/{clientUuid}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Users
+      summary: Get offline sessions associated with the user and client
+      parameters:
+      - name: clientUuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserSessionRepresentation'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmUsersByUserIdOfflineSessionsByClientUuid
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/reset-password:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    put:
+      tags:
+      - Users
+      summary: Set up a new password for the user
+      requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/CredentialRepresentation'
       responses:
         '204':
-          description: Password reset successfully
-  /{realm}/groups/{groupId}/members:
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+          content: {}
+      operationId: putAdminRealmsByRealmUsersByUserIdResetPassword
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/reset-password-email:
     parameters:
-    - $ref: '#/components/parameters/realm'
-    - $ref: '#/components/parameters/groupId'
-    get:
-      operationId: getGroupMembers
-      summary: Keycloak Get members of a group
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    put:
       tags:
       - Users
+      summary: Send an email to the user with a link they can click to reset their password
+      description: The redirectUri and clientId parameters are optional. The default for the redirect is the account client. This endpoint has been deprecated. Please use the execute-actions-email passing a list with UPDATE_PASSWORD within it.
       parameters:
-      - name: first
+      - name: client_id
         in: query
+        description: client id
         schema:
-          type: integer
-      - name: max
+          type: string
+      - name: redirect_uri
         in: query
+        description: redirect uri
         schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content: {}
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content: {}
+      deprecated: true
+      operationId: putAdminRealmsByRealmUsersByUserIdResetPasswordEmail
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/send-verify-email:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    put:
+      tags:
+      - Users
+      summary: Send an email-verification email to the user An email contains a link the user…
+      description: The redirectUri, clientId and lifespan parameters are optional. The default for the redirect is the account client. The default for the lifespan is 12 hours
+      parameters:
+      - name: client_id
+        in: query
+        description: Client id
+        schema:
+          type: string
+      - name: lifespan
+        in: query
+        description: Number of seconds after which the generated token expires
+        schema:
+          format: int32
           type: integer
+      - name: redirect_uri
+        in: query
+        description: Redirect uri
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content: {}
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+          content: {}
+      operationId: putAdminRealmsByRealmUsersByUserIdSendVerifyEmail
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/sessions:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Users
+      summary: Get sessions associated with the user
       responses:
         '200':
-          description: A list of user representations
+          description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/UserRepresentation'
+                  $ref: '#/components/schemas/UserSessionRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmUsersByUserIdSessions
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/unmanagedAttributes:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    type: string
+        '403':
+          description: Forbidden
+      summary: Get admin realms by realm users by user id unmanaged attributes
+      x-summary-source: derived
+      operationId: getAdminRealmsByRealmUsersByUserIdUnmanagedAttributes
+      x-operation-id-source: derived
 components:
   schemas:
-    RoleRepresentation:
+    MultivaluedHashMapStringString:
       type: object
-      description: Representation of a role in Keycloak
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    UserProfileAttributeMetadata:
+      type: object
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        required:
+          type: boolean
+        readOnly:
+          type: boolean
+        annotations:
+          type: object
+          additionalProperties: {}
+        validators:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties: {}
+        group:
+          type: string
+        multivalued:
+          type: boolean
+        defaultValue:
+          type: string
+    UnmanagedAttributePolicy:
+      enum:
+      - ENABLED
+      - ADMIN_VIEW
+      - ADMIN_EDIT
+      type: string
+    UPGroup:
+      type: object
+      properties:
+        name:
+          type: string
+        displayHeader:
+          type: string
+        displayDescription:
+          type: string
+        annotations:
+          type: object
+          additionalProperties: {}
+    UPConfig:
+      type: object
+      properties:
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/UPAttribute'
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/UPGroup'
+        unmanagedAttributePolicy:
+          $ref: '#/components/schemas/UnmanagedAttributePolicy'
+    CredentialRepresentation:
+      type: object
       properties:
         id:
           type: string
-          format: uuid
-          readOnly: true
+        type:
+          type: string
+        userLabel:
+          type: string
+        createdDate:
+          format: int64
+          type: integer
+        secretData:
+          type: string
+        credentialData:
+          type: string
+        priority:
+          format: int32
+          type: integer
+        value:
+          type: string
+        temporary:
+          type: boolean
+        device:
+          type: string
+          deprecated: true
+        hashedSaltedValue:
+          type: string
+          deprecated: true
+        salt:
+          type: string
+          deprecated: true
+        hashIterations:
+          format: int32
+          type: integer
+          deprecated: true
+        counter:
+          format: int32
+          type: integer
+          deprecated: true
+        algorithm:
+          type: string
+          deprecated: true
+        digits:
+          format: int32
+          type: integer
+          deprecated: true
+        period:
+          format: int32
+          type: integer
+          deprecated: true
+        config:
+          type: object
+          allOf:
+          - $ref: '#/components/schemas/MultivaluedHashMapStringString'
+          deprecated: true
+        federationLink:
+          type: string
+    ErrorRepresentation:
+      type: object
+      properties:
+        field:
+          type: string
+        errorMessage:
+          type: string
+        params:
+          type: array
+          items: {}
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorRepresentation'
+    GroupRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
         name:
           type: string
         description:
           type: string
-        composite:
-          type: boolean
-          description: Whether this role is a composite of other roles
-        composites:
-          type: object
-          properties:
-            realm:
-              type: array
-              items:
-                type: string
-            client:
-              type: object
-              additionalProperties:
-                type: array
-                items:
-                  type: string
-        clientRole:
-          type: boolean
-        containerId:
-          type: string
-        attributes:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
-    UserRepresentation:
-      type: object
-      description: Representation of a Keycloak user
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        username:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          type: string
-          format: email
-        emailVerified:
-          type: boolean
-        enabled:
-          type: boolean
-        createdTimestamp:
-          type: integer
-          format: int64
-          readOnly: true
-        attributes:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
-        credentials:
-          type: array
-          items:
-            $ref: '#/components/schemas/CredentialRepresentation'
-          writeOnly: true
-        requiredActions:
-          type: array
-          items:
-            type: string
-        federatedIdentities:
-          type: array
-          items:
-            type: object
-            properties:
-              identityProvider:
-                type: string
-              userId:
-                type: string
-              userName:
-                type: string
-        realmRoles:
-          type: array
-          items:
-            type: string
-        clientRoles:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
-        groups:
-          type: array
-          items:
-            type: string
-        totp:
-          type: boolean
-        federationLink:
-          type: string
-        serviceAccountClientId:
-          type: string
-        notBefore:
-          type: integer
-    GroupRepresentation:
-      type: object
-      description: Representation of a user group in Keycloak
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        name:
-          type: string
         path:
           type: string
-          description: Full path of the group including parent groups
+        parentId:
+          type: string
+        subGroupCount:
+          format: int64
+          type: integer
         subGroups:
           type: array
           items:
@@ -432,53 +1429,298 @@ components:
             type: array
             items:
               type: string
-    CredentialRepresentation:
+        access:
+          type: object
+          additionalProperties:
+            type: boolean
+    UPAttributeRequired:
       type: object
-      description: Representation of a user credential
+      properties:
+        roles:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        scopes:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+    UserVerifiableCredentialRepresentation:
+      type: object
+      properties:
+        credentialScopeName:
+          type: string
+        credentialConfigurationId:
+          type: string
+        revision:
+          type: string
+        createdDate:
+          format: int64
+          type: integer
+        updatedDate:
+          format: int64
+          type: integer
+        userAttributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    FederatedIdentityRepresentation:
+      type: object
+      properties:
+        identityProvider:
+          type: string
+        userId:
+          type: string
+        userName:
+          type: string
+    UserProfileMetadata:
+      type: object
+      properties:
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfileAttributeMetadata'
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfileAttributeGroupMetadata'
+    IssuedVerifiableCredentialRepresentation:
+      type: object
       properties:
         id:
           type: string
-        type:
+        userId:
           type: string
-          description: The credential type (e.g., password, otp)
-        value:
+        credentialType:
           type: string
-          writeOnly: true
-        temporary:
-          type: boolean
-          description: If true, user must change the credential on next login
-        createdDate:
-          type: integer
+        issuedAt:
           format: int64
-        userLabel:
+          type: integer
+        expiresAt:
+          format: int64
+          type: integer
+        clientId:
           type: string
-  parameters:
-    groupId:
-      name: groupId
-      in: path
-      required: true
-      description: The UUID of the group
-      schema:
-        type: string
-        format: uuid
-    realm:
-      name: realm
-      in: path
-      required: true
-      description: The name of the realm
-      schema:
-        type: string
-    userId:
-      name: userId
-      in: path
-      required: true
-      description: The UUID of the user
-      schema:
-        type: string
-        format: uuid
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: Access token obtained from the Keycloak token endpoint. Use the master realm admin credentials or a service account with appropriate realm-management roles.
+        clientName:
+          type: string
+        clientBaseUrl:
+          type: string
+        revision:
+          type: string
+    UPAttributeSelector:
+      type: object
+      properties:
+        scopes:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+    UserConsentRepresentation:
+      type: object
+      properties:
+        clientId:
+          type: string
+        grantedClientScopes:
+          type: array
+          items:
+            type: string
+        createdDate:
+          format: int64
+          type: integer
+        lastUpdatedDate:
+          format: int64
+          type: integer
+        grantedRealmRoles:
+          type: array
+          items:
+            type: string
+          deprecated: true
+    UserProfileAttributeGroupMetadata:
+      type: object
+      properties:
+        name:
+          type: string
+        displayHeader:
+          type: string
+        displayDescription:
+          type: string
+        annotations:
+          type: object
+          additionalProperties: {}
+    UPAttributePermissions:
+      type: object
+      properties:
+        view:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        edit:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+    UserRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        emailVerified:
+          type: boolean
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        userProfileMetadata:
+          $ref: '#/components/schemas/UserProfileMetadata'
+        enabled:
+          type: boolean
+        self:
+          type: string
+        origin:
+          type: string
+        createdTimestamp:
+          format: int64
+          type: integer
+        totp:
+          type: boolean
+        federationLink:
+          type: string
+        serviceAccountClientId:
+          type: string
+        credentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialRepresentation'
+        disableableCredentialTypes:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        requiredActions:
+          type: array
+          items:
+            type: string
+        federatedIdentities:
+          type: array
+          items:
+            $ref: '#/components/schemas/FederatedIdentityRepresentation'
+        realmRoles:
+          type: array
+          items:
+            type: string
+        clientRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        clientConsents:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserConsentRepresentation'
+        notBefore:
+          format: int32
+          type: integer
+        verifiableCredentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserVerifiableCredentialRepresentation'
+        issuedVerifiableCredentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/IssuedVerifiableCredentialRepresentation'
+        applicationRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          deprecated: true
+        socialLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/SocialLinkRepresentation'
+          deprecated: true
+        groups:
+          type: array
+          items:
+            type: string
+        access:
+          type: object
+          additionalProperties:
+            type: boolean
+    UserSessionRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        userId:
+          type: string
+        ipAddress:
+          type: string
+        start:
+          format: int64
+          type: integer
+        lastAccess:
+          format: int64
+          type: integer
+        rememberMe:
+          type: boolean
+        clients:
+          type: object
+          additionalProperties:
+            type: string
+        transientUser:
+          type: boolean
+    SocialLinkRepresentation:
+      type: object
+      properties:
+        socialProvider:
+          type: string
+        socialUserId:
+          type: string
+        socialUsername:
+          type: string
+    UPAttribute:
+      type: object
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        validations:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties: {}
+        annotations:
+          type: object
+          additionalProperties: {}
+        required:
+          $ref: '#/components/schemas/UPAttributeRequired'
+        permissions:
+          $ref: '#/components/schemas/UPAttributePermissions'
+        selector:
+          $ref: '#/components/schemas/UPAttributeSelector'
+        group:
+          type: string
+        multivalued:
+          type: boolean
+        defaultValue:
+          type: string

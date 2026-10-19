@@ -1,201 +1,1260 @@
 openapi: 3.2.0
 info:
   title: Keycloak Admin REST Roles API
-  description: The Keycloak Admin REST API provides endpoints for managing all aspects of a Keycloak deployment, including realms, users, clients, roles, groups, and identity providers. All endpoints require authentication via a bearer token obtained from the Keycloak token endpoint.
-  version: 26.0.0
-  contact:
-    name: Keycloak
-    url: https://www.keycloak.org/
-  license:
-    name: Apache 2.0
-    url: https://www.apache.org/licenses/LICENSE-2.0
-servers:
-- url: https://{host}/admin/realms
-  description: Keycloak Admin REST API
-  variables:
-    host:
-      default: localhost:8080
-      description: Keycloak server host and port
-security:
-- bearerAuth: []
+  description: This is a REST API reference for the Keycloak Admin REST API.
+  version: '1.0'
 tags:
 - name: Roles
-  description: Manage realm-level and client-level roles
 paths:
-  /{realm}/users/{userId}/role-mappings/realm:
+  /admin/realms/{realm}/clients/{client-uuid}/roles:
     parameters:
-    - $ref: '#/components/parameters/realm'
-    - $ref: '#/components/parameters/userId'
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
     get:
-      operationId: getUserRealmRoleMappings
-      summary: Keycloak Get realm-level role mappings for a user
       tags:
       - Roles
-      responses:
-        '200':
-          description: A list of role representations
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/RoleRepresentation'
-    post:
-      operationId: addUserRealmRoleMappings
-      summary: Keycloak Add realm-level role mappings to a user
-      tags:
-      - Roles
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/RoleRepresentation'
-      responses:
-        '204':
-          description: Role mappings added
-    delete:
-      operationId: deleteUserRealmRoleMappings
-      summary: Keycloak Remove realm-level role mappings from a user
-      tags:
-      - Roles
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/RoleRepresentation'
-      responses:
-        '204':
-          description: Role mappings removed
-  /{realm}/roles:
-    parameters:
-    - $ref: '#/components/parameters/realm'
-    get:
-      operationId: getRoles
-      summary: Keycloak List realm-level roles
-      description: Returns a list of all roles defined at the realm level.
-      tags:
-      - Roles
+      summary: Get all roles for the realm or client
       parameters:
-      - name: search
+      - name: briefRepresentation
         in: query
         schema:
-          type: string
+          default: true
+          type: boolean
       - name: first
         in: query
         schema:
+          format: int32
           type: integer
       - name: max
         in: query
         schema:
+          format: int32
           type: integer
-      - name: briefRepresentation
+      - name: search
         in: query
         schema:
-          type: boolean
-          default: true
+          default: ''
+          type: string
       responses:
         '200':
-          description: A list of role representations
+          description: ''
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmClientsByClientUuidRoles
+      x-operation-id-source: derived
     post:
-      operationId: createRole
-      summary: Keycloak Create a realm-level role
       tags:
       - Roles
+      summary: Create a new role for the realm or client
       requestBody:
-        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/RoleRepresentation'
       responses:
         '201':
-          description: Role created successfully
-  /{realm}/roles/{roleName}:
+          description: Created
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '409':
+          description: Conflict
+        '500':
+          description: Internal Server Error
+      operationId: postAdminRealmsByRealmClientsByClientUuidRoles
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/roles/{role-name}:
     parameters:
-    - $ref: '#/components/parameters/realm'
-    - name: roleName
+    - name: realm
       in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
       required: true
       schema:
         type: string
     get:
-      operationId: getRole
-      summary: Keycloak Get a realm-level role by name
       tags:
       - Roles
+      summary: Get a role by name
+      parameters:
+      - name: role-name
+        in: path
+        description: role's name (not id!)
+        required: true
+        schema:
+          type: string
       responses:
         '200':
-          description: A role representation
+          description: ''
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
         '404':
-          description: Role not found
+          description: Not Found
+      operationId: getAdminRealmsByRealmClientsByClientUuidRolesByRoleName
+      x-operation-id-source: derived
     put:
-      operationId: updateRole
-      summary: Keycloak Update a realm-level role
       tags:
       - Roles
-      requestBody:
+      summary: Update a role by name
+      parameters:
+      - name: role-name
+        in: path
+        description: role's name (not id!)
         required: true
+        schema:
+          type: string
+      requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/RoleRepresentation'
       responses:
         '204':
-          description: Role updated successfully
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '409':
+          description: Conflict
+      operationId: putAdminRealmsByRealmClientsByClientUuidRolesByRoleName
+      x-operation-id-source: derived
     delete:
-      operationId: deleteRole
-      summary: Keycloak Delete a realm-level role
       tags:
       - Roles
+      summary: Delete a role by name
+      parameters:
+      - name: role-name
+        in: path
+        description: role's name (not id!)
+        required: true
+        schema:
+          type: string
       responses:
         '204':
-          description: Role deleted successfully
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: deleteAdminRealmsByRealmClientsByClientUuidRolesByRoleName
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/roles/{role-name}/composites:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Roles
+      summary: Get composites of the role
+      parameters:
+      - name: role-name
+        in: path
+        description: role's name (not id!)
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmClientsByClientUuidRolesByRoleNameComposites
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Roles
+      summary: Add a composite to the role
+      parameters:
+      - name: role-name
+        in: path
+        description: role's name (not id!)
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: postAdminRealmsByRealmClientsByClientUuidRolesByRoleNameComposites
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Roles
+      summary: Remove roles from the role's composite
+      parameters:
+      - name: role-name
+        in: path
+        description: role's name (not id!)
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: deleteAdminRealmsByRealmClientsByClientUuidRolesByRoleNameComposites
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/roles/{role-name}/composites/clients/{targetClientUuid}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Roles
+      summary: Get client-level roles for the client that are in the role's composite
+      parameters:
+      - name: role-name
+        in: path
+        description: role's name (not id!)
+        required: true
+        schema:
+          type: string
+      - name: targetClientUuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmClientsByClientUuidRolesByRoleNameCompositesClientsByTargetClientUuid
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/roles/{role-name}/composites/realm:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Roles
+      summary: Get realm-level roles of the role's composite
+      parameters:
+      - name: role-name
+        in: path
+        description: role's name (not id!)
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmClientsByClientUuidRolesByRoleNameCompositesRealm
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/roles/{role-name}/groups:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Roles
+      summary: Returns a stream of groups that have the specified role name
+      parameters:
+      - name: role-name
+        in: path
+        description: the role name.
+        required: true
+        schema:
+          type: string
+      - name: briefRepresentation
+        in: query
+        description: If false, return a full representation of the {@code GroupRepresentation} objects.
+        schema:
+          default: true
+          type: boolean
+      - name: first
+        in: query
+        description: First result to return. Ignored if negative or {@code null}.
+        schema:
+          format: int32
+          type: integer
+      - name: max
+        in: query
+        description: Maximum number of results to return. Unbounded if negative.
+        schema:
+          format: int32
+          default: '100'
+          type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupRepresentation'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmClientsByClientUuidRolesByRoleNameGroups
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/roles/{role-name}/management/permissions:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Roles
+      summary: Return object stating whether role Authorization permissions have been…
+      parameters:
+      - name: role-name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagementPermissionReference'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmClientsByClientUuidRolesByRoleNameManagementPermissions
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Roles
+      summary: Return object stating whether role Authorization permissions have been…
+      parameters:
+      - name: role-name
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManagementPermissionReference'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagementPermissionReference'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: putAdminRealmsByRealmClientsByClientUuidRolesByRoleNameManagementPermissions
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/roles/{role-name}/users:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Roles
+      summary: Returns a stream of users that have the specified role name
+      parameters:
+      - name: role-name
+        in: path
+        description: the role name.
+        required: true
+        schema:
+          type: string
+      - name: briefRepresentation
+        in: query
+        description: 'Boolean which defines whether brief representations are returned (default: false)'
+        schema:
+          type: boolean
+      - name: first
+        in: query
+        description: first result to return. Ignored if negative or {@code null}.
+        schema:
+          format: int32
+          type: integer
+      - name: max
+        in: query
+        description: Maximum number of results to return. Unbounded if negative.
+        schema:
+          format: int32
+          default: '100'
+          type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserRepresentation'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmClientsByClientUuidRolesByRoleNameUsers
+      x-operation-id-source: derived
+  /admin/realms/{realm}/roles:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Roles
+      summary: Get all roles for the realm or client
+      parameters:
+      - name: briefRepresentation
+        in: query
+        schema:
+          default: true
+          type: boolean
+      - name: first
+        in: query
+        schema:
+          format: int32
+          type: integer
+      - name: max
+        in: query
+        schema:
+          format: int32
+          type: integer
+      - name: search
+        in: query
+        schema:
+          default: ''
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+      operationId: getAdminRealmsByRealmRoles
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Roles
+      summary: Create a new role for the realm or client
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '409':
+          description: Conflict
+        '500':
+          description: Internal Server Error
+      operationId: postAdminRealmsByRealmRoles
+      x-operation-id-source: derived
+  /admin/realms/{realm}/roles/{role-name}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Roles
+      summary: Get a role by name
+      parameters:
+      - name: role-name
+        in: path
+        description: role's name (not id!)
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmRolesByRoleName
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Roles
+      summary: Update a role by name
+      parameters:
+      - name: role-name
+        in: path
+        description: role's name (not id!)
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '409':
+          description: Conflict
+      operationId: putAdminRealmsByRealmRolesByRoleName
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Roles
+      summary: Delete a role by name
+      parameters:
+      - name: role-name
+        in: path
+        description: role's name (not id!)
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: deleteAdminRealmsByRealmRolesByRoleName
+      x-operation-id-source: derived
+  /admin/realms/{realm}/roles/{role-name}/composites:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Roles
+      summary: Get composites of the role
+      parameters:
+      - name: role-name
+        in: path
+        description: role's name (not id!)
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmRolesByRoleNameComposites
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Roles
+      summary: Add a composite to the role
+      parameters:
+      - name: role-name
+        in: path
+        description: role's name (not id!)
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: postAdminRealmsByRealmRolesByRoleNameComposites
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Roles
+      summary: Remove roles from the role's composite
+      parameters:
+      - name: role-name
+        in: path
+        description: role's name (not id!)
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: deleteAdminRealmsByRealmRolesByRoleNameComposites
+      x-operation-id-source: derived
+  /admin/realms/{realm}/roles/{role-name}/composites/clients/{targetClientUuid}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Roles
+      summary: Get client-level roles for the client that are in the role's composite
+      parameters:
+      - name: role-name
+        in: path
+        description: role's name (not id!)
+        required: true
+        schema:
+          type: string
+      - name: targetClientUuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmRolesByRoleNameCompositesClientsByTargetClientUuid
+      x-operation-id-source: derived
+  /admin/realms/{realm}/roles/{role-name}/composites/realm:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Roles
+      summary: Get realm-level roles of the role's composite
+      parameters:
+      - name: role-name
+        in: path
+        description: role's name (not id!)
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmRolesByRoleNameCompositesRealm
+      x-operation-id-source: derived
+  /admin/realms/{realm}/roles/{role-name}/groups:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Roles
+      summary: Returns a stream of groups that have the specified role name
+      parameters:
+      - name: role-name
+        in: path
+        description: the role name.
+        required: true
+        schema:
+          type: string
+      - name: briefRepresentation
+        in: query
+        description: If false, return a full representation of the {@code GroupRepresentation} objects.
+        schema:
+          default: true
+          type: boolean
+      - name: first
+        in: query
+        description: First result to return. Ignored if negative or {@code null}.
+        schema:
+          format: int32
+          type: integer
+      - name: max
+        in: query
+        description: Maximum number of results to return. Unbounded if negative.
+        schema:
+          format: int32
+          default: '100'
+          type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupRepresentation'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmRolesByRoleNameGroups
+      x-operation-id-source: derived
+  /admin/realms/{realm}/roles/{role-name}/management/permissions:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Roles
+      summary: Return object stating whether role Authorization permissions have been…
+      parameters:
+      - name: role-name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagementPermissionReference'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmRolesByRoleNameManagementPermissions
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Roles
+      summary: Return object stating whether role Authorization permissions have been…
+      parameters:
+      - name: role-name
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManagementPermissionReference'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagementPermissionReference'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: putAdminRealmsByRealmRolesByRoleNameManagementPermissions
+      x-operation-id-source: derived
+  /admin/realms/{realm}/roles/{role-name}/users:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Roles
+      summary: Returns a stream of users that have the specified role name
+      parameters:
+      - name: role-name
+        in: path
+        description: the role name.
+        required: true
+        schema:
+          type: string
+      - name: briefRepresentation
+        in: query
+        description: 'Boolean which defines whether brief representations are returned (default: false)'
+        schema:
+          type: boolean
+      - name: first
+        in: query
+        description: first result to return. Ignored if negative or {@code null}.
+        schema:
+          format: int32
+          type: integer
+      - name: max
+        in: query
+        description: Maximum number of results to return. Unbounded if negative.
+        schema:
+          format: int32
+          default: '100'
+          type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserRepresentation'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: getAdminRealmsByRealmRolesByRoleNameUsers
+      x-operation-id-source: derived
 components:
   schemas:
-    RoleRepresentation:
+    UserProfileMetadata:
       type: object
-      description: Representation of a role in Keycloak
+      properties:
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfileAttributeMetadata'
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfileAttributeGroupMetadata'
+    MultivaluedHashMapStringString:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    UserProfileAttributeMetadata:
+      type: object
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        required:
+          type: boolean
+        readOnly:
+          type: boolean
+        annotations:
+          type: object
+          additionalProperties: {}
+        validators:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties: {}
+        group:
+          type: string
+        multivalued:
+          type: boolean
+        defaultValue:
+          type: string
+    UserVerifiableCredentialRepresentation:
+      type: object
+      properties:
+        credentialScopeName:
+          type: string
+        credentialConfigurationId:
+          type: string
+        revision:
+          type: string
+        createdDate:
+          format: int64
+          type: integer
+        updatedDate:
+          format: int64
+          type: integer
+        userAttributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    IssuedVerifiableCredentialRepresentation:
+      type: object
       properties:
         id:
           type: string
-          format: uuid
-          readOnly: true
+        userId:
+          type: string
+        credentialType:
+          type: string
+        issuedAt:
+          format: int64
+          type: integer
+        expiresAt:
+          format: int64
+          type: integer
+        clientId:
+          type: string
+        clientName:
+          type: string
+        clientBaseUrl:
+          type: string
+        revision:
+          type: string
+    CredentialRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        userLabel:
+          type: string
+        createdDate:
+          format: int64
+          type: integer
+        secretData:
+          type: string
+        credentialData:
+          type: string
+        priority:
+          format: int32
+          type: integer
+        value:
+          type: string
+        temporary:
+          type: boolean
+        device:
+          type: string
+          deprecated: true
+        hashedSaltedValue:
+          type: string
+          deprecated: true
+        salt:
+          type: string
+          deprecated: true
+        hashIterations:
+          format: int32
+          type: integer
+          deprecated: true
+        counter:
+          format: int32
+          type: integer
+          deprecated: true
+        algorithm:
+          type: string
+          deprecated: true
+        digits:
+          format: int32
+          type: integer
+          deprecated: true
+        period:
+          format: int32
+          type: integer
+          deprecated: true
+        config:
+          type: object
+          allOf:
+          - $ref: '#/components/schemas/MultivaluedHashMapStringString'
+          deprecated: true
+        federationLink:
+          type: string
+    UserConsentRepresentation:
+      type: object
+      properties:
+        clientId:
+          type: string
+        grantedClientScopes:
+          type: array
+          items:
+            type: string
+        createdDate:
+          format: int64
+          type: integer
+        lastUpdatedDate:
+          format: int64
+          type: integer
+        grantedRealmRoles:
+          type: array
+          items:
+            type: string
+          deprecated: true
+    UserProfileAttributeGroupMetadata:
+      type: object
+      properties:
+        name:
+          type: string
+        displayHeader:
+          type: string
+        displayDescription:
+          type: string
+        annotations:
+          type: object
+          additionalProperties: {}
+    GroupRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
         name:
           type: string
         description:
           type: string
+        path:
+          type: string
+        parentId:
+          type: string
+        subGroupCount:
+          format: int64
+          type: integer
+        subGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupRepresentation'
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        realmRoles:
+          type: array
+          items:
+            type: string
+        clientRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        access:
+          type: object
+          additionalProperties:
+            type: boolean
+    ManagementPermissionReference:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        resource:
+          type: string
+        scopePermissions:
+          type: object
+          additionalProperties:
+            type: string
+    RoleRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        scopeParamRequired:
+          type: boolean
+          deprecated: true
         composite:
           type: boolean
-          description: Whether this role is a composite of other roles
         composites:
-          type: object
-          properties:
-            realm:
-              type: array
-              items:
-                type: string
-            client:
-              type: object
-              additionalProperties:
-                type: array
-                items:
-                  type: string
+          $ref: '#/components/schemas/Composites'
         clientRole:
           type: boolean
         containerId:
@@ -206,25 +1265,142 @@ components:
             type: array
             items:
               type: string
-  parameters:
-    userId:
-      name: userId
-      in: path
-      required: true
-      description: The UUID of the user
-      schema:
-        type: string
-        format: uuid
-    realm:
-      name: realm
-      in: path
-      required: true
-      description: The name of the realm
-      schema:
-        type: string
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: Access token obtained from the Keycloak token endpoint. Use the master realm admin credentials or a service account with appropriate realm-management roles.
+    UserRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        emailVerified:
+          type: boolean
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        userProfileMetadata:
+          $ref: '#/components/schemas/UserProfileMetadata'
+        enabled:
+          type: boolean
+        self:
+          type: string
+        origin:
+          type: string
+        createdTimestamp:
+          format: int64
+          type: integer
+        totp:
+          type: boolean
+        federationLink:
+          type: string
+        serviceAccountClientId:
+          type: string
+        credentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialRepresentation'
+        disableableCredentialTypes:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        requiredActions:
+          type: array
+          items:
+            type: string
+        federatedIdentities:
+          type: array
+          items:
+            $ref: '#/components/schemas/FederatedIdentityRepresentation'
+        realmRoles:
+          type: array
+          items:
+            type: string
+        clientRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        clientConsents:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserConsentRepresentation'
+        notBefore:
+          format: int32
+          type: integer
+        verifiableCredentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserVerifiableCredentialRepresentation'
+        issuedVerifiableCredentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/IssuedVerifiableCredentialRepresentation'
+        applicationRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          deprecated: true
+        socialLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/SocialLinkRepresentation'
+          deprecated: true
+        groups:
+          type: array
+          items:
+            type: string
+        access:
+          type: object
+          additionalProperties:
+            type: boolean
+    Composites:
+      type: object
+      properties:
+        realm:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        client:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        application:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          deprecated: true
+    SocialLinkRepresentation:
+      type: object
+      properties:
+        socialProvider:
+          type: string
+        socialUserId:
+          type: string
+        socialUsername:
+          type: string
+    FederatedIdentityRepresentation:
+      type: object
+      properties:
+        identityProvider:
+          type: string
+        userId:
+          type: string
+        userName:
+          type: string

@@ -1,0 +1,953 @@
+openapi: 3.2.0
+info:
+  title: Keycloak Admin REST Scope Mappings API
+  description: This is a REST API reference for the Keycloak Admin REST API.
+  version: '1.0'
+tags:
+- name: Scope Mappings
+paths:
+  /admin/realms/{realm}/client-scopes/{client-scope-id}/scope-mappings:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: Get all scope mappings for the client
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MappingsRepresentation'
+      deprecated: true
+      operationId: getAdminRealmsByRealmClientScopesByClientScopeIdScopeMappings
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-scopes/{client-scope-id}/scope-mappings/clients/{client}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: client
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: Get the roles associated with a client's scope Returns roles for the client
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmClientScopesByClientScopeIdScopeMappingsClientsByClient
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Scope Mappings
+      summary: Add client-level roles to the client's scope
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: postAdminRealmsByRealmClientScopesByClientScopeIdScopeMappingsClientsByClient
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Scope Mappings
+      summary: Remove client-level roles from the client's scope
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: deleteAdminRealmsByRealmClientScopesByClientScopeIdScopeMappingsClientsByClient
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-scopes/{client-scope-id}/scope-mappings/clients/{client}/available:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: client
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: The available client-level roles Returns the roles for the client that can be…
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmClientScopesByClientScopeIdScopeMappingsClientsByClientAvailable
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-scopes/{client-scope-id}/scope-mappings/clients/{client}/composite:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: client
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: Get effective client roles Returns the roles for the client that are associated…
+      parameters:
+      - name: briefRepresentation
+        in: query
+        description: if false, return roles with their attributes
+        schema:
+          default: true
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmClientScopesByClientScopeIdScopeMappingsClientsByClientComposite
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-scopes/{client-scope-id}/scope-mappings/realm:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: Get realm-level roles associated with the client's scope
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmClientScopesByClientScopeIdScopeMappingsRealm
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Scope Mappings
+      summary: Add a set of realm-level roles to the client's scope
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: postAdminRealmsByRealmClientScopesByClientScopeIdScopeMappingsRealm
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Scope Mappings
+      summary: Remove a set of realm-level roles from the client's scope
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: deleteAdminRealmsByRealmClientScopesByClientScopeIdScopeMappingsRealm
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-scopes/{client-scope-id}/scope-mappings/realm/available:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: Get realm-level roles that are available to attach to this client's scope
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmClientScopesByClientScopeIdScopeMappingsRealmAvailable
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-scopes/{client-scope-id}/scope-mappings/realm/composite:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: Get effective realm-level roles associated with the client’s scope What this…
+      description: The method is really to show a comprehensive total view of realm-level roles associated with the client.
+      parameters:
+      - name: briefRepresentation
+        in: query
+        description: if false, return roles with their attributes
+        schema:
+          default: true
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmClientScopesByClientScopeIdScopeMappingsRealmComposite
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-templates/{client-scope-id}/scope-mappings:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: Get all scope mappings for the client
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MappingsRepresentation'
+      deprecated: true
+      operationId: getAdminRealmsByRealmClientTemplatesByClientScopeIdScopeMappings
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-templates/{client-scope-id}/scope-mappings/clients/{client}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: client
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: Get the roles associated with a client's scope Returns roles for the client
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmClientTemplatesByClientScopeIdScopeMappingsClientsByClient
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Scope Mappings
+      summary: Add client-level roles to the client's scope
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: postAdminRealmsByRealmClientTemplatesByClientScopeIdScopeMappingsClientsByClient
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Scope Mappings
+      summary: Remove client-level roles from the client's scope
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: deleteAdminRealmsByRealmClientTemplatesByClientScopeIdScopeMappingsClientsByClient
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-templates/{client-scope-id}/scope-mappings/clients/{client}/available:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: client
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: The available client-level roles Returns the roles for the client that can be…
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmClientTemplatesByClientScopeIdScopeMappingsClientsByClientAvailable
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-templates/{client-scope-id}/scope-mappings/clients/{client}/composite:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: client
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: Get effective client roles Returns the roles for the client that are associated…
+      parameters:
+      - name: briefRepresentation
+        in: query
+        description: if false, return roles with their attributes
+        schema:
+          default: true
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmClientTemplatesByClientScopeIdScopeMappingsClientsByClientComposite
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-templates/{client-scope-id}/scope-mappings/realm:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: Get realm-level roles associated with the client's scope
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmClientTemplatesByClientScopeIdScopeMappingsRealm
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Scope Mappings
+      summary: Add a set of realm-level roles to the client's scope
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: postAdminRealmsByRealmClientTemplatesByClientScopeIdScopeMappingsRealm
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Scope Mappings
+      summary: Remove a set of realm-level roles from the client's scope
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: deleteAdminRealmsByRealmClientTemplatesByClientScopeIdScopeMappingsRealm
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-templates/{client-scope-id}/scope-mappings/realm/available:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: Get realm-level roles that are available to attach to this client's scope
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmClientTemplatesByClientScopeIdScopeMappingsRealmAvailable
+      x-operation-id-source: derived
+  /admin/realms/{realm}/client-templates/{client-scope-id}/scope-mappings/realm/composite:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-scope-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: Get effective realm-level roles associated with the client’s scope What this…
+      description: The method is really to show a comprehensive total view of realm-level roles associated with the client.
+      parameters:
+      - name: briefRepresentation
+        in: query
+        description: if false, return roles with their attributes
+        schema:
+          default: true
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmClientTemplatesByClientScopeIdScopeMappingsRealmComposite
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/scope-mappings:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: Get all scope mappings for the client
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MappingsRepresentation'
+      deprecated: true
+      operationId: getAdminRealmsByRealmClientsByClientUuidScopeMappings
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/scope-mappings/clients/{client}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    - name: client
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: Get the roles associated with a client's scope Returns roles for the client
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmClientsByClientUuidScopeMappingsClientsByClient
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Scope Mappings
+      summary: Add client-level roles to the client's scope
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: postAdminRealmsByRealmClientsByClientUuidScopeMappingsClientsByClient
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Scope Mappings
+      summary: Remove client-level roles from the client's scope
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: deleteAdminRealmsByRealmClientsByClientUuidScopeMappingsClientsByClient
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/scope-mappings/clients/{client}/available:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    - name: client
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: The available client-level roles Returns the roles for the client that can be…
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmClientsByClientUuidScopeMappingsClientsByClientAvailable
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/scope-mappings/clients/{client}/composite:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    - name: client
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: Get effective client roles Returns the roles for the client that are associated…
+      parameters:
+      - name: briefRepresentation
+        in: query
+        description: if false, return roles with their attributes
+        schema:
+          default: true
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmClientsByClientUuidScopeMappingsClientsByClientComposite
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/scope-mappings/realm:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: Get realm-level roles associated with the client's scope
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmClientsByClientUuidScopeMappingsRealm
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Scope Mappings
+      summary: Add a set of realm-level roles to the client's scope
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: postAdminRealmsByRealmClientsByClientUuidScopeMappingsRealm
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Scope Mappings
+      summary: Remove a set of realm-level roles from the client's scope
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: deleteAdminRealmsByRealmClientsByClientUuidScopeMappingsRealm
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/scope-mappings/realm/available:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: Get realm-level roles that are available to attach to this client's scope
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmClientsByClientUuidScopeMappingsRealmAvailable
+      x-operation-id-source: derived
+  /admin/realms/{realm}/clients/{client-uuid}/scope-mappings/realm/composite:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: client-uuid
+      in: path
+      description: id of client (not client-id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scope Mappings
+      summary: Get effective realm-level roles associated with the client’s scope What this…
+      description: The method is really to show a comprehensive total view of realm-level roles associated with the client.
+      parameters:
+      - name: briefRepresentation
+        in: query
+        description: if false, return roles with their attributes
+        schema:
+          default: true
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmClientsByClientUuidScopeMappingsRealmComposite
+      x-operation-id-source: derived
+components:
+  schemas:
+    RoleRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        scopeParamRequired:
+          type: boolean
+          deprecated: true
+        composite:
+          type: boolean
+        composites:
+          $ref: '#/components/schemas/Composites'
+        clientRole:
+          type: boolean
+        containerId:
+          type: string
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    Composites:
+      type: object
+      properties:
+        realm:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        client:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        application:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          deprecated: true
+    MappingsRepresentation:
+      type: object
+      properties:
+        realmMappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleRepresentation'
+        clientMappings:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ClientMappingsRepresentation'
+    ClientMappingsRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        client:
+          type: string
+        mappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleRepresentation'

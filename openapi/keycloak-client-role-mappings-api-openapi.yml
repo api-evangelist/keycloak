@@ -1,0 +1,495 @@
+openapi: 3.2.0
+info:
+  title: Keycloak Admin REST Client Role Mappings API
+  description: This is a REST API reference for the Keycloak Admin REST API.
+  version: '1.0'
+tags:
+- name: Client Role Mappings
+paths:
+  /admin/realms/{realm}/groups/{group-id}/role-mappings/clients/{client-id}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: group-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: client-id
+      in: path
+      description: client id (not clientId!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Client Role Mappings
+      summary: Get client-level role mappings for the user or group, and the app
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmGroupsByGroupIdRoleMappingsClientsByClientId
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Client Role Mappings
+      summary: Add client-level roles to the user or group role mapping
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: postAdminRealmsByRealmGroupsByGroupIdRoleMappingsClientsByClientId
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Client Role Mappings
+      summary: Delete client-level roles from user or group role mapping
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: deleteAdminRealmsByRealmGroupsByGroupIdRoleMappingsClientsByClientId
+      x-operation-id-source: derived
+  /admin/realms/{realm}/groups/{group-id}/role-mappings/clients/{client-id}/available:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: group-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: client-id
+      in: path
+      description: client id (not clientId!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Client Role Mappings
+      summary: Get available client-level roles that can be mapped to the user or group
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmGroupsByGroupIdRoleMappingsClientsByClientIdAvailable
+      x-operation-id-source: derived
+  /admin/realms/{realm}/groups/{group-id}/role-mappings/clients/{client-id}/composite:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: group-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: client-id
+      in: path
+      description: client id (not clientId!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Client Role Mappings
+      summary: Get effective client-level role mappings This recurses any composite roles
+      parameters:
+      - name: briefRepresentation
+        in: query
+        description: if false, return roles with their attributes
+        schema:
+          default: true
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmGroupsByGroupIdRoleMappingsClientsByClientIdComposite
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/groups/{group-id}/role-mappings/clients/{client-id}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: group-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: client-id
+      in: path
+      description: client id (not clientId!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Client Role Mappings
+      summary: Get client-level role mappings for the user or group, and the app
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdGroupsByGroupIdRoleMappingsClientsByClientId
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Client Role Mappings
+      summary: Add client-level roles to the user or group role mapping
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: postAdminRealmsByRealmOrganizationsByOrgIdGroupsByGroupIdRoleMappingsClientsByClientId
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Client Role Mappings
+      summary: Delete client-level roles from user or group role mapping
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: deleteAdminRealmsByRealmOrganizationsByOrgIdGroupsByGroupIdRoleMappingsClientsByClientId
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/groups/{group-id}/role-mappings/clients/{client-id}/available:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: group-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: client-id
+      in: path
+      description: client id (not clientId!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Client Role Mappings
+      summary: Get available client-level roles that can be mapped to the user or group
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdGroupsByGroupIdRoleMappingsClientsByClientIdAvailable
+      x-operation-id-source: derived
+  /admin/realms/{realm}/organizations/{org-id}/groups/{group-id}/role-mappings/clients/{client-id}/composite:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: org-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: group-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: client-id
+      in: path
+      description: client id (not clientId!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Client Role Mappings
+      summary: Get effective client-level role mappings This recurses any composite roles
+      parameters:
+      - name: briefRepresentation
+        in: query
+        description: if false, return roles with their attributes
+        schema:
+          default: true
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmOrganizationsByOrgIdGroupsByGroupIdRoleMappingsClientsByClientIdComposite
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/role-mappings/clients/{client-id}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: client-id
+      in: path
+      description: client id (not clientId!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Client Role Mappings
+      summary: Get client-level role mappings for the user or group, and the app
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmUsersByUserIdRoleMappingsClientsByClientId
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Client Role Mappings
+      summary: Add client-level roles to the user or group role mapping
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: postAdminRealmsByRealmUsersByUserIdRoleMappingsClientsByClientId
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Client Role Mappings
+      summary: Delete client-level roles from user or group role mapping
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleRepresentation'
+      responses:
+        '204':
+          description: No Content
+      operationId: deleteAdminRealmsByRealmUsersByUserIdRoleMappingsClientsByClientId
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/role-mappings/clients/{client-id}/available:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: client-id
+      in: path
+      description: client id (not clientId!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Client Role Mappings
+      summary: Get available client-level roles that can be mapped to the user or group
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmUsersByUserIdRoleMappingsClientsByClientIdAvailable
+      x-operation-id-source: derived
+  /admin/realms/{realm}/users/{user-id}/role-mappings/clients/{client-id}/composite:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    - name: user-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: client-id
+      in: path
+      description: client id (not clientId!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Client Role Mappings
+      summary: Get effective client-level role mappings This recurses any composite roles
+      parameters:
+      - name: briefRepresentation
+        in: query
+        description: if false, return roles with their attributes
+        schema:
+          default: true
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleRepresentation'
+      operationId: getAdminRealmsByRealmUsersByUserIdRoleMappingsClientsByClientIdComposite
+      x-operation-id-source: derived
+components:
+  schemas:
+    RoleRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        scopeParamRequired:
+          type: boolean
+          deprecated: true
+        composite:
+          type: boolean
+        composites:
+          $ref: '#/components/schemas/Composites'
+        clientRole:
+          type: boolean
+        containerId:
+          type: string
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    Composites:
+      type: object
+      properties:
+        realm:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        client:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        application:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          deprecated: true

@@ -1,0 +1,68 @@
+openapi: 3.2.0
+info:
+  title: Keycloak Admin REST Attack Detection API
+  description: This is a REST API reference for the Keycloak Admin REST API.
+  version: '1.0'
+tags:
+- name: Attack Detection
+paths:
+  /admin/realms/{realm}/attack-detection/brute-force/users:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    delete:
+      tags:
+      - Attack Detection
+      summary: Clear any user login failures for all users This can release temporary disabled…
+      responses:
+        '204':
+          description: No Content
+      operationId: deleteAdminRealmsByRealmAttackDetectionBruteForceUsers
+      x-operation-id-source: derived
+  /admin/realms/{realm}/attack-detection/brute-force/users/{userId}:
+    parameters:
+    - name: realm
+      in: path
+      description: realm name (not id!)
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Attack Detection
+      summary: Get status of a username in brute force detection
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+      operationId: getAdminRealmsByRealmAttackDetectionBruteForceUsersByUserId
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Attack Detection
+      summary: Clear any user login failures for the user This can release temporary disabled…
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      operationId: deleteAdminRealmsByRealmAttackDetectionBruteForceUsersByUserId
+      x-operation-id-source: derived
