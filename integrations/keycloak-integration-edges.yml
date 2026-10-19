@@ -6,7 +6,9 @@ source:
 - https://composio.dev/toolkits/keycloak
 - https://monid.ai/tools/keycloak
 checked:
+- https://api.nuget.org/v3
 - https://composio.dev/toolkits/keycloak
+- https://crates.io/api/v1
 - https://focus.finops.org/data-generators/
 - https://github.com/PipedreamHQ/pipedream/tree/94800dd6de6640b942c65ea7ee655f71ac56d438/components/
 - https://github.com/cncf/k8s-conformance
@@ -16,6 +18,11 @@ checked:
 - https://monid.ai/tools/keycloak
 - https://n8n.io/integrations/keycloak/
 - https://openid.net/developers/certified-openid-connect-implementations/
+- https://proxy.golang.org
+- https://pypi.org/pypi
+- https://registry.npmjs.org
+- https://repo1.maven.org/maven2
+- https://rubygems.org/api/v1
 - https://zapier.com/apps/keycloak/integrations
 summary: null
 marketplace_apps: []
@@ -159,4 +166,34 @@ edges:
     builder: Pipedream repo (component)
   detected_by: sweep-workflow-automation.py
   first_seen: '2026-10-15'
+- partner_name: npm registry
+  partner: npm
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (JavaScript/TypeScript)
+  evidence: https://www.npmjs.com/package/@keycloak/keycloak-admin-client
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public registry JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: '@keycloak/keycloak-admin-client'
+      version: 26.8.1
+      released: '2026-10-13'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@keycloak/keycloak-admin-client
+      repo_leg: domain:keycloak.org
+      publisher_leg: org:keycloak
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
 templates: []
