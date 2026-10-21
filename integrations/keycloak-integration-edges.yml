@@ -25,6 +25,8 @@ checked:
 - https://repo1.maven.org/maven2
 - https://rubygems.org/api/v1
 - https://zapier.com/apps/keycloak/integrations
+- opentofu/integrations/opentofu-integration-edges.yml
+- terraform/integrations/terraform-integration-edges.yml
 summary: null
 marketplace_apps: []
 edges:
@@ -197,4 +199,38 @@ edges:
     builder: Pipedream repo (component)
   detected_by: sweep-workflow-automation.py
   first_seen: '2026-10-15'
+- partner_name: OpenTofu (opentofu-registry)
+  partner: opentofu
+  partner_match: mirror
+  mirror_match: register
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: opentofu-registry
+  evidence: https://search.opentofu.org/provider/keycloak/keycloak
+  mirror_of: opentofu/integrations/opentofu-integration-edges.yml
+  apps:
+  - keycloak/keycloak
+  listing_count: 1
+  detected: '2026-10-21'
+  detected_by: mirror-platform-listings.py
+  category: infrastructure-as-code provider registry listing
+- partner_name: Terraform (terraform-registry)
+  partner: terraform
+  partner_match: mirror
+  mirror_match: register
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: terraform-registry
+  evidence: https://registry.terraform.io/providers/keycloak/keycloak
+  mirror_of: terraform/integrations/terraform-integration-edges.yml
+  apps:
+  - keycloak/keycloak
+  listing_count: 1
+  detected: '2026-10-21'
+  detected_by: mirror-platform-listings.py
+  category: infrastructure-as-code provider registry listing
 templates: []
